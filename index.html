@@ -28,7 +28,7 @@
             background-color: #000;
         }
 
-        .onboarding-screen {
+        .main-screen {
             position: absolute;
             top: 0;
             left: 0;
@@ -37,161 +37,530 @@
             background-color: #000000;
             display: flex;
             flex-direction: column;
-            z-index: 20;
+            z-index: 5;
             padding: 20px;
+            padding-top: 105px;
             box-sizing: border-box;
-            color: white;
+            overflow-y: auto;
         }
 
-        .progress-bars {
+        .main-screen::-webkit-scrollbar {
+            display: none;
+        }
+
+        .main-screen {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .header-container {
             display: flex;
-            gap: 5px;
-            margin-bottom: 40px;
-        }
-
-        .progress-bar-container {
-            flex: 1;
-            height: 3px;
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            width: 0%;
-            background-color: white;
-            border-radius: 2px;
-            transition: none;
-        }
-
-        .slide-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            right: 20px;
+            z-index: 6;
+        }
+
+        .main-logo {
+            width: 120px;
+            height: auto;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 17px;
+            background-color: #333;
+            overflow: hidden;
+            display: flex;
             justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .segmented-control {
+            display: flex;
+            background-color: transparent;
+            border: 2px solid #333;
+            border-radius: 16px;
+            padding: 3px;
+            margin-bottom: 25px;
+        }
+
+        .segment {
+            flex: 1;
+            padding: 10px;
             text-align: center;
+            font-weight: 600;
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 1;
             position: relative;
         }
 
-        .slide {
+        .segment.active {
+            color: white;
+            background-color: #333;
+        }
+
+        .content-section {
             display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            width: 100%;
         }
 
-        .slide.active {
+        .content-section.active {
+            display: block;
+        }
+
+        .item-card {
+            background-color: #1a1a1a;
+            border-radius: 21px;
+            padding: 14px;
+            margin-bottom: 10px;
             display: flex;
+            align-items: center;
+            width: 100%;
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 60px;
         }
 
-        .slide-gif {
-            width: 200px;
-            height: 200px;
-            margin-bottom: 30px;
+        .item-card:active {
+            background-color: #2a2a2a;
+            transform: scale(0.98);
         }
 
-        .slide-title {
-            font-size: 22px;
+        .item-image {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-right: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #2a2a2a;
+            flex-shrink: 0;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .lock-icon {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 20px;
+        }
+
+        .item-content {
+            flex: 1;
+        }
+
+        .item-title {
             font-weight: 600;
-            margin-bottom: 15px;
+            font-size: 16px;
+            color: #fff;
+            margin-bottom: 2px;
         }
 
-        .slide-description {
-            font-size: 15px;
-            opacity: 0.9;
-            line-height: 1.5;
-            max-width: 320px;
-            margin-bottom: 20px;
+        .item-subtitle {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.3;
         }
 
         .hidden {
             display: none !important;
         }
 
-        .click-area {
+        .collection-screen {
             position: absolute;
             top: 0;
-            width: 50%;
+            left: 0;
+            width: 100%;
             height: 100%;
-            z-index: 5;
+            background-color: #000000;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 8;
+            padding: 20px;
+            padding-top: 105px;
+            box-sizing: border-box;
+            overflow-y: auto;
         }
 
-        .click-area.left {
-            left: 0;
+        .collection-screen::-webkit-scrollbar {
+            display: none;
         }
 
-        .click-area.right {
-            right: 0;
+        .collection-screen {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
-        .tg-button-area {
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            right: 20px;
+            z-index: 7;
+        }
+
+        .header-title {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .progress-info-button {
+            width: 30px;
+            height: 30px;
+            border-radius: 17px;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 12px;
+            transition: background-color 0.2s ease;
+        }
+
+        .progress-info-button:active {
+            background-color: #444;
+        }
+
+        .chibi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+            padding-bottom: 20px;
+        }
+
+        .chibi-card {
+            background-color: #1a1a1a;
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            aspect-ratio: 1;
+            position: relative;
+            transition: transform 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chibi-card:active {
+            transform: scale(0.95);
+        }
+
+        .chibi-image {
+            width: 100%;
+            height: 70%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .chibi-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .chibi-name {
+            color: white;
+            font-size: 11px;
+            text-align: center;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .locked-overlay {
             position: absolute;
-            bottom: 30px;
+            top: 0;
             left: 0;
-            right: 0;
-            padding: 0 20px;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .lock-icon-small {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .locked-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 9px;
+            text-align: center;
+        }
+
+        .unknown-chibi {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .unknown-icon {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+
+        .unknown-text {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 10px;
+            text-align: center;
+        }
+
+        /* Модальное окно прогресса */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: none;
+            justify-content: center;
+            align-items: flex-end;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: #1a1a1a;
+            border-radius: 21px;
+            padding: 25px;
+            width: 100%;
+            max-width: 400px;
+            transform: translateY(100px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-title {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .modal-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 30px;
+            background-color: #333;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 15px;
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .progress-bar-text {
+            position: absolute;
+            right: 10px;
+            top: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            color: #000;
+            font-size: 14px;
+            font-weight: 600;
+            transition: right 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
     </style>
 </head>
 <body>
-    <div class="onboarding-screen" id="onboardingScreen">
-        <div class="progress-bars">
-            <div class="progress-bar-container">
-                <div class="progress-bar-fill" id="progressBar1"></div>
-            </div>
-            <div class="progress-bar-container">
-                <div class="progress-bar-fill" id="progressBar2"></div>
-            </div>
-            <div class="progress-bar-container">
-                <div class="progress-bar-fill" id="progressBar3"></div>
+    <div class="main-screen" id="mainScreen">
+        <div class="header-container">
+            <img src="https://i.ibb.co/zTB331HR/image.png" alt="Логотип" class="main-logo">
+            <div class="user-avatar" id="userAvatar">
+                TG
             </div>
         </div>
         
-        <div class="slide-content">
-            <div class="click-area left" id="leftArea"></div>
-            <div class="click-area right" id="rightArea"></div>
-            
-            <div class="slide active" id="slide1">
-                <img src="https://media.tenor.com/xrqG4GhZxZcAAAAi/utya-telegram.gif" alt="Добро пожаловать" class="slide-gif">
-                <div class="slide-title">Добро пожаловать!</div>
-                <div class="slide-description">Это приложение разработано специально для более удобного использования бота! Здесь тебя ждут все нужные статьи, гайды, и даже можно смотреть своих чибиков, прикинь? Советую не медлить, гуд лак!</div>
+        <div class="segmented-control">
+            <div class="segment active" data-section="chibis">Чибики</div>
+            <div class="segment" data-section="articles">Статьи</div>
+        </div>
+        
+        <div class="content-section active" id="chibisSection">
+            <div class="item-card" id="commonChibisBtn">
+                <div class="item-image" id="commonChibiImageContainer">
+                    <div class="lock-icon"><i class="fas fa-lock"></i></div>
+                </div>
+                <div class="item-content">
+                    <div class="item-title">Обычные</div>
+                    <div class="item-subtitle">Твоя шедевральная коллекция обычных чибиков</div>
+                </div>
             </div>
             
-            <div class="slide" id="slide2">
-                <img src="https://media.tenor.com/LO1LW4khBigAAAAi/utya-utya-duck.gif" alt="Любишь чибиков?" class="slide-gif">
-                <div class="slide-title">Любишь чибиков?</div>
-                <div class="slide-description">Держу пари что да, иначе бы ты сейчас здесь не находился! Если у тебя есть предложения для развития бота или идеи для новых чибиков, мы всегда рады! Ты можешь связаться с нами, и тебе по-быстрому ответят! Если есть вопросы, идеи или еще что-то, мы всегда открыты к диалогу! Ждем тебя у нас, и спасибо что играешь в ЧИБИКОВ!</div>
-                <div class="tg-button-area" id="contactButtonArea"></div>
+            <div class="item-card" id="secretChibisBtn" style="display: none;">
+                <div class="item-image">
+                    <img src="" alt="Секретные чибики" id="secretChibiImage">
+                </div>
+                <div class="item-content">
+                    <div class="item-title" id="secretTitle">???</div>
+                    <div class="item-subtitle">Секретные чибики</div>
+                </div>
             </div>
             
-            <div class="slide" id="slide3">
-                <img src="https://media.tenor.com/tTbGahmBaxkAAAAi/utya.gif" alt="У нас есть канал!" class="slide-gif">
-                <div class="slide-title">У нас есть канал!</div>
-                <div class="slide-description">Кстати, у чибиков есть свой собственный телеграм-канал! Залетай быстрее и подписывайся, ведь там мы проводим розыгрыши на уникальные призы, общаемся с вами и делимся процессом создания чибиков! Спасибо за подписку, друг!</div>
-                <div class="tg-button-area" id="channelButtonArea"></div>
+            <div class="item-card" id="prizeChibisBtn" style="display: none;">
+                <div class="item-image">
+                    <img src="" alt="Призовые чибики" id="prizeChibiImage">
+                </div>
+                <div class="item-content">
+                    <div class="item-title">Призовые</div>
+                    <div class="item-subtitle">Эксклюзивные призовые чибики</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section" id="articlesSection">
+            <div class="item-card" id="diceArticleBtn">
+                <div class="item-image">
+                    <img src="https://i.ibb.co/sJVz9tH3/IMG-6876.png" alt="Статья">
+                </div>
+                <div class="item-content">
+                    <div class="item-title">Как работают кости?</div>
+                    <div class="item-subtitle">Все об азартной игре на коины</div>
+                </div>
+            </div>
+            
+            <div class="item-card" id="contactArticleBtn">
+                <div class="item-image">
+                    <img src="https://i.ibb.co/sJVz9tH3/IMG-6876.png" alt="Связь">
+                </div>
+                <div class="item-content">
+                    <div class="item-title">Как связаться с админами?</div>
+                    <div class="item-subtitle">Обратная связь с чиловыми админами 🤘</div>
+                </div>
             </div>
         </div>
     </div>
 
-    <script>
-        const onboardingScreen = document.getElementById('onboardingScreen');
-        const progressBar1 = document.getElementById('progressBar1');
-        const progressBar2 = document.getElementById('progressBar2');
-        const progressBar3 = document.getElementById('progressBar3');
-        const slide1 = document.getElementById('slide1');
-        const slide2 = document.getElementById('slide2');
-        const slide3 = document.getElementById('slide3');
-        const leftArea = document.getElementById('leftArea');
-        const rightArea = document.getElementById('rightArea');
-        const channelButtonArea = document.getElementById('channelButtonArea');
-        const contactButtonArea = document.getElementById('contactButtonArea');
+    <!-- Экран коллекции обычных чибиков -->
+    <div class="collection-screen hidden" id="commonCollectionScreen">
+        <div class="header">
+            <div class="header-title">
+                Обычные чибики
+            </div>
+            <div class="progress-info-button" id="progressInfoButton">?</div>
+        </div>
         
-        let currentSlide = 1;
-        let currentTimer = null;
+        <div class="chibi-grid" id="commonChibiGrid">
+            <!-- Сетка чибиков будет здесь -->
+        </div>
+    </div>
+
+    <!-- Модальное окно прогресса -->
+    <div class="modal-overlay" id="progressModal">
+        <div class="modal-content">
+            <div class="modal-title">Твой прогресс</div>
+            <div class="modal-description">Это — твой прогресс коллекции! Он показывает, сколько чибиков у тебя уже есть от общего числа</div>
+            
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="modalProgressBar"></div>
+                <div class="progress-bar-text" id="modalProgressText">0%</div>
+            </div>
+            
+            <!-- Кнопка будет создана через Telegram Web App -->
+            <div id="telegramButtonArea"></div>
+        </div>
+    </div>
+
+    <script>
+        const mainScreen = document.getElementById('mainScreen');
+        const userAvatar = document.getElementById('userAvatar');
+        const segments = document.querySelectorAll('.segment');
+        const contentSections = document.querySelectorAll('.content-section');
+        const commonChibisBtn = document.getElementById('commonChibisBtn');
+        const secretChibisBtn = document.getElementById('secretChibisBtn');
+        const prizeChibisBtn = document.getElementById('prizeChibisBtn');
+        const diceArticleBtn = document.getElementById('diceArticleBtn');
+        const contactArticleBtn = document.getElementById('contactArticleBtn');
+        const commonCollectionScreen = document.getElementById('commonCollectionScreen');
+        const commonChibiGrid = document.getElementById('commonChibiGrid');
+        const progressInfoButton = document.getElementById('progressInfoButton');
+        const progressModal = document.getElementById('progressModal');
+        const modalProgressBar = document.getElementById('modalProgressBar');
+        const modalProgressText = document.getElementById('modalProgressText');
+        const telegramButtonArea = document.getElementById('telegramButtonArea');
+        
+        let userData = {
+            collectedChibis: [],
+            secretChibis: [],
+            prizeChibis: []
+        };
+        
+        let allCommonChibis = [];
+        const BOT_API_URL = 'https://chibi-bot-3d4x.onrender.com';
         
         function vibrate() {
             if (window.Telegram && window.Telegram.WebApp && Telegram.WebApp.HapticFeedback) {
@@ -199,95 +568,179 @@
             }
         }
         
-        function shouldShowOnboarding() {
-            return true;
-        }
-        
-        function saveLaunchTime() {
-            localStorage.setItem('lastLaunchTime', Date.now().toString());
-        }
-        
-        function clearCurrentTimer() {
-            if (currentTimer) {
-                clearTimeout(currentTimer);
-                currentTimer = null;
-            }
-        }
-        
-        function resetProgressBars() {
-            // Моментальный сброс без анимации
-            progressBar1.style.transition = 'none';
-            progressBar2.style.transition = 'none';
-            progressBar3.style.transition = 'none';
-            
-            progressBar1.style.width = '0%';
-            progressBar2.style.width = '0%';
-            progressBar3.style.width = '0%';
-            
-            // Возвращаем анимацию только для активного прогресс-бара
-            setTimeout(() => {
-                progressBar1.style.transition = 'width 10s linear';
-                progressBar2.style.transition = 'width 10s linear';
-                progressBar3.style.transition = 'width 10s linear';
-            }, 10);
-        }
-        
-        function showSlide(slideNumber) {
+        function doubleVibrate() {
             vibrate();
-            clearCurrentTimer();
-            resetProgressBars();
-            
-            // Скрываем все слайды
-            slide1.classList.remove('active');
-            slide2.classList.remove('active');
-            slide3.classList.remove('active');
-            
-            // Убираем кнопки Telegram
-            removeTelegramButtons();
-            
-            // Показываем нужный слайд и запускаем только его прогресс-бар
-            if (slideNumber === 1) {
-                slide1.classList.add('active');
-                currentSlide = 1;
-                setTimeout(() => {
-                    progressBar1.style.width = '100%';
-                }, 10);
-                currentTimer = setTimeout(() => showSlide(2), 10000);
-            } 
-            else if (slideNumber === 2) {
-                slide2.classList.add('active');
-                currentSlide = 2;
-                setTimeout(() => {
-                    progressBar2.style.width = '100%';
-                }, 10);
-                createTelegramButton(contactButtonArea, 'Написать нам', 'https://t.me/request_chibeki_bot');
-                currentTimer = setTimeout(() => showSlide(3), 10000);
-            } 
-            else if (slideNumber === 3) {
-                slide3.classList.add('active');
-                currentSlide = 3;
-                setTimeout(() => {
-                    progressBar3.style.width = '100%';
-                }, 10);
-                createTelegramButton(channelButtonArea, 'Перейти', 'https://t.me/chibeki_official');
-                currentTimer = setTimeout(finishOnboarding, 10000);
+            setTimeout(vibrate, 50);
+        }
+        
+        function initTelegramWebApp() {
+            if (window.Telegram && window.Telegram.WebApp) {
+                Telegram.WebApp.ready();
+                Telegram.WebApp.expand();
+                
+                const user = Telegram.WebApp.initDataUnsafe.user;
+                if (user) {
+                    if (user.photo_url) {
+                        userAvatar.innerHTML = `<img src="${user.photo_url}" style="width:100%;height:100%;object-fit:cover;border-radius:17px;">`;
+                    }
+                    
+                    Telegram.WebApp.setHeaderColor('#000000');
+                    Telegram.WebApp.setBackgroundColor('#000000');
+                    
+                    // Обработчик кнопки Back
+                    Telegram.WebApp.BackButton.onClick(handleBackButton);
+                }
             }
         }
         
-        function createTelegramButton(container, text, url) {
+        function handleBackButton() {
+            vibrate();
+            
+            if (!commonCollectionScreen.classList.contains('hidden')) {
+                showMainScreen();
+            }
+        }
+        
+        function showMainScreen() {
+            commonCollectionScreen.classList.add('hidden');
+            mainScreen.classList.remove('hidden');
+            mainScreen.style.opacity = '1';
+            
+            if (window.Telegram && window.Telegram.WebApp) {
+                Telegram.WebApp.BackButton.hide();
+            }
+        }
+        
+        function showCollectionScreen(screen) {
+            vibrate();
+            mainScreen.classList.add('hidden');
+            screen.classList.remove('hidden');
+            screen.style.opacity = '1';
+            
+            if (window.Telegram && window.Telegram.WebApp) {
+                Telegram.WebApp.BackButton.show();
+            }
+        }
+        
+        function openExternalLink(url) {
+            if (window.Telegram && window.Telegram.WebApp) {
+                Telegram.WebApp.openLink(url);
+            } else {
+                window.open(url, '_blank');
+            }
+        }
+        
+        async function loadUserCollection() {
+            try {
+                if (window.Telegram && window.Telegram.WebApp) {
+                    const user = Telegram.WebApp.initDataUnsafe.user;
+                    if (user) {
+                        const response = await fetch(`${BOT_API_URL}/get_user_collection`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ telegram_id: user.id })
+                        });
+                        
+                        if (response.ok) {
+                            const collection = await response.json();
+                            userData.collectedChibis = collection.common || [];
+                            userData.secretChibis = collection.secret || [];
+                            userData.prizeChibis = collection.prize || [];
+                            allCommonChibis = collection.all_common || [];
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки коллекции:', error);
+                // Заглушка для демонстрации
+                allCommonChibis = ["Алиса", "Боб", "Виктор", "Гена", "Дарья", "Егор", "Женя", "Зоя"];
+                userData.collectedChibis = ["Алиса", "Боб", "Виктор"];
+            }
+        }
+        
+        function calculateCollectionPercentage() {
+            if (allCommonChibis.length === 0) return 0;
+            const collectedCount = userData.collectedChibis.length;
+            const percentage = Math.round((collectedCount / allCommonChibis.length) * 100);
+            return percentage;
+        }
+        
+        function updateProgressBarGradient(percentage) {
+            // Градиент становится ярче с увеличением процента
+            const startColor = '#FFD951';
+            const endColor = percentage > 50 ? '#FFE580' : '#FFDD66';
+            modalProgressBar.style.background = `linear-gradient(90deg, ${startColor}, ${endColor})`;
+        }
+        
+        function animateProgressBar(targetPercentage) {
+            let currentPercentage = 0;
+            const duration = 1200; // 1.2 секунды
+            const startTime = Date.now();
+            
+            function update() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Нелинейная анимация для более естественного вида
+                currentPercentage = Math.floor(targetPercentage * progress);
+                
+                modalProgressBar.style.width = currentPercentage + '%';
+                modalProgressText.textContent = currentPercentage + '%';
+                
+                // Позиционируем текст на правом конце прогресс-бара
+                const containerWidth = modalProgressBar.parentElement.offsetWidth;
+                const textPosition = (currentPercentage / 100) * containerWidth - 30;
+                modalProgressText.style.right = Math.max(10, containerWidth - textPosition) + 'px';
+                
+                updateProgressBarGradient(currentPercentage);
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            
+            update();
+        }
+        
+        function showProgressModal() {
+            doubleVibrate();
+            const percentage = calculateCollectionPercentage();
+            
+            // Сбрасываем прогресс-бар перед анимацией
+            modalProgressBar.style.width = '0%';
+            modalProgressText.textContent = '0%';
+            modalProgressText.style.right = '10px';
+            
+            // Создаем кнопку Telegram
+            createTelegramButton(telegramButtonArea, 'Понятно');
+            
+            progressModal.classList.add('active');
+            
+            // Запускаем анимацию прогресс-бара
+            setTimeout(() => {
+                animateProgressBar(percentage);
+            }, 300);
+        }
+        
+        function hideProgressModal() {
+            progressModal.classList.remove('active');
+            removeTelegramButton();
+        }
+        
+        function createTelegramButton(container, text) {
             if (window.Telegram && window.Telegram.WebApp) {
                 const button = Telegram.WebApp.MainButton;
                 button.setText(text);
                 button.show();
-                
-                // Желтый цвет как акцентный
                 button.setParams({
                     color: '#FFD951',
                     text_color: '#000000'
                 });
                 
                 const clickHandler = function() {
-                    Telegram.WebApp.openTelegramLink(url);
+                    hideProgressModal();
                 };
                 
                 button.onClick(clickHandler);
@@ -295,58 +748,109 @@
             }
         }
         
-        function removeTelegramButtons() {
+        function removeTelegramButton() {
             if (window.Telegram && window.Telegram.WebApp) {
                 Telegram.WebApp.MainButton.hide();
-                Telegram.WebApp.MainButton.offClick(contactButtonArea._clickHandler);
-                Telegram.WebApp.MainButton.offClick(channelButtonArea._clickHandler);
+                Telegram.WebApp.MainButton.offClick(telegramButtonArea._clickHandler);
             }
         }
         
-        function previousSlide() {
-            if (currentSlide === 1) {
-                showSlide(1);
-            } else {
-                showSlide(currentSlide - 1);
-            }
-        }
-        
-        function nextSlide() {
-            if (currentSlide === 3) {
-                finishOnboarding();
-            } else {
-                showSlide(currentSlide + 1);
-            }
-        }
-        
-        function finishOnboarding() {
-            removeTelegramButtons();
-            saveLaunchTime();
-            onboardingScreen.style.opacity = '0';
+        function createChibiCard(chibiName, isCollected, rarity) {
+            const card = document.createElement('div');
+            card.className = 'chibi-card';
             
-            setTimeout(() => {
-                onboardingScreen.style.display = 'none';
-            }, 500);
-        }
-        
-        function initTelegramWebApp() {
-            if (window.Telegram && window.Telegram.WebApp) {
-                Telegram.WebApp.ready();
-                Telegram.WebApp.expand();
+            if (rarity === 'secret' && !isCollected) {
+                card.innerHTML = `
+                    <div class="unknown-chibi">
+                        <div class="unknown-icon">
+                            <i class="fas fa-question"></i>
+                        </div>
+                        <div class="unknown-text">???</div>
+                    </div>
+                `;
+            } else {
+                const imageUrl = `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/${rarity}/${chibiName.replace(/ /g, '_')}.png`;
+                
+                card.innerHTML = `
+                    <div class="chibi-image">
+                        <img src="${imageUrl}" alt="${chibiName}" style="opacity: ${isCollected ? '1' : '0.3'}" onerror="this.style.display='none'">
+                    </div>
+                    <div class="chibi-name">${chibiName}</div>
+                    ${!isCollected ? `
+                        <div class="locked-overlay">
+                            <div class="lock-icon-small">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div class="locked-text">Не получен</div>
+                        </div>
+                    ` : ''}
+                `;
             }
+            
+            card.addEventListener('click', function() {
+                vibrate();
+            });
+            
+            return card;
         }
         
-        leftArea.addEventListener('click', previousSlide);
-        rightArea.addEventListener('click', nextSlide);
+        function loadCommonCollection() {
+            commonChibiGrid.innerHTML = '';
+            
+            // Сортируем по алфавиту
+            const sortedChibis = [...allCommonChibis].sort();
+            
+            sortedChibis.forEach(chibiName => {
+                const isCollected = userData.collectedChibis.includes(chibiName);
+                const chibiCard = createChibiCard(chibiName, isCollected, 'common');
+                commonChibiGrid.appendChild(chibiCard);
+            });
+        }
         
-        window.onload = function() {
+        // Обработчики сегментированного контроля
+        segments.forEach(segment => {
+            segment.addEventListener('click', function() {
+                vibrate();
+                
+                segments.forEach(s => s.classList.remove('active'));
+                this.classList.add('active');
+                
+                contentSections.forEach(section => section.classList.remove('active'));
+                const sectionId = this.getAttribute('data-section') + 'Section';
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+        
+        // Обработчики карточек
+        commonChibisBtn.addEventListener('click', function() {
+            showCollectionScreen(commonCollectionScreen);
+            loadCommonCollection();
+        });
+        
+        diceArticleBtn.addEventListener('click', function() {
+            vibrate();
+            openExternalLink('https://telegra.ph/Kak-rabotayut-kosti--CHIBIKI-11-10');
+        });
+        
+        contactArticleBtn.addEventListener('click', function() {
+            vibrate();
+            openExternalLink('https://example.com');
+        });
+        
+        progressInfoButton.addEventListener('click', showProgressModal);
+        
+        // Закрытие модального окна по клику на оверлей
+        progressModal.addEventListener('click', function(e) {
+            if (e.target === progressModal) {
+                hideProgressModal();
+            }
+        });
+        
+        // Инициализация
+        window.onload = async function() {
+            console.log('Главный экран загружен');
             initTelegramWebApp();
-            
-            if (shouldShowOnboarding()) {
-                showSlide(1);
-            } else {
-                onboardingScreen.style.display = 'none';
-            }
+            await loadUserCollection();
         };
     </script>
 </body>
