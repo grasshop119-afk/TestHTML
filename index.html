@@ -365,8 +365,6 @@
             align-items: flex-end;
             padding: 20px;
             box-sizing: border-box;
-            opacity: 0;
-            transition: opacity 0.3s ease;
         }
 
         .modal-content {
@@ -375,17 +373,20 @@
             padding: 25px;
             width: 100%;
             max-width: 400px;
-            transform: translateY(100px);
-            transition: transform 0.3s ease;
+            transform: translateY(100%);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .modal-overlay.active {
             display: flex;
-            opacity: 1;
         }
 
         .modal-overlay.active .modal-content {
             transform: translateY(0);
+        }
+
+        .modal-overlay.closing .modal-content {
+            transform: translateY(100%);
         }
 
         .modal-title {
@@ -418,7 +419,7 @@
             height: 100%;
             width: 0%;
             border-radius: 15px;
-            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
         }
 
@@ -432,7 +433,7 @@
             color: #000;
             font-size: 14px;
             font-weight: 600;
-            transition: right 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: right 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
     </style>
 </head>
@@ -552,6 +553,7 @@
         const modalProgressBar = document.getElementById('modalProgressBar');
         const modalProgressText = document.getElementById('modalProgressText');
         const telegramButtonArea = document.getElementById('telegramButtonArea');
+        const commonChibiImageContainer = document.getElementById('commonChibiImageContainer');
         
         let userData = {
             collectedChibis: [],
@@ -566,11 +568,6 @@
             if (window.Telegram && window.Telegram.WebApp && Telegram.WebApp.HapticFeedback) {
                 Telegram.WebApp.HapticFeedback.impactOccurred('light');
             }
-        }
-        
-        function doubleVibrate() {
-            vibrate();
-            setTimeout(vibrate, 50);
         }
         
         function initTelegramWebApp() {
@@ -649,6 +646,9 @@
                             userData.secretChibis = collection.secret || [];
                             userData.prizeChibis = collection.prize || [];
                             allCommonChibis = collection.all_common || [];
+                            
+                            // Обновляем изображение на главной
+                            updateMainScreenImages();
                         }
                     }
                 }
@@ -657,6 +657,35 @@
                 // Заглушка для демонстрации
                 allCommonChibis = ["Алиса", "Боб", "Виктор", "Гена", "Дарья", "Егор", "Женя", "Зоя"];
                 userData.collectedChibis = ["Алиса", "Боб", "Виктор"];
+                updateMainScreenImages();
+            }
+        }
+        
+        function updateMainScreenImages() {
+            // Обновляем изображение обычных чибиков
+            if (userData.collectedChibis.length > 0) {
+                const randomCommon = userData.collectedChibis[Math.floor(Math.random() * userData.collectedChibis.length)];
+                const commonImageUrl = `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/common/${randomCommon.replace(/ /g, '_')}.png`;
+                commonChibiImageContainer.innerHTML = `<img src="${commonImageUrl}" alt="Обычные чибики">`;
+            } else {
+                commonChibiImageContainer.innerHTML = '<div class="lock-icon"><i class="fas fa-lock"></i></div>';
+            }
+            
+            // Обновляем секретные чибики
+            if (userData.secretChibis.length > 0) {
+                secretChibisBtn.style.display = 'flex';
+                const randomSecret = userData.secretChibis[Math.floor(Math.random() * userData.secretChibis.length)];
+                const secretImageUrl = `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/secret/${randomSecret.replace(/ /g, '_')}.png`;
+                document.getElementById('secretChibiImage').src = secretImageUrl;
+                document.getElementById('secretTitle').textContent = 'Секретные';
+            }
+            
+            // Обновляем призовые чибики
+            if (userData.prizeChibis.length > 0) {
+                prizeChibisBtn.style.display = 'flex';
+                const randomPrize = userData.prizeChibis[Math.floor(Math.random() * userData.prizeChibis.length)];
+                const prizeImageUrl = `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/prize/${randomPrize.replace(/ /g, '_')}.png`;
+                document.getElementById('prizeChibiImage').src = prizeImageUrl;
             }
         }
         
@@ -668,7 +697,6 @@
         }
         
         function updateProgressBarGradient(percentage) {
-            // Градиент становится ярче с увеличением процента
             const startColor = '#FFD951';
             const endColor = percentage > 50 ? '#FFE580' : '#FFDD66';
             modalProgressBar.style.background = `linear-gradient(90deg, ${startColor}, ${endColor})`;
@@ -676,23 +704,30 @@
         
         function animateProgressBar(targetPercentage) {
             let currentPercentage = 0;
-            const duration = 1200; // 1.2 секунды
+            const duration = 800; // 0.8 секунды
             const startTime = Date.now();
             
             function update() {
                 const elapsed = Date.now() - startTime;
                 const progress = Math.min(elapsed / duration, 1);
                 
-                // Нелинейная анимация для более естественного вида
-                currentPercentage = Math.floor(targetPercentage * progress);
+                // Равномерная анимация с пружинкой в конце
+                let easedProgress = progress;
+                if (progress >= 0.9) {
+                    // Легкая пружинка в конце
+                    easedProgress = 0.9 + (progress - 0.9) * 1.2;
+                }
+                
+                currentPercentage = Math.floor(targetPercentage * easedProgress);
                 
                 modalProgressBar.style.width = currentPercentage + '%';
                 modalProgressText.textContent = currentPercentage + '%';
                 
-                // Позиционируем текст на правом конце прогресс-бара
+                // Процент привязан к правому концу прогресс-бара
                 const containerWidth = modalProgressBar.parentElement.offsetWidth;
-                const textPosition = (currentPercentage / 100) * containerWidth - 30;
-                modalProgressText.style.right = Math.max(10, containerWidth - textPosition) + 'px';
+                const progressWidth = (currentPercentage / 100) * containerWidth;
+                const textRight = Math.max(10, containerWidth - progressWidth);
+                modalProgressText.style.right = textRight + 'px';
                 
                 updateProgressBarGradient(currentPercentage);
                 
@@ -705,7 +740,8 @@
         }
         
         function showProgressModal() {
-            doubleVibrate();
+            vibrate(); // Только одна вибрация
+            
             const percentage = calculateCollectionPercentage();
             
             // Сбрасываем прогресс-бар перед анимацией
@@ -721,12 +757,16 @@
             // Запускаем анимацию прогресс-бара
             setTimeout(() => {
                 animateProgressBar(percentage);
-            }, 300);
+            }, 100);
         }
         
         function hideProgressModal() {
-            progressModal.classList.remove('active');
+            progressModal.classList.add('closing');
             removeTelegramButton();
+            
+            setTimeout(() => {
+                progressModal.classList.remove('active', 'closing');
+            }, 250);
         }
         
         function createTelegramButton(container, text) {
