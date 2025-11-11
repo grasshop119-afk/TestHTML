@@ -339,20 +339,10 @@
             padding: 25px;
             width: 100%;
             max-width: 400px;
-            transform: translateY(100%);
-            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .modal-overlay.active {
             display: flex;
-        }
-
-        .modal-overlay.active .modal-content {
-            transform: translateY(0);
-        }
-
-        .modal-overlay.closing .modal-content {
-            transform: translateY(100%);
         }
 
         .modal-title {
@@ -399,6 +389,13 @@
             color: #000;
             font-size: 14px;
             font-weight: 600;
+        }
+
+        .error-message {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            font-size: 18px;
         }
     </style>
 </head>
@@ -476,6 +473,10 @@
         </div>
         
         <div class="chibi-grid" id="commonChibiGrid"></div>
+        <div class="error-message hidden" id="errorMessage">
+            Ошибка
+            <div id="errorButtonArea"></div>
+        </div>
     </div>
 
     <div class="modal-overlay" id="progressModal">
@@ -514,12 +515,15 @@
             commonChibiImageContainer: document.getElementById('commonChibiImageContainer'),
             secretChibiImage: document.getElementById('secretChibiImage'),
             prizeChibiImage: document.getElementById('prizeChibiImage'),
-            secretTitle: document.getElementById('secretTitle')
+            secretTitle: document.getElementById('secretTitle'),
+            errorMessage: document.getElementById('errorMessage'),
+            errorButtonArea: document.getElementById('errorButtonArea')
         };
 
         const BOT_API_URL = 'https://chibi-bot-3d4x.onrender.com';
         let userData = { collectedChibis: [], secretChibis: [], prizeChibis: [] };
         let allCommonChibis = [];
+        let loadError = false;
 
         // Утилиты
         const utils = {
@@ -547,6 +551,7 @@
             showMainScreen() {
                 elements.commonCollectionScreen.classList.add('hidden');
                 elements.mainScreen.classList.remove('hidden');
+                this.hideErrorButton();
                 if (utils.isTelegram()) Telegram.WebApp.BackButton.hide();
             },
 
@@ -555,7 +560,12 @@
                 elements.mainScreen.classList.add('hidden');
                 elements.commonCollectionScreen.classList.remove('hidden');
                 if (utils.isTelegram()) Telegram.WebApp.BackButton.show();
-                this.loadCommonCollection();
+                
+                if (loadError) {
+                    this.showErrorScreen();
+                } else {
+                    this.loadCommonCollection();
+                }
             },
 
             handleBackButton() {
@@ -563,6 +573,12 @@
                 if (!elements.commonCollectionScreen.classList.contains('hidden')) {
                     this.showMainScreen();
                 }
+            },
+
+            showErrorScreen() {
+                elements.commonChibiGrid.classList.add('hidden');
+                elements.errorMessage.classList.remove('hidden');
+                this.showErrorButton();
             }
         };
 
@@ -585,13 +601,17 @@
                                 userData.secretChibis = collection.secret || [];
                                 userData.prizeChibis = collection.prize || [];
                                 allCommonChibis = collection.all_common || [];
+                                loadError = false;
+                            } else {
+                                throw new Error('Ошибка сервера');
                             }
                         }
                     }
                 } catch (error) {
                     console.error('Ошибка загрузки коллекции:', error);
-                    allCommonChibis = ["Алиса", "Боб", "Виктор", "Гена", "Дарья", "Егор", "Женя", "Зоя"];
-                    userData.collectedChibis = ["Алиса", "Боб", "Виктор"];
+                    loadError = true;
+                    allCommonChibis = [];
+                    userData.collectedChibis = [];
                 }
                 this.updateMainScreenImages();
             },
@@ -659,12 +679,44 @@
 
             loadCommonCollection() {
                 elements.commonChibiGrid.innerHTML = '';
+                elements.commonChibiGrid.classList.remove('hidden');
+                elements.errorMessage.classList.add('hidden');
+                
                 [...allCommonChibis].sort().forEach(chibiName => {
                     const isCollected = userData.collectedChibis.includes(chibiName);
                     elements.commonChibiGrid.appendChild(this.createChibiCard(chibiName, isCollected, 'common'));
                 });
             }
         };
+
+        // Кнопки ошибки
+        const errorButton = {
+            show() {
+                if (utils.isTelegram()) {
+                    const button = Telegram.WebApp.MainButton;
+                    button.setText("Сообщить админу");
+                    button.show();
+                    button.setParams({ color: '#FFD951', text_color: '#000000' });
+                    button.onClick(() => {
+                        utils.openLink('https://t.me/request_chibeki_bot');
+                    });
+                    elements.errorButtonArea._clickHandler = () => utils.openLink('https://t.me/request_chibeki_bot');
+                }
+            },
+
+            hide() {
+                if (utils.isTelegram()) {
+                    Telegram.WebApp.MainButton.hide();
+                    Telegram.WebApp.MainButton.offClick(elements.errorButtonArea._clickHandler);
+                }
+            }
+        };
+
+        // Навигация расширена
+        Object.assign(navigation, {
+            showErrorButton: errorButton.show,
+            hideErrorButton: errorButton.hide
+        });
 
         // Модальное окно прогресса
         const progressModal = {
@@ -682,9 +734,11 @@
             },
 
             hide() {
-                elements.progressModal.classList.add('closing');
+                elements.progressModal.classList.remove('active');
                 this.removeTelegramButton();
-                setTimeout(() => elements.progressModal.classList.remove('active', 'closing'), 250);
+                if (loadError && !elements.commonCollectionScreen.classList.contains('hidden')) {
+                    navigation.showErrorButton();
+                }
             },
 
             animateProgressBar(targetPercentage) {
@@ -713,6 +767,7 @@
 
             createTelegramButton() {
                 if (utils.isTelegram()) {
+                    navigation.hideErrorButton();
                     const button = Telegram.WebApp.MainButton;
                     button.setText('Понятно');
                     button.show();
@@ -764,7 +819,7 @@
             });
             elements.contactArticleBtn.addEventListener('click', () => {
                 utils.vibrate();
-                utils.openLink('https://example.com');
+                utils.openLink('https://telegra.ph/Kak-svyazatsya-s-adminami-11-11');
             });
             elements.progressInfoButton.addEventListener('click', () => progressModal.show());
             elements.progressModal.addEventListener('click', (e) => {
