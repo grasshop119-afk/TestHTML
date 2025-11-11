@@ -260,7 +260,7 @@
                 setTimeout(() => {
                     progressBar2.style.width = '100%';
                 }, 10);
-                createTelegramButton(contactButtonArea, 'Написать нам', 'https://t.me/chibeki_request');
+                createTelegramButton(contactButtonArea, 'Написать нам', 'https://t.me/request_chibeki_bot');
                 currentTimer = setTimeout(() => showSlide(3), 10000);
             } 
             else if (slideNumber === 3) {
@@ -269,7 +269,7 @@
                 setTimeout(() => {
                     progressBar3.style.width = '100%';
                 }, 10);
-                createTelegramButton(channelButtonArea, 'Перейти', 'https://t.me/chibeki_bot');
+                createTelegramButton(channelButtonArea, 'Перейти', 'https://t.me/chibeki_official');
                 currentTimer = setTimeout(finishOnboarding, 10000);
             }
         }
@@ -279,6 +279,12 @@
                 const button = Telegram.WebApp.MainButton;
                 button.setText(text);
                 button.show();
+                
+                // Желтый цвет как акцентный
+                button.setParams({
+                    color: '#FFD951',
+                    text_color: '#000000'
+                });
                 
                 const clickHandler = function() {
                     Telegram.WebApp.openTelegramLink(url);
@@ -327,10 +333,6 @@
             if (window.Telegram && window.Telegram.WebApp) {
                 Telegram.WebApp.ready();
                 Telegram.WebApp.expand();
-                Telegram.WebApp.MainButton.setParams({
-                    color: '#2481cc',
-                    text_color: '#ffffff'
-                });
             }
         }
         
