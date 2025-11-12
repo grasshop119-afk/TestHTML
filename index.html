@@ -827,9 +827,24 @@
             },
 
             resetProgressBars() {
+                // Мгновенный сброс без анимации
+                onboardingElements.progressBar1.style.transition = 'none';
+                onboardingElements.progressBar2.style.transition = 'none';
+                onboardingElements.progressBar3.style.transition = 'none';
+                
                 onboardingElements.progressBar1.style.width = '0%';
                 onboardingElements.progressBar2.style.width = '0%';
                 onboardingElements.progressBar3.style.width = '0%';
+                
+                // Принудительная перерисовка
+                void onboardingElements.progressBar1.offsetWidth;
+                void onboardingElements.progressBar2.offsetWidth;
+                void onboardingElements.progressBar3.offsetWidth;
+                
+                // Возвращаем анимацию
+                onboardingElements.progressBar1.style.transition = '';
+                onboardingElements.progressBar2.style.transition = '';
+                onboardingElements.progressBar3.style.transition = '';
             },
 
             showSlide(slideNumber) {
