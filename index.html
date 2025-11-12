@@ -509,7 +509,7 @@
             width: 0%;
             border-radius: 15px;
             background: linear-gradient(90deg, #FFD951, #FFE580);
-            transition: width 0.8s cubic-bezier(0.25, 0.1, 0.2, 1.5);
+            transition: width 0.5s ease-out;
         }
 
         .progress-bar-text {
@@ -518,11 +518,11 @@
             height: 100%;
             display: flex;
             align-items: center;
-            color: #000;
+            color: white;
             font-size: 14px;
             font-weight: 600;
             white-space: nowrap;
-            transition: left 0.8s cubic-bezier(0.25, 0.1, 0.2, 1.5);
+            transition: left 0.5s ease-out;
             left: 10px;
         }
 
@@ -854,15 +854,12 @@
                 } else if (slideNumber === 2) {
                     onboardingElements.slide2.classList.add('active');
                     this.currentSlide = 2;
-                    onboardingElements.progressBar1.style.width = '100%';
                     onboardingElements.progressBar2.style.width = '100%';
                     this.createTelegramButton(onboardingElements.contactButtonArea, 'Написать нам', 'https://t.me/request_chibeki_bot');
                     this.currentTimer = setTimeout(() => this.showSlide(3), 10000);
                 } else if (slideNumber === 3) {
                     onboardingElements.slide3.classList.add('active');
                     this.currentSlide = 3;
-                    onboardingElements.progressBar1.style.width = '100%';
-                    onboardingElements.progressBar2.style.width = '100%';
                     onboardingElements.progressBar3.style.width = '100%';
                     this.createTelegramButton(onboardingElements.channelButtonArea, 'Перейти', 'https://t.me/chibeki_official');
                     this.currentTimer = setTimeout(() => this.finishOnboarding(), 10000);
@@ -1178,7 +1175,7 @@
 
             animateProgressBar(targetPercentage) {
                 let currentPercentage = 0;
-                const duration = 800;
+                const duration = 500;
                 const startTime = Date.now();
                 const containerWidth = appElements.modalProgressBar.parentElement.offsetWidth;
                 
@@ -1186,17 +1183,15 @@
                     const elapsed = Date.now() - startTime;
                     const progress = Math.min(elapsed / duration, 1);
                     
-                    // Анимация с замедлением к концу
-                    const easedProgress = 1 - Math.pow(1 - progress, 1.5);
-                    
-                    currentPercentage = Math.floor(targetPercentage * easedProgress);
+                    // Линейная анимация без пружинки
+                    currentPercentage = Math.floor(targetPercentage * progress);
                     
                     appElements.modalProgressBar.style.width = currentPercentage + '%';
                     appElements.modalProgressText.textContent = currentPercentage + '%';
                     
-                    // Позиционирование текста у правого конца прогресс-бара
+                    // Позиционирование текста - сдвигаем левее
                     const progressWidth = (currentPercentage / 100) * containerWidth;
-                    const textPosition = Math.max(10, Math.min(progressWidth - 20, containerWidth - 30));
+                    const textPosition = Math.max(10, Math.min(progressWidth - 25, containerWidth - 40));
                     appElements.modalProgressText.style.left = textPosition + 'px';
                     
                     if (progress < 1) {
