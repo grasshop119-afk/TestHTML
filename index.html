@@ -167,7 +167,7 @@
 
         /* Profile Screen */
         .profile-screen {
-            padding: 32px 16px 20px;
+            padding: 20px 16px;
             overflow-y: auto;
             height: 100%;
         }
@@ -176,19 +176,20 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
         .profile-avatar {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: 20px;
             background: #2A2B2C;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }
 
         .profile-avatar img {
@@ -197,30 +198,22 @@
             object-fit: cover;
         }
 
-        .profile-name {
+        .profile-username {
             font-size: 20px;
             font-weight: 600;
-            margin-bottom: 6px;
+            margin-bottom: 20px;
             color: #FFFFFF;
             text-align: center;
         }
 
-        .profile-username {
-            font-size: 14px;
-            opacity: 0.7;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 28px;
-            text-align: center;
-        }
-
-        .profile-buttons {
+        .profile-actions {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 12px;
             margin-bottom: 24px;
             width: 100%;
-            max-width: 300px;
+            max-width: 280px;
         }
 
         .support-button {
@@ -228,7 +221,7 @@
             color: #FFFFFF;
             border: none;
             border-radius: 12px;
-            padding: 14px 24px;
+            padding: 14px 20px;
             font-size: 16px;
             font-weight: 600;
             display: flex;
@@ -236,16 +229,34 @@
             justify-content: center;
             gap: 8px;
             width: 100%;
-            transition: background-color 0.2s ease;
+            transition: all 0.2s ease;
         }
 
         .support-button:active {
             background: #0056CC;
+            transform: scale(0.98);
         }
 
         .support-icon {
             width: 20px;
             height: 20px;
+        }
+
+        .share-button {
+            background: transparent;
+            color: #007AFF;
+            border: 1.5px solid #007AFF;
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .share-button:active {
+            background: rgba(0, 122, 255, 0.1);
+            transform: scale(0.98);
         }
 
         .divider {
@@ -255,68 +266,64 @@
             width: 100%;
         }
 
-        .chibi-collection {
-            margin-top: 16px;
+        .chibi-history {
+            margin-bottom: 20px;
         }
 
-        .collection-title {
+        .history-title {
             font-size: 17px;
             font-weight: 600;
             margin-bottom: 16px;
             color: #FFFFFF;
-            text-align: center;
+            padding: 0 8px;
         }
 
-        .chibi-scroll-grid {
+        .history-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 12px;
-            max-height: 300px;
-            overflow-y: auto;
         }
 
-        .chibi-scroll-grid::-webkit-scrollbar {
-            display: none;
-        }
-
-        .chibi-mini-card {
+        .history-card {
             background: #2A2B2C;
-            border-radius: 10px;
+            border-radius: 12px;
             aspect-ratio: 1;
             display: flex;
             flex-direction: column;
             position: relative;
             overflow: hidden;
-            transition: opacity 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .chibi-mini-card.gifted {
+        .history-card.lost {
             opacity: 0.4;
         }
 
-        .chibi-mini-image {
+        .history-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 10px;
         }
 
-        /* Development Screen */
-        .development-screen {
+        .history-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+            padding: 8px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            padding: 40px;
-            text-align: center;
+            align-items: flex-end;
         }
 
-        .development-text {
-            font-size: 18px;
+        .history-name {
+            font-size: 11px;
             font-weight: 600;
-            color: #8E8E93;
-            margin-top: 16px;
+            color: #FFFFFF;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.2;
         }
 
         /* Scrollbar Hidden */
@@ -368,32 +375,54 @@
                 <div class="profile-avatar" id="profileAvatar">
                     <!-- Large avatar will be loaded here -->
                 </div>
-                <div class="profile-name" id="profileName">
-                    <!-- First name will be loaded here -->
-                </div>
-                <div class="profile-username" id="profileUsername">
-                    <!-- Username will be loaded here -->
-                </div>
-                <div class="profile-buttons">
+                <div class="profile-username" id="profileUsername">@username</div>
+                
+                <div class="profile-actions">
                     <button class="support-button" onclick="supportChibiki()">
                         <img src="https://i.ibb.co/WWrbRjX2/IMG-8701.png" alt="Поддержать" class="support-icon">
-                        Поддержать
+                        Поддержать ЧИБИКОВ
+                    </button>
+                    <button class="share-button" onclick="shareProfile()">
+                        Поделиться
                     </button>
                 </div>
             </div>
 
             <div class="divider"></div>
 
-            <div class="chibi-collection">
-                <div class="collection-title">Мои чибики</div>
-                <div class="chibi-scroll-grid" id="profileChibiGrid">
-                    <!-- User's chibis will be loaded here -->
+            <div class="chibi-history">
+                <div class="history-title">История чибиков</div>
+                <div class="history-grid" id="historyGrid">
+                    <!-- Chibi history will be loaded here -->
                 </div>
             </div>
         </div>
 
         <!-- Other screens remain the same -->
-        <!-- ... -->
+        <!-- Home Screen -->
+        <div class="screen main-screen hidden" id="homeScreen">
+            <!-- ... existing home screen content ... -->
+        </div>
+
+        <!-- Friends Screen -->
+        <div class="screen hidden" id="friendsScreen">
+            <div class="development-screen">
+                <div class="development-text">В разработке…</div>
+            </div>
+        </div>
+
+        <!-- Collection Screens -->
+        <div class="screen collection-screen hidden" id="commonCollectionScreen">
+            <div class="chibi-grid grid-3" id="commonGrid"></div>
+        </div>
+
+        <div class="screen collection-screen hidden" id="secretCollectionScreen">
+            <div class="chibi-grid grid-3" id="secretGrid"></div>
+        </div>
+
+        <div class="screen collection-screen hidden" id="prizeCollectionScreen">
+            <div class="chibi-grid grid-3" id="prizeGrid"></div>
+        </div>
     </div>
 
     <script>
@@ -405,7 +434,7 @@
             common: { collected: [], all: [] },
             secret: { collected: [], all: [] },
             prize: { collected: [], all: [] },
-            gifted: [] // Track gifted chibis
+            history: [] // New: history of all chibis obtained (including lost ones)
         };
         
         let currentScreen = 'profile';
@@ -430,17 +459,19 @@
         function setupProfile() {
             const user = tg.initDataUnsafe?.user;
             const profileAvatar = document.getElementById('profileAvatar');
-            const profileName = document.getElementById('profileName');
             const profileUsername = document.getElementById('profileUsername');
             const avatarCircle = document.getElementById('avatarCircle');
             
             if (user) {
-                // Setup large profile avatar (80x80)
+                // Set username
+                profileUsername.textContent = `@${user.username || 'user'}`;
+                
+                // Set large avatar
                 if (user.photo_url) {
                     profileAvatar.innerHTML = `<img src="${user.photo_url}" alt="Profile Avatar">`;
                 } else {
                     profileAvatar.innerHTML = `
-                        <svg viewBox="0 0 24 24" width="40" height="40" fill="#8E8E93">
+                        <svg viewBox="0 0 24 24" width="48" height="48" fill="#8E8E93">
                             <path d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z" opacity=".35"></path>
                             <path d="M12,6c-1.657,0-3,1.343-3,3s1.343,3,3,3s3-1.343,3-3S13.657,6,12,6z"></path>
                             <path d="M12,13c-3.6,0-6,2-6,4c0,1,1,2,6,2s6-1,6-2C18,15,15.6,13,12,13z"></path>
@@ -448,11 +479,7 @@
                     `;
                 }
                 
-                // Setup name and username
-                profileName.textContent = user.first_name || 'Пользователь';
-                profileUsername.textContent = user.username ? `@${user.username}` : '';
-                
-                // Setup footer avatar
+                // Set small avatar in footer
                 if (user.photo_url) {
                     avatarCircle.innerHTML = `<img src="${user.photo_url}" alt="Avatar">`;
                 } else {
@@ -465,106 +492,193 @@
                     `;
                 }
             }
-            
-            // Render user's chibi collection
-            renderProfileChibis();
         }
 
-        // Render user's chibi collection for profile
-        function renderProfileChibis() {
-            const grid = document.getElementById('profileChibiGrid');
+        // Tab switching
+        function switchTab(tab) {
+            tg.HapticFeedback.impactOccurred('light');
+            
+            // Update active tab
+            document.querySelectorAll('.footer-tab').forEach(t => t.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+            
+            // Show selected screen
+            document.getElementById(`${tab}Screen`).classList.remove('hidden');
+            currentScreen = tab;
+            
+            // Hide back button and view toggle on main tabs
+            tg.BackButton.hide();
+            document.getElementById('viewToggle').classList.add('hidden');
+            document.getElementById('footer').classList.remove('hidden');
+            
+            // Load profile data when switching to profile
+            if (tab === 'profile') {
+                renderChibiHistory();
+            }
+        }
+
+        // Navigation
+        function openCollection(type) {
+            tg.HapticFeedback.impactOccurred('light');
+            
+            // Hide footer in collection screens
+            document.getElementById('footer').classList.add('hidden');
+            
+            hideAllScreens();
+            document.getElementById(`${type}CollectionScreen`).classList.remove('hidden');
+            currentScreen = type;
+            
+            tg.BackButton.show();
+            document.getElementById('viewToggle').classList.remove('hidden');
+            renderCollection(type);
+        }
+
+        function goBack() {
+            tg.HapticFeedback.impactOccurred('light');
+            
+            if (currentScreen === 'common' || currentScreen === 'secret' || currentScreen === 'prize') {
+                // Return from collection to home
+                hideAllScreens();
+                document.getElementById('homeScreen').classList.remove('hidden');
+                currentScreen = 'home';
+                tg.BackButton.hide();
+                document.getElementById('viewToggle').classList.add('hidden');
+                document.getElementById('footer').classList.remove('hidden');
+            }
+        }
+
+        function hideAllScreens() {
+            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+        }
+
+        // View mode toggle
+        function toggleViewMode() {
+            tg.HapticFeedback.impactOccurred('light');
+            
+            currentViewMode = currentViewMode === 3 ? 2 : currentViewMode === 2 ? 1 : 3;
+            
+            const grid = document.getElementById(`${currentScreen}Grid`);
+            grid.className = `chibi-grid grid-${currentViewMode}`;
+            
+            // Re-render collection to update layout
+            renderCollection(currentScreen);
+        }
+
+        // Profile actions
+        function supportChibiki() {
+            tg.HapticFeedback.impactOccurred('medium');
+            tg.showPopup({
+                title: 'Поддержать ЧИБИКОВ',
+                message: 'Спасибо за желание поддержать проект! Функция доната скоро будет доступна.',
+                buttons: [{ type: 'default', text: 'Понятно' }]
+            });
+        }
+
+        function shareProfile() {
+            tg.HapticFeedback.impactOccurred('medium');
+            tg.showPopup({
+                title: 'Поделиться профилем',
+                message: 'Поделись своим профилем с друзьями, чтобы они тоже могли собирать чибиков!',
+                buttons: [
+                    {
+                        type: 'default',
+                        text: 'Поделиться',
+                        id: 'share'
+                    },
+                    {
+                        type: 'cancel',
+                        text: 'Отмена',
+                        id: 'cancel'
+                    }
+                ]
+            }, function(buttonId) {
+                if (buttonId === 'share') {
+                    // Here you would implement actual sharing logic
+                    tg.showPopup({
+                        title: 'Успешно!',
+                        message: 'Ссылка на ваш профиль скопирована в буфер обмена',
+                        buttons: [{ type: 'default', text: 'ОК' }]
+                    });
+                }
+            });
+        }
+
+        // Chibi history rendering
+        function renderChibiHistory() {
+            const grid = document.getElementById('historyGrid');
             grid.innerHTML = '';
             
-            // Combine all collected chibis from different categories
-            const allCollectedChibis = [
-                ...userData.common.collected.map(name => ({ name, category: 'common' })),
-                ...userData.secret.collected.map(name => ({ name, category: 'secret' })),
-                ...userData.prize.collected.map(name => ({ name, category: 'prize' }))
-            ];
-            
-            // Add gifted chibis with opacity
-            const giftedChibis = userData.gifted.map(name => {
-                // Determine category for gifted chibis
-                let category = 'common';
-                if (userData.secret.all.includes(name)) category = 'secret';
-                if (userData.prize.all.includes(name)) category = 'prize';
-                return { name, category, gifted: true };
-            });
-            
-            const allChibis = [...allCollectedChibis, ...giftedChibis];
-            
-            if (allChibis.length === 0) {
+            if (userData.history.length === 0) {
+                // Show empty state
                 grid.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #8E8E93; font-size: 14px;">
-                        Пока нет чибиков 🎮
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #8E8E93;">
+                        <div>История чибиков пуста</div>
+                        <div style="font-size: 14px; margin-top: 8px;">Начни собирать коллекцию!</div>
                     </div>
                 `;
                 return;
             }
             
-            allChibis.forEach((chibi, index) => {
+            userData.history.forEach((historyItem, index) => {
+                const isLost = historyItem.lost || false;
                 const card = document.createElement('div');
-                card.className = `chibi-mini-card ${chibi.gifted ? 'gifted' : ''}`;
+                card.className = `history-card ${isLost ? 'lost' : ''}`;
                 
-                const imageUrl = `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/${chibi.category}/${chibi.name.replace(/ /g, '_')}.png`;
+                const imageUrl = `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/${historyItem.type}/${historyItem.name.replace(/ /g, '_')}.png`;
                 
                 card.innerHTML = `
-                    <img src="${imageUrl}" alt="${chibi.name}" class="chibi-mini-image"
+                    <img src="${imageUrl}" alt="${historyItem.name}" class="history-image"
                          onerror="this.style.display='none'">
+                    <div class="history-info">
+                        <div class="history-name">${historyItem.name}</div>
+                    </div>
+                    ${isLost ? `
+                        <div style="position: absolute; top: 4px; right: 4px; background: rgba(255,0,0,0.7); color: white; border-radius: 8px; padding: 2px 6px; font-size: 9px; font-weight: 600;">
+                            ✗
+                        </div>
+                    ` : ''}
                 `;
                 
                 grid.appendChild(card);
             });
         }
 
-        // Support button handler - opens stars donation to @temkazavr
-        function supportChibiki() {
-            tg.HapticFeedback.impactOccurred('medium');
-            tg.openTelegramLink('https://t.me/temkazavr?start=stars');
-        }
-
-        // Tab switching and other functions remain the same
-        function switchTab(tab) {
-            tg.HapticFeedback.impactOccurred('light');
-            
-            document.querySelectorAll('.footer-tab').forEach(t => t.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            
-            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-            document.getElementById(`${tab}Screen`).classList.remove('hidden');
-            currentScreen = tab;
-            
-            tg.BackButton.hide();
-            document.getElementById('viewToggle').classList.add('hidden');
-            document.getElementById('footer').classList.remove('hidden');
-            
-            // Refresh profile when switching to it
-            if (tab === 'profile') {
-                setupProfile();
-            }
-        }
-
-        function goBack() {
-            tg.HapticFeedback.impactOccurred('light');
-            // Back navigation logic...
-        }
-
-        // Data loading and other functions remain mostly the same
+        // Data loading
         async function loadUserData() {
             try {
                 const user = tg.initDataUnsafe?.user;
+                
                 await loadChibiLists();
                 
                 if (user) {
                     await loadUserCollection(user.id);
                 }
                 
-                // Mock some gifted chibis for demo
-                userData.gifted = ['Chibi 2', 'Chibi 5', 'Secret 1'];
+                // Generate sample history data (replace with actual data from your backend)
+                generateSampleHistory();
                 
             } catch (error) {
                 console.error('Error loading data:', error);
+                generateSampleHistory();
             }
+        }
+
+        function generateSampleHistory() {
+            // Sample history data - in real app this should come from your backend
+            userData.history = [
+                { name: 'Chibi 1', type: 'common', lost: false },
+                { name: 'Chibi 2', type: 'common', lost: false },
+                { name: 'Chibi 3', type: 'common', lost: true }, // Gifted away
+                { name: 'Chibi 4', type: 'common', lost: false },
+                { name: 'Secret 1', type: 'secret', lost: false },
+                { name: 'Chibi 5', type: 'common', lost: false },
+                { name: 'Chibi 1', type: 'common', lost: false }, // Got again
+                { name: 'Prize 1', type: 'prize', lost: false },
+                { name: 'Chibi 6', type: 'common', lost: true }, // Traded
+            ];
         }
 
         async function loadChibiLists() {
@@ -572,6 +686,7 @@
                 userData.common.all = ['Chibi 1', 'Chibi 2', 'Chibi 3', 'Chibi 4', 'Chibi 5', 'Chibi 6', 'Chibi 7', 'Chibi 8', 'Chibi 9', 'Chibi 10', 'Chibi 11', 'Chibi 12'];
                 userData.secret.all = ['Secret 1', 'Secret 2', 'Secret 3', 'Secret 4'];
                 userData.prize.all = ['Prize 1', 'Prize 2', 'Prize 3'];
+                
             } catch (error) {
                 console.error('Error loading chibi lists:', error);
             }
@@ -589,6 +704,7 @@
 
                 if (response.ok) {
                     const collection = await response.json();
+                    
                     userData.common.collected = collection.common || [];
                     userData.secret.collected = collection.secret || [];
                     userData.prize.collected = collection.prize || [];
@@ -602,10 +718,7 @@
                 }
             } catch (error) {
                 console.error('Error loading user collection:', error);
-                // Mock data for demo
-                userData.common.collected = ['Chibi 1', 'Chibi 3', 'Chibi 7', 'Chibi 8'];
-                userData.secret.collected = ['Secret 2'];
-                userData.prize.collected = ['Prize 1'];
+                userData.common.collected = userData.common.all.slice(0, 4);
             }
         }
 
