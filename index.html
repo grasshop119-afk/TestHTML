@@ -82,21 +82,32 @@
             display: none;
         }
 
+        .back-button {
+            width: 28px;
+            height: 28px;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+            filter: invert(1) brightness(2);
+            cursor: pointer;
+        }
+
+        .back-button:active {
+            opacity: 1;
+        }
+
         /* Footer */
         .footer {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 60px;
-            background: rgba(31, 32, 33, 0.85);
-            backdrop-filter: blur(20px);
+            height: 68px;
+            background: #2A2B33;
             display: flex;
             align-items: center;
             justify-content: space-around;
             padding: 0 20px;
             z-index: 100;
-            border-top: 0.5px solid #2A2B2C;
         }
 
         .footer.hidden {
@@ -108,7 +119,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 8px 12px;
+            padding: 8px 14px;
             opacity: 0.7;
             transition: all 0.2s ease;
         }
@@ -119,9 +130,9 @@
 
         .footer-tab svg,
         .footer-tab img {
-            width: 24px;
-            height: 24px;
-            margin-bottom: 2px;
+            width: 28px;
+            height: 28px;
+            margin-bottom: 4px;
         }
 
         .footer-tab svg {
@@ -132,13 +143,17 @@
             fill: #007AFF;
         }
 
+        .footer-tab.active img {
+            filter: invert(39%) sepia(90%) saturate(2476%) hue-rotate(202deg) brightness(102%) contrast(106%);
+        }
+
         .footer-tab.active .avatar-circle {
             border-color: #007AFF;
         }
 
         .avatar-circle {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             border: 2px solid transparent;
             overflow: hidden;
@@ -161,16 +176,28 @@
         .main-content {
             position: absolute;
             top: 52px;
-            bottom: 60px;
+            bottom: 68px;
             left: 0;
             right: 0;
             overflow-y: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .main-content::-webkit-scrollbar {
+            display: none;
         }
 
         .main-screen {
             padding: 16px;
             overflow-y: auto;
             height: 100%;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .main-screen::-webkit-scrollbar {
+            display: none;
         }
 
         .section {
@@ -212,9 +239,9 @@
         }
 
         .collection-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
         }
 
         .collection-info {
@@ -249,6 +276,12 @@
             padding-top: 68px;
             overflow-y: auto;
             height: 100vh;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .collection-screen::-webkit-scrollbar {
+            display: none;
         }
 
         /* Development Screen */
@@ -260,6 +293,12 @@
             height: 100%;
             padding: 40px;
             text-align: center;
+        }
+
+        .development-gif {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
         }
 
         .development-text {
@@ -360,8 +399,8 @@
         }
 
         .locked-icon {
-            width: 32px;
-            height: 32px;
+            width: 24px;
+            height: 24px;
             margin-bottom: 8px;
             opacity: 0.7;
         }
@@ -372,15 +411,182 @@
             font-weight: 500;
         }
 
-        /* Scrollbar Hidden */
-        .main-content::-webkit-scrollbar {
+        /* Profile Screen */
+        .profile-screen {
+            padding: 24px 16px;
+            overflow-y: auto;
+            height: calc(100% - 52px);
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            margin-top: 52px;
+        }
+
+        .profile-screen::-webkit-scrollbar {
             display: none;
+        }
+
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            background: #2A2B2C;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #FFFFFF;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+
+        .profile-username {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+        }
+
+        .divider {
+            height: 0.5px;
+            background: #2A2B2C;
+            margin: 24px 0;
+        }
+
+        .settings-section {
+            background: #2A2B2C;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .setting-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            transition: background-color 0.2s ease;
+        }
+
+        .setting-item:active {
+            background: #353637;
+        }
+
+        .setting-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            opacity: 0.6;
+        }
+
+        .setting-icon.blue img {
+            filter: invert(0.4) sepia(1) saturate(20) hue-rotate(190deg) brightness(1.2);
+        }
+
+        .setting-icon.purple img {
+            filter: invert(0.4) sepia(1) saturate(20) hue-rotate(250deg) brightness(1.2);
+        }
+
+        .setting-icon.pink img {
+            filter: invert(0.4) sepia(1) saturate(20) hue-rotate(320deg) brightness(1.2);
+        }
+
+        .setting-icon img {
+            width: 20px;
+            height: 20px;
+            opacity: 1;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #FFFFFF;
+            margin-bottom: 2px;
+        }
+
+        .setting-description {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* iOS Switch */
+        .ios-switch {
+            position: relative;
+            width: 51px;
+            height: 31px;
+        }
+
+        .ios-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .ios-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #3A3B3C;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .ios-slider:before {
+            position: absolute;
+            content: "";
+            height: 27px;
+            width: 27px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .ios-slider {
+            background-color: #007AFF;
+        }
+
+        input:checked + .ios-slider:before {
+            transform: translateX(20px);
         }
     </style>
 </head>
 <body>
     <!-- Header -->
     <div class="header">
+        <div class="back-button hidden" id="backButton" onclick="goBack()">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
+            </svg>
+        </div>
         <img src="https://i.ibb.co/zTB331HR/image.png" alt="Chibeki" class="logo">
         <div class="header-right">
             <img src="https://img.icons8.com/?size=100&id=mz2Zw0R3o9Hq&format=png&color=000000" 
@@ -400,11 +606,11 @@
         </div>
         
         <div class="footer-tab" onclick="switchTab('friends')">
-            <img src="https://img.icons8.com/?size=100&id=egqjhmkOFCqZ&format=png&color=000000" alt="Друзья">
+            <img src="https://img.icons8.com/?size=100&id=egqjhmkOFCqZ&format=png&color=8E8E93" alt="Друзья">
             <div class="tab-label">Друзья</div>
         </div>
         
-        <div class="footer-tab" onclick="openProfile()">
+        <div class="footer-tab" onclick="switchTab('profile')">
             <div class="avatar-circle" id="avatarCircle">
                 <!-- Telegram avatar will be loaded here -->
             </div>
@@ -457,13 +663,7 @@
                 
                 <div class="collection-card" onclick="openArticle('dice')">
                     <div class="collection-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="#8E8E93">
-                            <path d="M18,19V6c0-1.657-1.343-3-3-3H5C3.343,3,2,4.343,2,6v12c0,1.657,1.343,3,3,3h15 C18.895,21,18,20.105,18,19z" opacity=".35"></path>
-                            <path d="M14,14H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,13.552,14.552,14,14,14z"></path>
-                            <path d="M14,18H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,17.552,14.552,18,14,18z"></path>
-                            <path d="M20,7h-2v12c0,1.105,0.895,2,2,2h0c1.105,0,2-0.895,2-2V9C22,7.895,21.105,7,20,7z"></path>
-                            <path d="M13.5,7c-0.386,0-6.614,0-7,0C5.672,7,5,7.672,5,8.5S5.672,10,6.5,10c0.386,0,6.614,0,7,0c0.828,0,1.5-0.672,1.5-1.5 S14.328,7,13.5,7z"></path>
-                        </svg>
+                        <img src="https://img.icons8.com/?size=100&id=D9RFWfYE57lW&format=png&color=8E8E93" alt="Статья">
                     </div>
                     <div class="collection-info">
                         <div class="collection-name">Что такое кости?</div>
@@ -473,13 +673,7 @@
                 
                 <div class="collection-card" onclick="openArticle('help')">
                     <div class="collection-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="#8E8E93">
-                            <path d="M18,19V6c0-1.657-1.343-3-3-3H5C3.343,3,2,4.343,2,6v12c0,1.657,1.343,3,3,3h15 C18.895,21,18,20.105,18,19z" opacity=".35"></path>
-                            <path d="M14,14H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,13.552,14.552,14,14,14z"></path>
-                            <path d="M14,18H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,17.552,14.552,18,14,18z"></path>
-                            <path d="M20,7h-2v12c0,1.105,0.895,2,2,2h0c1.105,0,2-0.895,2-2V9C22,7.895,21.105,7,20,7z"></path>
-                            <path d="M13.5,7c-0.386,0-6.614,0-7,0C5.672,7,5,7.672,5,8.5S5.672,10,6.5,10c0.386,0,6.614,0,7,0c0.828,0,1.5-0.672,1.5-1.5 S14.328,7,13.5,7z"></path>
-                        </svg>
+                        <img src="https://img.icons8.com/?size=100&id=D9RFWfYE57lW&format=png&color=8E8E93" alt="Статья">
                     </div>
                     <div class="collection-info">
                         <div class="collection-name">Как получить помощь?</div>
@@ -492,7 +686,71 @@
         <!-- Friends Screen -->
         <div class="screen hidden" id="friendsScreen">
             <div class="development-screen">
+                <img src="https://media.tenor.com/e6PY0FvfOb8AAAAi/utya.gif" alt="В разработке" class="development-gif">
                 <div class="development-text">В разработке…</div>
+            </div>
+        </div>
+
+        <!-- Profile Screen -->
+        <div class="screen profile-screen hidden" id="profileScreen">
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar">
+                    <!-- Telegram avatar will be loaded here -->
+                </div>
+                <div class="profile-name" id="profileName">Имя пользователя</div>
+                <div class="profile-username" id="profileUsername">@username</div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Внешний вид -->
+            <div class="section-title">Внешний вид</div>
+            <div class="settings-section">
+                <!-- Smooth Animations -->
+                <div class="setting-item">
+                    <div class="setting-icon blue" style="background-color: rgba(0, 122, 255, 0.6);">
+                        <img src="https://img.icons8.com/?size=100&id=pYnrAZ9TKgwl&format=png&color=000000" alt="Анимации">
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-name">Плавные анимации</div>
+                    </div>
+                    <label class="ios-switch">
+                        <input type="checkbox" id="smoothAnimations" checked>
+                        <span class="ios-slider"></span>
+                    </label>
+                </div>
+
+                <!-- Theme Color -->
+                <div class="setting-item">
+                    <div class="setting-icon purple" style="background-color: rgba(175, 82, 222, 0.6);">
+                        <img src="https://img.icons8.com/?size=100&id=MA2u7eOkbJSh&format=png&color=000000" alt="Цвет темы">
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-name">Цвет как в теме</div>
+                    </div>
+                    <label class="ios-switch">
+                        <input type="checkbox" id="themeColor">
+                        <span class="ios-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Прочие штуки -->
+            <div class="section-title">Прочие штуки</div>
+            <div class="settings-section">
+                <!-- Vibration -->
+                <div class="setting-item">
+                    <div class="setting-icon pink" style="background-color: rgba(255, 45, 85, 0.6);">
+                        <img src="https://img.icons8.com/?size=100&id=ej7toC9rWoVj&format=png&color=000000" alt="Вибрация">
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-name">Вибрация</div>
+                    </div>
+                    <label class="ios-switch">
+                        <input type="checkbox" id="vibration" checked>
+                        <span class="ios-slider"></span>
+                    </label>
+                </div>
             </div>
         </div>
 
@@ -546,6 +804,17 @@
 
         // Apply settings
         function applySettings() {
+            // Update switches in profile
+            if (document.getElementById('smoothAnimations')) {
+                document.getElementById('smoothAnimations').checked = settings.smoothAnimations;
+            }
+            if (document.getElementById('vibration')) {
+                document.getElementById('vibration').checked = settings.vibration;
+            }
+            if (document.getElementById('themeColor')) {
+                document.getElementById('themeColor').checked = settings.themeColor;
+            }
+            
             // Apply theme color if enabled
             if (settings.themeColor && tg.themeParams.accent_text_color) {
                 document.documentElement.style.setProperty('--accent-color', tg.themeParams.accent_text_color);
@@ -568,6 +837,8 @@
             loadSettings();
             loadUserData();
             setupFooter();
+            setupProfile();
+            setupEventListeners();
         }
 
         // Footer setup
@@ -588,6 +859,56 @@
             }
         }
 
+        // Profile setup
+        function setupProfile() {
+            const user = tg.initDataUnsafe?.user;
+            const profileAvatar = document.getElementById('profileAvatar');
+            const profileName = document.getElementById('profileName');
+            const profileUsername = document.getElementById('profileUsername');
+            
+            if (user) {
+                if (user.photo_url) {
+                    profileAvatar.innerHTML = `<img src="${user.photo_url}" alt="Profile Avatar">`;
+                } else {
+                    profileAvatar.innerHTML = `
+                        <svg viewBox="0 0 24 24" width="48" height="48" fill="#8E8E93">
+                            <path d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z" opacity=".35"></path>
+                            <path d="M12,6c-1.657,0-3,1.343-3,3s1.343,3,3,3s3-1.343,3-3S13.657,6,12,6z"></path>
+                            <path d="M12,13c-3.6,0-6,2-6,4c0,1,1,2,6,2s6-1,6-2C18,15,15.6,13,12,13z"></path>
+                        </svg>
+                    `;
+                }
+                
+                profileName.textContent = user.first_name || 'Пользователь';
+                profileUsername.textContent = user.username ? `@${user.username}` : '@username';
+            }
+        }
+
+        // Setup event listeners for switches
+        function setupEventListeners() {
+            document.getElementById('smoothAnimations').addEventListener('change', function() {
+                settings.smoothAnimations = this.checked;
+                saveSettings();
+                if (settings.vibration) {
+                    tg.HapticFeedback.impactOccurred('light');
+                }
+            });
+
+            document.getElementById('vibration').addEventListener('change', function() {
+                settings.vibration = this.checked;
+                saveSettings();
+                // No vibration when turning off vibration
+            });
+
+            document.getElementById('themeColor').addEventListener('change', function() {
+                settings.themeColor = this.checked;
+                saveSettings();
+                if (settings.vibration) {
+                    tg.HapticFeedback.impactOccurred('light');
+                }
+            });
+        }
+
         // Tab switching
         function switchTab(tab) {
             if (settings.vibration) {
@@ -596,7 +917,7 @@
             
             // Update active tab
             document.querySelectorAll('.footer-tab').forEach(t => t.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+            document.querySelectorAll('.footer-tab')[tab === 'home' ? 0 : tab === 'friends' ? 1 : 2].classList.add('active');
             
             // Hide all screens
             document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
@@ -605,15 +926,21 @@
             document.getElementById(`${tab}Screen`).classList.remove('hidden');
             currentScreen = tab;
             
-            // Hide back button and view toggle on main tabs
-            tg.BackButton.hide();
-            document.getElementById('viewToggle').classList.add('hidden');
-            document.getElementById('footer').classList.remove('hidden');
-        }
-
-        // Open profile in new page
-        function openProfile() {
-            tg.openLink('profile.html');
+            // Update header
+            if (tab === 'profile') {
+                document.getElementById('backButton').classList.remove('hidden');
+                document.getElementById('viewToggle').classList.add('hidden');
+                tg.BackButton.hide();
+            } else {
+                document.getElementById('backButton').classList.add('hidden');
+                
+                // Hide back button and view toggle on main tabs
+                if (tab === 'home' || tab === 'friends') {
+                    tg.BackButton.hide();
+                    document.getElementById('viewToggle').classList.add('hidden');
+                    document.getElementById('footer').classList.remove('hidden');
+                }
+            }
         }
 
         // Navigation
@@ -639,7 +966,10 @@
                 tg.HapticFeedback.impactOccurred('light');
             }
             
-            if (currentScreen === 'common' || currentScreen === 'secret' || currentScreen === 'prize') {
+            if (currentScreen === 'profile') {
+                // Return from profile to home
+                switchTab('home');
+            } else if (currentScreen === 'common' || currentScreen === 'secret' || currentScreen === 'prize') {
                 // Return from collection to home
                 hideAllScreens();
                 document.getElementById('homeScreen').classList.remove('hidden');
@@ -863,11 +1193,7 @@
             } else {
                 // Show lock icon if no chibis
                 iconElement.innerHTML = `
-                    <svg viewBox="0 0 24 24" width="24" height="24" fill="#8E8E93">
-                        <path d="M18,21H6c-1.657,0-3-1.343-3-3v-8c0-1.657,1.343-3,3-3h12c1.657,0,3,1.343,3,3v8 C21,19.657,19.657,21,18,21z" opacity=".35"></path>
-                        <path d="M8,7c0-2.209,1.791-4,4-4s4,1.791,4,4h2c0-3.314-2.686-6-6-6S6,3.686,6,7H8z"></path>
-                        <path d="M12,12c-1.105,0-2,0.895-2,2s0.895,2,2,2s2-0.895,2-2S13.105,12,12,12z"></path>
-                    </svg>
+                    <img src="https://img.icons8.com/?size=100&id=undefined&format=png&color=000000" alt="Lock" style="filter: invert(0.6);">
                 `;
             }
         }
@@ -912,11 +1238,7 @@
                     const lockOverlay = document.createElement('div');
                     lockOverlay.className = 'locked-overlay';
                     lockOverlay.innerHTML = `
-                        <svg class="locked-icon" viewBox="0 0 24 24" fill="#8E8E93">
-                            <path d="M18,21H6c-1.657,0-3-1.343-3-3v-8c0-1.657,1.343-3,3-3h12c1.657,0,3,1.343,3,3v8 C21,19.657,19.657,21,18,21z" opacity=".35"></path>
-                            <path d="M8,7c0-2.209,1.791-4,4-4s4,1.791,4,4h2c0-3.314-2.686-6-6-6S6,3.686,6,7H8z"></path>
-                            <path d="M12,12c-1.105,0-2,0.895-2,2s0.895,2,2,2s2-0.895,2-2S13.105,12,12,12z"></path>
-                        </svg>
+                        <img src="https://img.icons8.com/?size=100&id=undefined&format=png&color=000000" alt="Lock" class="locked-icon" style="filter: invert(0.6);">
                         <div class="locked-text">Заблокировано</div>
                     `;
                     card.appendChild(lockOverlay);
