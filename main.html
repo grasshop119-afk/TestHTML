@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Профиль - Chibeki</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background: #1F2021;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            overflow: hidden;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1F2021;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 52px;
+            background: rgba(31, 32, 33, 0.85);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            z-index: 100;
+            border-bottom: 0.5px solid #2A2B2C;
+        }
+
+        .logo {
+            height: 32px;
+            width: auto;
+        }
+
+        .back-button {
+            width: 28px;
+            height: 28px;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+            filter: invert(1) brightness(2);
+            cursor: pointer;
+        }
+
+        .back-button:active {
+            opacity: 1;
+        }
+
+        /* Main Content */
+        .main-content {
+            position: absolute;
+            top: 52px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            overflow-y: auto;
+        }
+
+        /* Profile Screen */
+        .profile-screen {
+            padding: 24px 16px;
+            overflow-y: auto;
+            height: 100%;
+        }
+
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            background: #2A2B2C;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #FFFFFF;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+
+        .profile-username {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+        }
+
+        .divider {
+            height: 0.5px;
+            background: #2A2B2C;
+            margin: 24px 0;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #FFFFFF;
+            margin-bottom: 12px;
+            padding: 0 8px;
+        }
+
+        .settings-section {
+            background: #2A2B2C;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .setting-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            transition: background-color 0.2s ease;
+        }
+
+        .setting-item:active {
+            background: #353637;
+        }
+
+        .setting-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            opacity: 0.6;
+        }
+
+        .setting-icon.blue img {
+            filter: invert(0.4) sepia(1) saturate(20) hue-rotate(190deg) brightness(1.2);
+        }
+
+        .setting-icon.purple img {
+            filter: invert(0.4) sepia(1) saturate(20) hue-rotate(250deg) brightness(1.2);
+        }
+
+        .setting-icon.pink img {
+            filter: invert(0.4) sepia(1) saturate(20) hue-rotate(320deg) brightness(1.2);
+        }
+
+        .setting-icon img {
+            width: 20px;
+            height: 20px;
+            opacity: 1;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #FFFFFF;
+            margin-bottom: 2px;
+        }
+
+        .setting-description {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* iOS Switch */
+        .ios-switch {
+            position: relative;
+            width: 51px;
+            height: 31px;
+        }
+
+        .ios-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .ios-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #3A3B3C;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .ios-slider:before {
+            position: absolute;
+            content: "";
+            height: 27px;
+            width: 27px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .ios-slider {
+            background-color: #007AFF;
+        }
+
+        input:checked + .ios-slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Scrollbar Hidden */
+        .main-content::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="back-button" onclick="goBack()">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
+            </svg>
+        </div>
+        <img src="https://i.ibb.co/zTB331HR/image.png" alt="Chibeki" class="logo">
+        <div style="width: 28px;"></div> <!-- Spacer for balance -->
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Profile Screen -->
+        <div class="screen profile-screen" id="profileScreen">
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar">
+                    <!-- Telegram avatar will be loaded here -->
+                </div>
+                <div class="profile-name" id="profileName">Имя пользователя</div>
+                <div class="profile-username" id="profileUsername">@username</div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Внешний вид -->
+            <div class="section-title">Внешний вид</div>
+            <div class="settings-section">
+                <!-- Smooth Animations -->
+                <div class="setting-item">
+                    <div class="setting-icon blue" style="background-color: rgba(0, 122, 255, 0.6);">
+                        <img src="https://img.icons8.com/?size=100&id=pYnrAZ9TKgwl&format=png&color=000000" alt="Анимации">
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-name">Плавные анимации</div>
+                    </div>
+                    <label class="ios-switch">
+                        <input type="checkbox" id="smoothAnimations" checked>
+                        <span class="ios-slider"></span>
+                    </label>
+                </div>
+
+                <!-- Theme Color -->
+                <div class="setting-item">
+                    <div class="setting-icon purple" style="background-color: rgba(175, 82, 222, 0.6);">
+                        <img src="https://img.icons8.com/?size=100&id=MA2u7eOkbJSh&format=png&color=000000" alt="Цвет темы">
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-name">Цвет как в теме</div>
+                    </div>
+                    <label class="ios-switch">
+                        <input type="checkbox" id="themeColor">
+                        <span class="ios-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Прочие штуки -->
+            <div class="section-title">Прочие штуки</div>
+            <div class="settings-section">
+                <!-- Vibration -->
+                <div class="setting-item">
+                    <div class="setting-icon pink" style="background-color: rgba(255, 45, 85, 0.6);">
+                        <img src="https://img.icons8.com/?size=100&id=ej7toC9rWoVj&format=png&color=000000" alt="Вибрация">
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-name">Вибрация</div>
+                    </div>
+                    <label class="ios-switch">
+                        <input type="checkbox" id="vibration" checked>
+                        <span class="ios-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Telegram Web App Initialization
+        const tg = window.Telegram.WebApp;
+        
+        // Settings state
+        let settings = {
+            smoothAnimations: true,
+            vibration: true,
+            themeColor: false
+        };
+
+        // Load settings from localStorage
+        function loadSettings() {
+            const saved = localStorage.getItem('chibekiSettings');
+            if (saved) {
+                settings = { ...settings, ...JSON.parse(saved) };
+            }
+            updateSwitches();
+        }
+
+        // Save settings to localStorage
+        function saveSettings() {
+            localStorage.setItem('chibekiSettings', JSON.stringify(settings));
+        }
+
+        // Update switch states
+        function updateSwitches() {
+            document.getElementById('smoothAnimations').checked = settings.smoothAnimations;
+            document.getElementById('vibration').checked = settings.vibration;
+            document.getElementById('themeColor').checked = settings.themeColor;
+        }
+
+        // Initialize TMA
+        function initTelegramApp() {
+            tg.ready();
+            tg.expand();
+            tg.setHeaderColor('#1F2021');
+            tg.setBackgroundColor('#1F2021');
+            
+            // Load settings and setup profile
+            loadSettings();
+            setupProfile();
+            setupEventListeners();
+        }
+
+        // Profile setup
+        function setupProfile() {
+            const user = tg.initDataUnsafe?.user;
+            const profileAvatar = document.getElementById('profileAvatar');
+            const profileName = document.getElementById('profileName');
+            const profileUsername = document.getElementById('profileUsername');
+            
+            if (user) {
+                if (user.photo_url) {
+                    profileAvatar.innerHTML = `<img src="${user.photo_url}" alt="Profile Avatar">`;
+                } else {
+                    profileAvatar.innerHTML = `
+                        <svg viewBox="0 0 24 24" width="48" height="48" fill="#8E8E93">
+                            <path d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z" opacity=".35"></path>
+                            <path d="M12,6c-1.657,0-3,1.343-3,3s1.343,3,3,3s3-1.343,3-3S13.657,6,12,6z"></path>
+                            <path d="M12,13c-3.6,0-6,2-6,4c0,1,1,2,6,2s6-1,6-2C18,15,15.6,13,12,13z"></path>
+                        </svg>
+                    `;
+                }
+                
+                profileName.textContent = user.first_name || 'Пользователь';
+                profileUsername.textContent = user.username ? `@${user.username}` : '@username';
+            }
+        }
+
+        // Setup event listeners for switches
+        function setupEventListeners() {
+            document.getElementById('smoothAnimations').addEventListener('change', function() {
+                settings.smoothAnimations = this.checked;
+                saveSettings();
+                if (settings.vibration) {
+                    tg.HapticFeedback.impactOccurred('light');
+                }
+            });
+
+            document.getElementById('vibration').addEventListener('change', function() {
+                settings.vibration = this.checked;
+                saveSettings();
+                // No vibration when turning off vibration
+            });
+
+            document.getElementById('themeColor').addEventListener('change', function() {
+                settings.themeColor = this.checked;
+                saveSettings();
+                if (settings.vibration) {
+                    tg.HapticFeedback.impactOccurred('light');
+                }
+            });
+        }
+
+        // Navigation
+        function goBack() {
+            if (settings.vibration) {
+                tg.HapticFeedback.impactOccurred('light');
+            }
+            tg.close();
+        }
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', initTelegramApp);
+    </script>
+</body>
+</html>
