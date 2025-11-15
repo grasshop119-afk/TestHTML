@@ -82,19 +82,6 @@
             display: none;
         }
 
-        .back-button {
-            width: 28px;
-            height: 28px;
-            opacity: 0.8;
-            transition: opacity 0.2s ease;
-            filter: invert(1) brightness(2);
-            cursor: pointer;
-        }
-
-        .back-button:active {
-            opacity: 1;
-        }
-
         /* Footer */
         .footer {
             position: fixed;
@@ -120,7 +107,7 @@
             align-items: center;
             justify-content: center;
             padding: 8px 14px;
-            opacity: 0.7;
+            opacity: 1;
             transition: all 0.2s ease;
         }
 
@@ -140,7 +127,11 @@
         }
 
         .footer-tab.active svg {
-            fill: #007AFF;
+            fill: var(--accent-color, #007AFF);
+        }
+
+        .footer-tab img {
+            opacity: 1;
         }
 
         .footer-tab.active img {
@@ -148,7 +139,7 @@
         }
 
         .footer-tab.active .avatar-circle {
-            border-color: #007AFF;
+            border-color: var(--accent-color, #007AFF);
         }
 
         .avatar-circle {
@@ -239,9 +230,9 @@
         }
 
         .collection-icon img {
-            width: 24px;
-            height: 24px;
-            object-fit: contain;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .collection-info {
@@ -262,7 +253,7 @@
         }
 
         .collection-badge {
-            background: #007AFF;
+            background: var(--accent-color, #007AFF);
             color: #FFFFFF;
             padding: 6px 12px;
             border-radius: 12px;
@@ -571,22 +562,49 @@
         }
 
         input:checked + .ios-slider {
-            background-color: #007AFF;
+            background-color: var(--accent-color, #007AFF);
         }
 
         input:checked + .ios-slider:before {
             transform: translateX(20px);
+        }
+
+        /* Fullscreen image viewer */
+        .fullscreen-viewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .fullscreen-viewer.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .fullscreen-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        :root {
+            --accent-color: #007AFF;
         }
     </style>
 </head>
 <body>
     <!-- Header -->
     <div class="header">
-        <div class="back-button hidden" id="backButton" onclick="goBack()">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
-            </svg>
-        </div>
         <img src="https://i.ibb.co/zTB331HR/image.png" alt="Chibeki" class="logo">
         <div class="header-right">
             <img src="https://img.icons8.com/?size=100&id=mz2Zw0R3o9Hq&format=png&color=000000" 
@@ -663,7 +681,7 @@
                 
                 <div class="collection-card" onclick="openArticle('dice')">
                     <div class="collection-icon">
-                        <img src="https://img.icons8.com/?size=100&id=D9RFWfYE57lW&format=png&color=8E8E93" alt="Статья">
+                        <img src="https://img.icons8.com/?size=100&id=D9RFWfYE57lW&format=png&color=8E8E93" alt="Статья" style="width: 24px; height: 24px;">
                     </div>
                     <div class="collection-info">
                         <div class="collection-name">Что такое кости?</div>
@@ -673,7 +691,7 @@
                 
                 <div class="collection-card" onclick="openArticle('help')">
                     <div class="collection-icon">
-                        <img src="https://img.icons8.com/?size=100&id=D9RFWfYE57lW&format=png&color=8E8E93" alt="Статья">
+                        <img src="https://img.icons8.com/?size=100&id=D9RFWfYE57lW&format=png&color=8E8E93" alt="Статья" style="width: 24px; height: 24px;">
                     </div>
                     <div class="collection-info">
                         <div class="collection-name">Как получить помощь?</div>
@@ -766,6 +784,11 @@
         <div class="screen collection-screen hidden" id="prizeCollectionScreen">
             <div class="chibi-grid grid-3" id="prizeGrid"></div>
         </div>
+    </div>
+
+    <!-- Fullscreen Image Viewer -->
+    <div class="fullscreen-viewer" id="fullscreenViewer" onclick="closeFullscreen()">
+        <img src="" alt="" class="fullscreen-image" id="fullscreenImage">
     </div>
 
     <script>
@@ -928,12 +951,9 @@
             
             // Update header
             if (tab === 'profile') {
-                document.getElementById('backButton').classList.remove('hidden');
                 document.getElementById('viewToggle').classList.add('hidden');
                 tg.BackButton.hide();
             } else {
-                document.getElementById('backButton').classList.add('hidden');
-                
                 // Hide back button and view toggle on main tabs
                 if (tab === 'home' || tab === 'friends') {
                     tg.BackButton.hide();
@@ -997,6 +1017,20 @@
             
             // Re-render collection to update layout
             renderCollection(currentScreen);
+        }
+
+        // Fullscreen image viewer
+        function openFullscreen(imageSrc) {
+            const viewer = document.getElementById('fullscreenViewer');
+            const image = document.getElementById('fullscreenImage');
+            
+            image.src = imageSrc;
+            viewer.classList.add('active');
+        }
+
+        function closeFullscreen() {
+            const viewer = document.getElementById('fullscreenViewer');
+            viewer.classList.remove('active');
         }
 
         // Telegram Popup for bot launch
@@ -1139,6 +1173,9 @@
                 console.error('Error loading user collection:', error);
                 // Mock data for demo
                 userData.common.collected = userData.common.all.slice(0, 4);
+                // Для демонстрации скрытия вкладок - убираем секретные и призовые чибики
+                userData.secret.collected = [];
+                userData.prize.collected = [];
             }
         }
 
@@ -1193,7 +1230,7 @@
             } else {
                 // Show lock icon if no chibis
                 iconElement.innerHTML = `
-                    <img src="https://img.icons8.com/?size=100&id=undefined&format=png&color=000000" alt="Lock" style="filter: invert(0.6);">
+                    <img src="https://img.icons8.com/?size=100&id=wKLATegpDP1G&format=png&color=000000" alt="Lock" style="filter: invert(0.6); width: 24px; height: 24px;">
                 `;
             }
         }
@@ -1214,6 +1251,10 @@
                 const card = document.createElement('div');
                 card.className = 'chibi-card';
                 card.onclick = () => {
+                    if (isCollected) {
+                        const imageUrl = `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/${type}/${chibiName.replace(/ /g, '_')}.png`;
+                        openFullscreen(imageUrl);
+                    }
                     if (settings.vibration) {
                         tg.HapticFeedback.impactOccurred('light');
                     }
@@ -1238,7 +1279,7 @@
                     const lockOverlay = document.createElement('div');
                     lockOverlay.className = 'locked-overlay';
                     lockOverlay.innerHTML = `
-                        <img src="https://img.icons8.com/?size=100&id=undefined&format=png&color=000000" alt="Lock" class="locked-icon" style="filter: invert(0.6);">
+                        <img src="https://img.icons8.com/?size=100&id=wKLATegpDP1G&format=png&color=000000" alt="Lock" class="locked-icon" style="filter: invert(0.6);">
                         <div class="locked-text">Заблокировано</div>
                     `;
                     card.appendChild(lockOverlay);
