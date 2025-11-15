@@ -46,9 +46,11 @@
             left: 0;
             right: 0;
             height: 52px;
-            background: #1F2021;
+            background: rgba(31, 32, 33, 0.85);
+            backdrop-filter: blur(20px);
             display: flex;
             align-items: center;
+            justify-content: space-between;
             padding: 0 16px;
             z-index: 100;
             border-bottom: 0.5px solid #2A2B2C;
@@ -59,11 +61,17 @@
             width: auto;
         }
 
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
         .view-toggle {
-            width: 24px;
-            height: 24px;
-            opacity: 0.7;
+            width: 28px;
+            height: 28px;
+            opacity: 0.8;
             transition: opacity 0.2s ease;
+            filter: invert(1) brightness(2);
         }
 
         .view-toggle:active {
@@ -74,12 +82,93 @@
             display: none;
         }
 
-        /* Main Screen */
+        /* Footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(31, 32, 33, 0.85);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 20px;
+            z-index: 100;
+            border-top: 0.5px solid #2A2B2C;
+        }
+
+        .footer.hidden {
+            display: none;
+        }
+
+        .footer-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            opacity: 0.7;
+            transition: all 0.2s ease;
+        }
+
+        .footer-tab.active {
+            opacity: 1;
+        }
+
+        .footer-tab svg,
+        .footer-tab img {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 2px;
+            filter: invert(1) brightness(2);
+        }
+
+        .footer-tab.active svg {
+            filter: invert(0.4) sepia(1) saturate(20) hue-rotate(190deg) brightness(1.2);
+        }
+
+        .footer-tab.active .avatar-circle {
+            border-color: #007AFF;
+        }
+
+        .avatar-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            overflow: hidden;
+            transition: border-color 0.2s ease;
+        }
+
+        .avatar-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: none;
+        }
+
+        .tab-label {
+            font-size: 10px;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        /* Main Content */
+        .main-content {
+            position: absolute;
+            top: 52px;
+            bottom: 60px;
+            left: 0;
+            right: 0;
+            overflow-y: auto;
+        }
+
         .main-screen {
             padding: 16px;
-            padding-top: 68px;
             overflow-y: auto;
-            height: 100vh;
+            height: 100%;
         }
 
         .section {
@@ -155,16 +244,33 @@
         /* Collection Screen */
         .collection-screen {
             padding: 16px;
-            padding-top: 68px;
             overflow-y: auto;
-            height: 100vh;
+            height: 100%;
+        }
+
+        /* Development Screen */
+        .development-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .development-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #8E8E93;
+            margin-top: 16px;
         }
 
         /* Grid layouts */
         .chibi-grid {
             display: grid;
             gap: 12px;
-            transition: grid-template-columns 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .grid-3 {
@@ -181,84 +287,80 @@
 
         .chibi-card {
             background: #2A2B2C;
-            border-radius: 14px;
+            border-radius: 16px;
             display: flex;
             flex-direction: column;
             position: relative;
-            transition: background-color 0.1s ease;
+            transition: all 0.2s ease;
             overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .chibi-card:active {
+            transform: scale(0.98);
             background: #353637;
         }
 
         .chibi-image-container {
             position: relative;
             width: 100%;
-            margin: 5px;
-            border-radius: 10px;
             overflow: hidden;
+        }
+
+        .grid-3 .chibi-image-container {
+            aspect-ratio: 1/1;
+        }
+
+        .grid-2 .chibi-image-container {
+            aspect-ratio: 1/1.1;
+        }
+
+        .grid-1 .chibi-image-container {
+            aspect-ratio: 1/1.2;
         }
 
         .chibi-image {
             width: 100%;
+            height: 100%;
+            object-fit: cover;
             display: block;
         }
 
-        .chibi-image-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 40px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.6));
-            display: flex;
-            align-items: flex-end;
-            padding: 8px;
+        .chibi-info {
+            padding: 12px 8px 8px;
+            position: relative;
         }
 
         .chibi-name {
-            font-size: 12px;
-            font-weight: 500;
+            font-size: 13px;
+            font-weight: 600;
             color: #FFFFFF;
+            text-align: center;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-        }
-
-        /* Aspect ratios for different grid modes */
-        .grid-3 .chibi-card {
-            aspect-ratio: 1/1.2;
-        }
-
-        .grid-2 .chibi-card {
-            aspect-ratio: 1/1.4;
-        }
-
-        .grid-1 .chibi-card {
-            aspect-ratio: 1/1.6;
+            line-height: 1.2;
         }
 
         .locked-overlay {
             position: absolute;
-            top: 5px;
-            left: 5px;
-            right: 5px;
-            bottom: 5px;
-            background: rgba(42, 43, 44, 0.9);
-            border-radius: 10px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(31, 32, 33, 0.92);
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            backdrop-filter: blur(8px);
         }
 
-        .locked-overlay svg {
+        .locked-icon {
             width: 32px;
             height: 32px;
-            fill: #8E8E93;
             margin-bottom: 8px;
+            opacity: 0.7;
         }
 
         .locked-text {
@@ -268,8 +370,7 @@
         }
 
         /* Scrollbar Hidden */
-        .main-screen::-webkit-scrollbar,
-        .collection-screen::-webkit-scrollbar {
+        .main-content::-webkit-scrollbar {
             display: none;
         }
     </style>
@@ -278,98 +379,140 @@
     <!-- Header -->
     <div class="header">
         <img src="https://i.ibb.co/zTB331HR/image.png" alt="Chibeki" class="logo">
-        <img src="https://img.icons8.com/?size=100&id=72pUV8rLnReF&format=png&color=000000" 
-             class="view-toggle hidden" 
-             id="viewToggle"
-             onclick="toggleViewMode()">
+        <div class="header-right">
+            <img src="https://img.icons8.com/?size=100&id=72pUV8rLnReF&format=png&color=000000" 
+                 class="view-toggle hidden" 
+                 id="viewToggle"
+                 onclick="toggleViewMode()">
+        </div>
     </div>
 
-    <!-- Main Screen -->
-    <div class="screen main-screen" id="mainScreen">
-        <div class="section">
-            <div class="section-title">Коллекции</div>
-            
-            <div class="collection-card" onclick="openCollection('common')">
-                <div class="collection-icon" id="commonIcon">
-                    <!-- Random chibi image will be loaded here -->
-                </div>
-                <div class="collection-info">
-                    <div class="collection-name">Обычные чибики</div>
-                    <div class="collection-stats" id="commonStats">Твоя шедевральная коллекция</div>
-                </div>
-                <div class="collection-badge" id="commonBadge">0%</div>
+    <!-- Footer -->
+    <div class="footer" id="footer">
+        <div class="footer-tab active" onclick="switchTab('home')">
+            <svg viewBox="0 0 24 24">
+                <path d="M18,21H6c-1.657,0-3-1.343-3-3V8.765c0-1.09,0.591-2.093,1.543-2.622l6-3.333 c0.906-0.503,2.008-0.503,2.914,0l6,3.333C20.409,6.672,21,7.676,21,8.765V18C21,19.657,19.657,21,18,21z" opacity=".35"></path>
+                <path d="M15,21H9v-6c0-1.105,0.895-2,2-2h2c1.105,0,2,0.895,2,2V21z"></path>
+            </svg>
+            <div class="tab-label">Главная</div>
+        </div>
+        
+        <div class="footer-tab" onclick="switchTab('friends')">
+            <img src="https://img.icons8.com/?size=100&id=nQma6GhPPDLz&format=png&color=000000" alt="Друзья">
+            <div class="tab-label">Друзья</div>
+        </div>
+        
+        <div class="footer-tab" onclick="switchTab('profile')">
+            <div class="avatar-circle" id="avatarCircle">
+                <!-- Telegram avatar will be loaded here -->
             </div>
-            
-            <div class="collection-card hidden" onclick="openCollection('secret')" id="secretCard">
-                <div class="collection-icon" id="secretIcon">
-                    <!-- Random chibi image will be loaded here -->
+            <div class="tab-label">Профиль</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Home Screen -->
+        <div class="screen main-screen" id="homeScreen">
+            <div class="section">
+                <div class="section-title">Коллекции</div>
+                
+                <div class="collection-card" onclick="openCollection('common')">
+                    <div class="collection-icon" id="commonIcon">
+                        <!-- Random chibi image will be loaded here -->
+                    </div>
+                    <div class="collection-info">
+                        <div class="collection-name">Обычные чибики</div>
+                        <div class="collection-stats" id="commonStats">Твоя шедевральная коллекция</div>
+                    </div>
+                    <div class="collection-badge" id="commonBadge">0%</div>
                 </div>
-                <div class="collection-info">
-                    <div class="collection-name">Секретные чибики</div>
-                    <div class="collection-stats" id="secretStats">Абсолютно секретно</div>
+                
+                <div class="collection-card hidden" onclick="openCollection('secret')" id="secretCard">
+                    <div class="collection-icon" id="secretIcon">
+                        <!-- Random chibi image will be loaded here -->
+                    </div>
+                    <div class="collection-info">
+                        <div class="collection-name">Секретные чибики</div>
+                        <div class="collection-stats" id="secretStats">Абсолютно секретно</div>
+                    </div>
+                    <div class="collection-badge hidden" id="secretBadge">NEW</div>
                 </div>
-                <div class="collection-badge hidden" id="secretBadge">NEW</div>
+                
+                <div class="collection-card hidden" onclick="openCollection('prize')" id="prizeCard">
+                    <div class="collection-icon" id="prizeIcon">
+                        <!-- Random chibi image will be loaded here -->
+                    </div>
+                    <div class="collection-info">
+                        <div class="collection-name">Призовые чибики</div>
+                        <div class="collection-stats" id="prizeStats">Твои чибики с розыгрышей</div>
+                    </div>
+                </div>
             </div>
-            
-            <div class="collection-card hidden" onclick="openCollection('prize')" id="prizeCard">
-                <div class="collection-icon" id="prizeIcon">
-                    <!-- Random chibi image will be loaded here -->
+
+            <div class="section">
+                <div class="section-title">Статьи</div>
+                
+                <div class="collection-card" onclick="openArticle('dice')">
+                    <div class="collection-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="#8E8E93">
+                            <path d="M18,19V6c0-1.657-1.343-3-3-3H5C3.343,3,2,4.343,2,6v12c0,1.657,1.343,3,3,3h15 C18.895,21,18,20.105,18,19z" opacity=".35"></path>
+                            <path d="M14,14H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,13.552,14.552,14,14,14z"></path>
+                            <path d="M14,18H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,17.552,14.552,18,14,18z"></path>
+                            <path d="M20,7h-2v12c0,1.105,0.895,2,2,2h0c1.105,0,2-0.895,2-2V9C22,7.895,21.105,7,20,7z"></path>
+                            <path d="M13.5,7c-0.386,0-6.614,0-7,0C5.672,7,5,7.672,5,8.5S5.672,10,6.5,10c0.386,0,6.614,0,7,0c0.828,0,1.5-0.672,1.5-1.5 S14.328,7,13.5,7z"></path>
+                        </svg>
+                    </div>
+                    <div class="collection-info">
+                        <div class="collection-name">Что такое кости?</div>
+                        <div class="collection-stats">И с чем их едят</div>
+                    </div>
                 </div>
-                <div class="collection-info">
-                    <div class="collection-name">Призовые чибики</div>
-                    <div class="collection-stats" id="prizeStats">Твои чибики с розыгрышей</div>
+                
+                <div class="collection-card" onclick="openArticle('help')">
+                    <div class="collection-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="#8E8E93">
+                            <path d="M18,19V6c0-1.657-1.343-3-3-3H5C3.343,3,2,4.343,2,6v12c0,1.657,1.343,3,3,3h15 C18.895,21,18,20.105,18,19z" opacity=".35"></path>
+                            <path d="M14,14H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,13.552,14.552,14,14,14z"></path>
+                            <path d="M14,18H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,17.552,14.552,18,14,18z"></path>
+                            <path d="M20,7h-2v12c0,1.105,0.895,2,2,2h0c1.105,0,2-0.895,2-2V9C22,7.895,21.105,7,20,7z"></path>
+                            <path d="M13.5,7c-0.386,0-6.614,0-7,0C5.672,7,5,7.672,5,8.5S5.672,10,6.5,10c0.386,0,6.614,0,7,0c0.828,0,1.5-0.672,1.5-1.5 S14.328,7,13.5,7z"></path>
+                        </svg>
+                    </div>
+                    <div class="collection-info">
+                        <div class="collection-name">Как получить помощь?</div>
+                        <div class="collection-stats">Помощь от админов</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="section">
-            <div class="section-title">Статьи</div>
-            
-            <div class="collection-card" onclick="openArticle('dice')">
-                <div class="collection-icon">
-                    <svg viewBox="0 0 24 24" width="24" height="24" fill="#8E8E93">
-                        <path d="M18,19V6c0-1.657-1.343-3-3-3H5C3.343,3,2,4.343,2,6v12c0,1.657,1.343,3,3,3h15 C18.895,21,18,20.105,18,19z" opacity=".35"></path>
-                        <path d="M14,14H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,13.552,14.552,14,14,14z"></path>
-                        <path d="M14,18H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,17.552,14.552,18,14,18z"></path>
-                        <path d="M20,7h-2v12c0,1.105,0.895,2,2,2h0c1.105,0,2-0.895,2-2V9C22,7.895,21.105,7,20,7z"></path>
-                        <path d="M13.5,7c-0.386,0-6.614,0-7,0C5.672,7,5,7.672,5,8.5S5.672,10,6.5,10c0.386,0,6.614,0,7,0c0.828,0,1.5-0.672,1.5-1.5 S14.328,7,13.5,7z"></path>
-                    </svg>
-                </div>
-                <div class="collection-info">
-                    <div class="collection-name">Что такое кости?</div>
-                    <div class="collection-stats">И с чем их едят</div>
-                </div>
-            </div>
-            
-            <div class="collection-card" onclick="openArticle('help')">
-                <div class="collection-icon">
-                    <svg viewBox="0 0 24 24" width="24" height="24" fill="#8E8E93">
-                        <path d="M18,19V6c0-1.657-1.343-3-3-3H5C3.343,3,2,4.343,2,6v12c0,1.657,1.343,3,3,3h15 C18.895,21,18,20.105,18,19z" opacity=".35"></path>
-                        <path d="M14,14H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,13.552,14.552,14,14,14z"></path>
-                        <path d="M14,18H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,17.552,14.552,18,14,18z"></path>
-                        <path d="M20,7h-2v12c0,1.105,0.895,2,2,2h0c1.105,0,2-0.895,2-2V9C22,7.895,21.105,7,20,7z"></path>
-                        <path d="M13.5,7c-0.386,0-6.614,0-7,0C5.672,7,5,7.672,5,8.5S5.672,10,6.5,10c0.386,0,6.614,0,7,0c0.828,0,1.5-0.672,1.5-1.5 S14.328,7,13.5,7z"></path>
-                    </svg>
-                </div>
-                <div class="collection-info">
-                    <div class="collection-name">Как получить помощь?</div>
-                    <div class="collection-stats">Помощь от админов</div>
-                </div>
+        <!-- Friends Screen -->
+        <div class="screen hidden" id="friendsScreen">
+            <div class="development-screen">
+                <div class="development-text">В разработке…</div>
             </div>
         </div>
-    </div>
 
-    <!-- Collection Screens -->
-    <div class="screen collection-screen hidden" id="commonCollectionScreen">
-        <div class="chibi-grid grid-3" id="commonGrid"></div>
-    </div>
+        <!-- Profile Screen -->
+        <div class="screen hidden" id="profileScreen">
+            <div class="development-screen">
+                <div class="development-text">В разработке…</div>
+            </div>
+        </div>
 
-    <div class="screen collection-screen hidden" id="secretCollectionScreen">
-        <div class="chibi-grid grid-3" id="secretGrid"></div>
-    </div>
+        <!-- Collection Screens -->
+        <div class="screen collection-screen hidden" id="commonCollectionScreen">
+            <div class="chibi-grid grid-3" id="commonGrid"></div>
+        </div>
 
-    <div class="screen collection-screen hidden" id="prizeCollectionScreen">
-        <div class="chibi-grid grid-3" id="prizeGrid"></div>
+        <div class="screen collection-screen hidden" id="secretCollectionScreen">
+            <div class="chibi-grid grid-3" id="secretGrid"></div>
+        </div>
+
+        <div class="screen collection-screen hidden" id="prizeCollectionScreen">
+            <div class="chibi-grid grid-3" id="prizeGrid"></div>
+        </div>
     </div>
 
     <script>
@@ -383,7 +526,7 @@
             prize: { collected: [], all: [] }
         };
         
-        let currentScreen = 'main';
+        let currentScreen = 'home';
         let currentViewMode = 3; // 3, 2, or 1 columns
 
         // Initialize TMA
@@ -396,13 +539,57 @@
             // Setup back button handler
             tg.BackButton.onClick(goBack);
             
-            // Load user data
+            // Load user data and setup footer
             loadUserData();
+            setupFooter();
+        }
+
+        // Footer setup
+        function setupFooter() {
+            const user = tg.initDataUnsafe?.user;
+            const avatarCircle = document.getElementById('avatarCircle');
+            
+            if (user && user.photo_url) {
+                avatarCircle.innerHTML = `<img src="${user.photo_url}" alt="Avatar">`;
+            } else {
+                // Default avatar if no photo
+                avatarCircle.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="#8E8E93">
+                        <path d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z" opacity=".35"></path>
+                        <path d="M12,6c-1.657,0-3,1.343-3,3s1.343,3,3,3s3-1.343,3-3S13.657,6,12,6z"></path>
+                        <path d="M12,13c-3.6,0-6,2-6,4c0,1,1,2,6,2s6-1,6-2C18,15,15.6,13,12,13z"></path>
+                    </svg>
+                `;
+            }
+        }
+
+        // Tab switching
+        function switchTab(tab) {
+            tg.HapticFeedback.impactOccurred('light');
+            
+            // Update active tab
+            document.querySelectorAll('.footer-tab').forEach(t => t.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+            
+            // Show selected screen
+            document.getElementById(`${tab}Screen`).classList.remove('hidden');
+            currentScreen = tab;
+            
+            // Hide back button and view toggle on main tabs
+            tg.BackButton.hide();
+            document.getElementById('viewToggle').classList.add('hidden');
+            document.getElementById('footer').classList.remove('hidden');
         }
 
         // Navigation
         function openCollection(type) {
             tg.HapticFeedback.impactOccurred('light');
+            
+            // Hide footer in collection screens
+            document.getElementById('footer').classList.add('hidden');
             
             hideAllScreens();
             document.getElementById(`${type}CollectionScreen`).classList.remove('hidden');
@@ -415,18 +602,20 @@
 
         function goBack() {
             tg.HapticFeedback.impactOccurred('light');
-            hideAllScreens();
-            document.getElementById('mainScreen').classList.remove('hidden');
-            currentScreen = 'main';
-            tg.BackButton.hide();
-            document.getElementById('viewToggle').classList.add('hidden');
+            
+            if (currentScreen === 'common' || currentScreen === 'secret' || currentScreen === 'prize') {
+                // Return from collection to home
+                hideAllScreens();
+                document.getElementById('homeScreen').classList.remove('hidden');
+                currentScreen = 'home';
+                tg.BackButton.hide();
+                document.getElementById('viewToggle').classList.add('hidden');
+                document.getElementById('footer').classList.remove('hidden');
+            }
         }
 
         function hideAllScreens() {
-            document.getElementById('mainScreen').classList.add('hidden');
-            document.getElementById('commonCollectionScreen').classList.add('hidden');
-            document.getElementById('secretCollectionScreen').classList.add('hidden');
-            document.getElementById('prizeCollectionScreen').classList.add('hidden');
+            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
         }
 
         // View mode toggle
@@ -580,8 +769,9 @@
                 console.error('Error loading user collection:', error);
                 // Mock data for demo
                 userData.common.collected = userData.common.all.slice(0, 4);
-                userData.secret.collected = userData.secret.all.slice(0, 1);
-                userData.prize.collected = userData.prize.all.slice(0, 1);
+                // Don't add secret/prize chibis in demo to test visibility
+                // userData.secret.collected = userData.secret.all.slice(0, 1);
+                // userData.prize.collected = userData.prize.all.slice(0, 1);
             }
         }
 
@@ -668,12 +858,12 @@
                     <div class="chibi-image-container">
                         <img src="${imageUrl}" alt="${chibiName}" class="chibi-image"
                              onerror="this.style.display='none'">
-                        ${isCollected ? `
-                            <div class="chibi-image-overlay">
-                                <div class="chibi-name">${chibiName}</div>
-                            </div>
-                        ` : ''}
                     </div>
+                    ${isCollected ? `
+                        <div class="chibi-info">
+                            <div class="chibi-name">${chibiName}</div>
+                        </div>
+                    ` : ''}
                 `;
                 
                 // Add lock overlay for uncollected chibis (only in common collection)
@@ -681,7 +871,7 @@
                     const lockOverlay = document.createElement('div');
                     lockOverlay.className = 'locked-overlay';
                     lockOverlay.innerHTML = `
-                        <svg viewBox="0 0 24 24" width="32" height="32" fill="#8E8E93">
+                        <svg class="locked-icon" viewBox="0 0 24 24" fill="#8E8E93">
                             <path d="M18,21H6c-1.657,0-3-1.343-3-3v-8c0-1.657,1.343-3,3-3h12c1.657,0,3,1.343,3,3v8 C21,19.657,19.657,21,18,21z" opacity=".35"></path>
                             <path d="M8,7c0-2.209,1.791-4,4-4s4,1.791,4,4h2c0-3.314-2.686-6-6-6S6,3.686,6,7H8z"></path>
                             <path d="M12,12c-1.105,0-2,0.895-2,2s0.895,2,2,2s2-0.895,2-2S13.105,12,12,12z"></path>
