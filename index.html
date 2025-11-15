@@ -167,7 +167,7 @@
 
         /* Profile Screen */
         .profile-screen {
-            padding: 20px 16px;
+            padding: 24px 16px;
             overflow-y: auto;
             height: 100%;
         }
@@ -176,20 +176,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 32px;
         }
 
         .profile-avatar {
             width: 100px;
             height: 100px;
             border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 16px;
             background: #2A2B2C;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }
 
         .profile-avatar img {
@@ -198,173 +197,120 @@
             object-fit: cover;
         }
 
-        .profile-username {
+        .profile-name {
             font-size: 20px;
             font-weight: 600;
-            margin-bottom: 20px;
             color: #FFFFFF;
+            margin-bottom: 4px;
             text-align: center;
         }
 
-        .profile-actions {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 24px;
-            width: 100%;
-            max-width: 280px;
-        }
-
-        .support-button {
-            background: #007AFF;
-            color: #FFFFFF;
-            border: none;
-            border-radius: 12px;
-            padding: 14px 20px;
-            font-size: 16px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            transition: all 0.2s ease;
-        }
-
-        .support-button:active {
-            background: #0056CC;
-            transform: scale(0.98);
-        }
-
-        .support-icon {
-            width: 20px;
-            height: 20px;
-        }
-
-        .invite-button {
-            background: transparent;
-            color: #007AFF;
-            border: 1.5px solid #007AFF;
-            border-radius: 12px;
-            padding: 12px 20px;
-            font-size: 16px;
-            font-weight: 600;
-            width: 100%;
-            transition: all 0.2s ease;
-        }
-
-        .invite-button:active {
-            background: rgba(0, 122, 255, 0.1);
-            transform: scale(0.98);
+        .profile-username {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
         }
 
         .divider {
-            height: 1px;
+            height: 0.5px;
             background: #2A2B2C;
             margin: 24px 0;
-            width: 100%;
         }
 
-        .chibi-history {
-            margin-bottom: 20px;
-        }
-
-        .history-title {
-            font-size: 17px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: #FFFFFF;
-            padding: 0 8px;
-        }
-
-        .history-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-
-        .history-card {
+        .settings-section {
             background: #2A2B2C;
-            border-radius: 12px;
-            aspect-ratio: 1;
-            display: flex;
-            flex-direction: column;
-            position: relative;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .history-card.lost {
-            opacity: 0.4;
-        }
-
-        .history-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .history-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
-            padding: 8px;
+        .setting-item {
             display: flex;
-            align-items: flex-end;
-        }
-
-        .history-name {
-            font-size: 11px;
-            font-weight: 600;
-            color: #FFFFFF;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            line-height: 1.2;
-        }
-
-        /* Donation Popup Styles */
-        .donation-options {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin: 16px 0;
-        }
-
-        .donation-option {
-            background: #2A2B2C;
-            border: 1px solid #353637;
-            border-radius: 12px;
-            padding: 16px;
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            transition: all 0.2s ease;
+            padding: 16px;
+            transition: background-color 0.2s ease;
         }
 
-        .donation-option:active {
+        .setting-item:active {
             background: #353637;
         }
 
-        .donation-amount {
-            font-size: 16px;
-            font-weight: 600;
-            color: #FFFFFF;
-        }
-
-        .donation-stars {
-            font-size: 14px;
-            color: #FFD700;
+        .setting-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
-            gap: 4px;
+            justify-content: center;
+            margin-right: 12px;
+            opacity: 0.6;
         }
 
-        .star-icon {
+        .setting-icon img {
+            width: 20px;
+            height: 20px;
+            filter: invert(1) brightness(2);
+            opacity: 1;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-name {
             font-size: 16px;
+            font-weight: 500;
+            color: #FFFFFF;
+            margin-bottom: 2px;
+        }
+
+        .setting-description {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* iOS Switch */
+        .ios-switch {
+            position: relative;
+            width: 51px;
+            height: 31px;
+        }
+
+        .ios-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .ios-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #3A3B3C;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .ios-slider:before {
+            position: absolute;
+            content: "";
+            height: 27px;
+            width: 27px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .ios-slider {
+            background-color: #007AFF;
+        }
+
+        input:checked + .ios-slider:before {
+            transform: translateX(20px);
         }
 
         /* Scrollbar Hidden */
@@ -410,38 +356,8 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Profile Screen -->
-        <div class="screen profile-screen" id="profileScreen">
-            <div class="profile-header">
-                <div class="profile-avatar" id="profileAvatar">
-                    <!-- Large avatar will be loaded here -->
-                </div>
-                <div class="profile-username" id="profileUsername">@username</div>
-                
-                <div class="profile-actions">
-                    <button class="support-button" onclick="openDonationPopup()">
-                        <img src="https://i.ibb.co/WWrbRjX2/IMG-8701.png" alt="Поддержать" class="support-icon">
-                        Поддержать ЧИБИКОВ
-                    </button>
-                    <button class="invite-button" onclick="inviteFriend()">
-                        Пригласить друга
-                    </button>
-                </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="chibi-history">
-                <div class="history-title">История чибиков</div>
-                <div class="history-grid" id="historyGrid">
-                    <!-- Chibi history will be loaded here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Other screens remain the same -->
         <!-- Home Screen -->
-        <div class="screen main-screen hidden" id="homeScreen">
+        <div class="screen main-screen" id="homeScreen">
             <!-- ... existing home screen content ... -->
         </div>
 
@@ -449,6 +365,63 @@
         <div class="screen hidden" id="friendsScreen">
             <div class="development-screen">
                 <div class="development-text">В разработке…</div>
+            </div>
+        </div>
+
+        <!-- Profile Screen -->
+        <div class="screen profile-screen" id="profileScreen">
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar">
+                    <!-- Telegram avatar will be loaded here -->
+                </div>
+                <div class="profile-name" id="profileName">Имя пользователя</div>
+                <div class="profile-username" id="profileUsername">@username</div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="settings-section">
+                <!-- Smooth Animations -->
+                <div class="setting-item">
+                    <div class="setting-icon" style="background-color: rgba(0, 122, 255, 0.6);">
+                        <img src="https://img.icons8.com/?size=100&id=05hRU0LLAYih&format=png&color=000000" alt="Анимации">
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-name">Плавные анимации</div>
+                    </div>
+                    <label class="ios-switch">
+                        <input type="checkbox" checked>
+                        <span class="ios-slider"></span>
+                    </label>
+                </div>
+
+                <!-- Vibration -->
+                <div class="setting-item">
+                    <div class="setting-icon" style="background-color: rgba(255, 45, 85, 0.6);">
+                        <img src="https://img.icons8.com/?size=100&id=qGypQvALtJ43&format=png&color=000000" alt="Вибрация">
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-name">Вибрация</div>
+                    </div>
+                    <label class="ios-switch">
+                        <input type="checkbox" checked>
+                        <span class="ios-slider"></span>
+                    </label>
+                </div>
+
+                <!-- Theme Color -->
+                <div class="setting-item">
+                    <div class="setting-icon" style="background-color: rgba(175, 82, 222, 0.6);">
+                        <img src="https://img.icons8.com/?size=100&id=YPatEJHauZKa&format=png&color=000000" alt="Цвет темы">
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-name">Цвет как в теме</div>
+                    </div>
+                    <label class="ios-switch">
+                        <input type="checkbox" checked>
+                        <span class="ios-slider"></span>
+                    </label>
+                </div>
             </div>
         </div>
 
@@ -474,8 +447,7 @@
         let userData = {
             common: { collected: [], all: [] },
             secret: { collected: [], all: [] },
-            prize: { collected: [], all: [] },
-            history: []
+            prize: { collected: [], all: [] }
         };
         
         let currentScreen = 'profile';
@@ -494,18 +466,17 @@
             // Load user data and setup profile
             loadUserData();
             setupProfile();
+            setupFooter();
         }
 
         // Profile setup
         function setupProfile() {
             const user = tg.initDataUnsafe?.user;
             const profileAvatar = document.getElementById('profileAvatar');
+            const profileName = document.getElementById('profileName');
             const profileUsername = document.getElementById('profileUsername');
-            const avatarCircle = document.getElementById('avatarCircle');
             
             if (user) {
-                profileUsername.textContent = `@${user.username || 'user'}`;
-                
                 if (user.photo_url) {
                     profileAvatar.innerHTML = `<img src="${user.photo_url}" alt="Profile Avatar">`;
                 } else {
@@ -518,201 +489,55 @@
                     `;
                 }
                 
-                if (user.photo_url) {
-                    avatarCircle.innerHTML = `<img src="${user.photo_url}" alt="Avatar">`;
-                } else {
-                    avatarCircle.innerHTML = `
-                        <svg viewBox="0 0 24 24" fill="#8E8E93">
-                            <path d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z" opacity=".35"></path>
-                            <path d="M12,6c-1.657,0-3,1.343-3,3s1.343,3,3,3s3-1.343,3-3S13.657,6,12,6z"></path>
-                            <path d="M12,13c-3.6,0-6,2-6,4c0,1,1,2,6,2s6-1,6-2C18,15,15.6,13,12,13z"></path>
-                        </svg>
-                    `;
-                }
+                profileName.textContent = user.first_name || 'Пользователь';
+                profileUsername.textContent = user.username ? `@${user.username}` : '@username';
             }
         }
 
-        // Donation functionality
-        function openDonationPopup() {
-            tg.HapticFeedback.impactOccurred('medium');
+        // Footer setup
+        function setupFooter() {
+            const user = tg.initDataUnsafe?.user;
+            const avatarCircle = document.getElementById('avatarCircle');
             
-            const donationHtml = `
-                <div class="donation-options">
-                    <div class="donation-option" onclick="sendDonation(10)">
-                        <div class="donation-amount">10 Stars</div>
-                        <div class="donation-stars">
-                            <span class="star-icon">⭐</span>
-                            <span>10</span>
-                        </div>
-                    </div>
-                    <div class="donation-option" onclick="sendDonation(50)">
-                        <div class="donation-amount">50 Stars</div>
-                        <div class="donation-stars">
-                            <span class="star-icon">⭐</span>
-                            <span>50</span>
-                        </div>
-                    </div>
-                    <div class="donation-option" onclick="sendDonation(100)">
-                        <div class="donation-amount">100 Stars</div>
-                        <div class="donation-stars">
-                            <span class="star-icon">⭐</span>
-                            <span>100</span>
-                        </div>
-                    </div>
-                    <div class="donation-option" onclick="sendDonation(200)">
-                        <div class="donation-amount">200 Stars</div>
-                        <div class="donation-stars">
-                            <span class="star-icon">⭐</span>
-                            <span>200</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            tg.showPopup({
-                title: 'Поддержать разработчика',
-                message: 'Выберите сумму доната через Telegram Stars. Каждая звезда мотивирует на новые обновления! 🚀',
-                buttons: [
-                    {
-                        type: 'default',
-                        text: 'Отмена',
-                        id: 'cancel'
-                    }
-                ]
-            }, function(buttonId) {
-                // Handle cancel button
-            });
-            
-            // We need to manually inject the donation options
-            setTimeout(() => {
-                const popup = document.querySelector('.popup');
-                if (popup) {
-                    const messageElement = popup.querySelector('.popup_message');
-                    if (messageElement) {
-                        messageElement.insertAdjacentHTML('afterend', donationHtml);
-                    }
-                }
-            }, 100);
-        }
-
-        function sendDonation(amount) {
-            tg.HapticFeedback.impactOccurred('heavy');
-            
-            // Close the popup first
-            tg.closePopup();
-            
-            // Send donation via Telegram Stars
-            if (tg.openInvoice) {
-                tg.openInvoice(`donation_${amount}_${Date.now()}`, function(status) {
-                    if (status === 'paid') {
-                        tg.showPopup({
-                            title: 'Спасибо! 💫',
-                            message: `Огромное спасибо за ${amount} Stars! Ваша поддержка очень важна для развития проекта!`,
-                            buttons: [{ type: 'default', text: 'Супер!' }]
-                        });
-                    } else if (status === 'failed') {
-                        tg.showPopup({
-                            title: 'Ошибка',
-                            message: 'Не удалось завершить донат. Попробуйте еще раз.',
-                            buttons: [{ type: 'default', text: 'Понятно' }]
-                        });
-                    } else if (status === 'cancelled') {
-                        // User cancelled, do nothing
-                    }
-                });
+            if (user && user.photo_url) {
+                avatarCircle.innerHTML = `<img src="${user.photo_url}" alt="Avatar">`;
             } else {
-                // Fallback for older clients
-                tg.showPopup({
-                    title: 'Донат через Stars',
-                    message: `Отправьте ${amount} Stars пользователю @temkazavr с комментарием "Для ЧИБИКОВ"`,
-                    buttons: [{ type: 'default', text: 'Понятно' }]
-                });
+                avatarCircle.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="#8E8E93">
+                        <path d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z" opacity=".35"></path>
+                        <path d="M12,6c-1.657,0-3,1.343-3,3s1.343,3,3,3s3-1.343,3-3S13.657,6,12,6z"></path>
+                        <path d="M12,13c-3.6,0-6,2-6,4c0,1,1,2,6,2s6-1,6-2C18,15,15.6,13,12,13z"></path>
+                    </svg>
+                `;
             }
         }
 
-        // Invite friend functionality
-        function inviteFriend() {
-            tg.HapticFeedback.impactOccurred('medium');
-            
-            const inviteText = `🔥 Хей, а ты уже слышал про ЧИБИКОВ?
-
-Да-да, это новый игровой бот прямо в телеграме, где ты сможешь коллекционировать чибиков по вселенной Джорджа Лукаса — «Звездным Войнам»! Первый сезон только стартовал и у тебя еще есть шанс зайти одним из первых! 
-
-А еще здесь есть задания, обмены, подарки, постоянно проходят розыгрыши, и что самое важное, бот абсолютно АВТОРСКИЙ — весь дизайн и визуал здесь сделан вручную!
-
-Присоединяйся ко мне скорее! 👇👇👇`;
-            
-            tg.showPopup({
-                title: 'Пригласить друга',
-                message: 'Выберите друга из списка контактов, чтобы отправить приглашение',
-                buttons: [
-                    {
-                        type: 'default',
-                        text: 'Выбрать друга',
-                        id: 'select_friend'
-                    },
-                    {
-                        type: 'cancel',
-                        text: 'Отмена',
-                        id: 'cancel'
-                    }
-                ]
-            }, async function(buttonId) {
-                if (buttonId === 'select_friend') {
-                    try {
-                        // Open contact picker
-                        const result = await tg.requestContact();
-                        
-                        if (result && result.contact) {
-                            // Here you would send the message via your bot
-                            // For now, we'll simulate success
-                            setTimeout(() => {
-                                tg.showPopup({
-                                    title: 'Спасибо!',
-                                    message: 'Спасибо что помогаешь развивать чибиков и мотивируешь разработчиков на обновления!',
-                                    buttons: [{ type: 'default', text: 'Круто!' }]
-                                });
-                            }, 500);
-                        }
-                    } catch (error) {
-                        // Fallback: copy invite text to clipboard
-                        tg.sendData(JSON.stringify({
-                            action: 'share_invite',
-                            text: inviteText
-                        }));
-                        
-                        tg.showPopup({
-                            title: 'Текст скопирован!',
-                            message: 'Текст приглашения скопирован в буфер обмена. Отправь его другу вручную!',
-                            buttons: [{ type: 'default', text: 'ОК' }]
-                        });
-                    }
-                }
-            });
-        }
-
-        // Tab switching and other functions remain the same
+        // Tab switching
         function switchTab(tab) {
             tg.HapticFeedback.impactOccurred('light');
             
+            // Update active tab
             document.querySelectorAll('.footer-tab').forEach(t => t.classList.remove('active'));
             event.currentTarget.classList.add('active');
             
+            // Hide all screens
             document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+            
+            // Show selected screen
             document.getElementById(`${tab}Screen`).classList.remove('hidden');
             currentScreen = tab;
             
+            // Hide back button and view toggle on main tabs
             tg.BackButton.hide();
             document.getElementById('viewToggle').classList.add('hidden');
             document.getElementById('footer').classList.remove('hidden');
-            
-            if (tab === 'profile') {
-                renderChibiHistory();
-            }
         }
 
+        // Navigation
         function openCollection(type) {
             tg.HapticFeedback.impactOccurred('light');
+            
+            // Hide footer in collection screens
             document.getElementById('footer').classList.add('hidden');
             
             hideAllScreens();
@@ -728,6 +553,7 @@
             tg.HapticFeedback.impactOccurred('light');
             
             if (currentScreen === 'common' || currentScreen === 'secret' || currentScreen === 'prize') {
+                // Return from collection to home
                 hideAllScreens();
                 document.getElementById('homeScreen').classList.remove('hidden');
                 currentScreen = 'home';
@@ -741,86 +567,79 @@
             document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
         }
 
+        // View mode toggle
         function toggleViewMode() {
             tg.HapticFeedback.impactOccurred('light');
+            
             currentViewMode = currentViewMode === 3 ? 2 : currentViewMode === 2 ? 1 : 3;
+            
             const grid = document.getElementById(`${currentScreen}Grid`);
             grid.className = `chibi-grid grid-${currentViewMode}`;
+            
+            // Re-render collection to update layout
             renderCollection(currentScreen);
         }
 
-        function renderChibiHistory() {
-            const grid = document.getElementById('historyGrid');
-            grid.innerHTML = '';
-            
-            if (userData.history.length === 0) {
-                grid.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #8E8E93;">
-                        <div>История чибиков пуста</div>
-                        <div style="font-size: 14px; margin-top: 8px;">Начни собирать коллекцию!</div>
-                    </div>
-                `;
-                return;
-            }
-            
-            userData.history.forEach((historyItem) => {
-                const isLost = historyItem.lost || false;
-                const card = document.createElement('div');
-                card.className = `history-card ${isLost ? 'lost' : ''}`;
-                
-                const imageUrl = `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/${historyItem.type}/${historyItem.name.replace(/ /g, '_')}.png`;
-                
-                card.innerHTML = `
-                    <img src="${imageUrl}" alt="${historyItem.name}" class="history-image"
-                         onerror="this.style.display='none'">
-                    <div class="history-info">
-                        <div class="history-name">${historyItem.name}</div>
-                    </div>
-                    ${isLost ? `
-                        <div style="position: absolute; top: 4px; right: 4px; background: rgba(255,0,0,0.7); color: white; border-radius: 8px; padding: 2px 6px; font-size: 9px; font-weight: 600;">
-                            ✗
-                        </div>
-                    ` : ''}
-                `;
-                
-                grid.appendChild(card);
+        // Telegram Popup for bot launch
+        function showBotAlert() {
+            tg.showPopup({
+                title: 'Запусти бота! 🚀',
+                message: 'Чтобы собрать свою коллекцию чибиков, нужно сначала запустить @chibeki_bot',
+                buttons: [
+                    {
+                        type: 'default',
+                        text: 'Запустить бота',
+                        id: 'launch_bot'
+                    },
+                    {
+                        type: 'cancel',
+                        text: 'Позже',
+                        id: 'later'
+                    }
+                ]
+            }, function(buttonId) {
+                if (buttonId === 'launch_bot') {
+                    tg.openTelegramLink('https://t.me/chibeki_bot');
+                }
             });
         }
 
-        // Data loading functions remain the same
+        // Data loading
         async function loadUserData() {
             try {
                 const user = tg.initDataUnsafe?.user;
+                
                 await loadChibiLists();
                 
                 if (user) {
                     await loadUserCollection(user.id);
+                    
+                    // Always show bot alert for @ya_admin7
+                    if (user.username === 'ya_admin7') {
+                        setTimeout(showBotAlert, 1000);
+                    }
                 }
                 
-                generateSampleHistory();
+                updateMainScreen();
+                
+                // Show bot alert if user has no chibis at all
+                const totalChibis = userData.common.collected.length + userData.secret.collected.length + userData.prize.collected.length;
+                if (totalChibis === 0 && user && user.username !== 'ya_admin7') {
+                    setTimeout(showBotAlert, 1000);
+                }
                 
             } catch (error) {
                 console.error('Error loading data:', error);
-                generateSampleHistory();
+                const user = tg.initDataUnsafe?.user;
+                if (user && user.username === 'ya_admin7') {
+                    setTimeout(showBotAlert, 1000);
+                }
             }
-        }
-
-        function generateSampleHistory() {
-            userData.history = [
-                { name: 'Chibi 1', type: 'common', lost: false },
-                { name: 'Chibi 2', type: 'common', lost: false },
-                { name: 'Chibi 3', type: 'common', lost: true },
-                { name: 'Chibi 4', type: 'common', lost: false },
-                { name: 'Secret 1', type: 'secret', lost: false },
-                { name: 'Chibi 5', type: 'common', lost: false },
-                { name: 'Chibi 1', type: 'common', lost: false },
-                { name: 'Prize 1', type: 'prize', lost: false },
-                { name: 'Chibi 6', type: 'common', lost: true },
-            ];
         }
 
         async function loadChibiLists() {
             try {
+                // Mock data - replace with actual data from your bot
                 userData.common.all = ['Chibi 1', 'Chibi 2', 'Chibi 3', 'Chibi 4', 'Chibi 5', 'Chibi 6', 'Chibi 7', 'Chibi 8', 'Chibi 9', 'Chibi 10', 'Chibi 11', 'Chibi 12'];
                 userData.secret.all = ['Secret 1', 'Secret 2', 'Secret 3', 'Secret 4'];
                 userData.prize.all = ['Prize 1', 'Prize 2', 'Prize 3'];
@@ -856,8 +675,119 @@
                 }
             } catch (error) {
                 console.error('Error loading user collection:', error);
+                // Mock data for demo
                 userData.common.collected = userData.common.all.slice(0, 4);
             }
+        }
+
+        // UI Updates
+        function updateMainScreen() {
+            // Update collection icons with random chibi images
+            updateCollectionIcon('common');
+            updateCollectionIcon('secret');
+            updateCollectionIcon('prize');
+            
+            // Update common collection
+            const commonStats = document.getElementById('commonStats');
+            const commonBadge = document.getElementById('commonBadge');
+            const commonProgress = userData.common.all.length > 0 ? 
+                Math.round((userData.common.collected.length / userData.common.all.length) * 100) : 0;
+            
+            commonStats.textContent = `Твоя шедевральная коллекция`;
+            commonBadge.textContent = `${commonProgress}%`;
+            
+            // Update secret collection - only show if has at least one chibi
+            const secretCard = document.getElementById('secretCard');
+            const secretBadge = document.getElementById('secretBadge');
+            
+            if (userData.secret.collected.length > 0) {
+                secretCard.classList.remove('hidden');
+                secretBadge.classList.remove('hidden');
+            } else {
+                secretCard.classList.add('hidden');
+                secretBadge.classList.add('hidden');
+            }
+            
+            // Update prize collection - only show if has at least one chibi
+            const prizeCard = document.getElementById('prizeCard');
+            
+            if (userData.prize.collected.length > 0) {
+                prizeCard.classList.remove('hidden');
+            } else {
+                prizeCard.classList.add('hidden');
+            }
+        }
+
+        function updateCollectionIcon(type) {
+            const iconElement = document.getElementById(`${type}Icon`);
+            const collected = userData[type].collected;
+            
+            if (collected.length > 0) {
+                // Use random collected chibi image
+                const randomChibi = collected[Math.floor(Math.random() * collected.length)];
+                const imageUrl = `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/${type}/${randomChibi.replace(/ /g, '_')}.png`;
+                
+                iconElement.innerHTML = `<img src="${imageUrl}" alt="${type}" onerror="this.style.display='none'">`;
+            } else {
+                // Show lock icon if no chibis
+                iconElement.innerHTML = `
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="#8E8E93">
+                        <path d="M18,21H6c-1.657,0-3-1.343-3-3v-8c0-1.657,1.343-3,3-3h12c1.657,0,3,1.343,3,3v8 C21,19.657,19.657,21,18,21z" opacity=".35"></path>
+                        <path d="M8,7c0-2.209,1.791-4,4-4s4,1.791,4,4h2c0-3.314-2.686-6-6-6S6,3.686,6,7H8z"></path>
+                        <path d="M12,12c-1.105,0-2,0.895-2,2s0.895,2,2,2s2-0.895,2-2S13.105,12,12,12z"></path>
+                    </svg>
+                `;
+            }
+        }
+
+        function renderCollection(type) {
+            const grid = document.getElementById(`${type}Grid`);
+            const data = userData[type];
+            
+            grid.innerHTML = '';
+            
+            // For common collection, show all chibis (collected and locked)
+            // For secret and prize collections, only show collected ones
+            const chibisToShow = (type === 'common') ? data.all : data.collected;
+            
+            chibisToShow.forEach((chibiName) => {
+                const isCollected = data.collected.includes(chibiName);
+                
+                const card = document.createElement('div');
+                card.className = 'chibi-card';
+                card.onclick = () => tg.HapticFeedback.impactOccurred('light');
+                
+                const imageUrl = `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/${type}/${chibiName.replace(/ /g, '_')}.png`;
+                
+                card.innerHTML = `
+                    <div class="chibi-image-container">
+                        <img src="${imageUrl}" alt="${chibiName}" class="chibi-image"
+                             onerror="this.style.display='none'">
+                    </div>
+                    ${isCollected ? `
+                        <div class="chibi-info">
+                            <div class="chibi-name">${chibiName}</div>
+                        </div>
+                    ` : ''}
+                `;
+                
+                // Add lock overlay for uncollected chibis (only in common collection)
+                if (!isCollected && type === 'common') {
+                    const lockOverlay = document.createElement('div');
+                    lockOverlay.className = 'locked-overlay';
+                    lockOverlay.innerHTML = `
+                        <svg class="locked-icon" viewBox="0 0 24 24" fill="#8E8E93">
+                            <path d="M18,21H6c-1.657,0-3-1.343-3-3v-8c0-1.657,1.343-3,3-3h12c1.657,0,3,1.343,3,3v8 C21,19.657,19.657,21,18,21z" opacity=".35"></path>
+                            <path d="M8,7c0-2.209,1.791-4,4-4s4,1.791,4,4h2c0-3.314-2.686-6-6-6S6,3.686,6,7H8z"></path>
+                            <path d="M12,12c-1.105,0-2,0.895-2,2s0.895,2,2,2s2-0.895,2-2S13.105,12,12,12z"></path>
+                        </svg>
+                        <div class="locked-text">Заблокировано</div>
+                    `;
+                    card.appendChild(lockOverlay);
+                }
+                
+                grid.appendChild(card);
+            });
         }
 
         // Initialize app
