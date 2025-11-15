@@ -242,21 +242,57 @@
             height: 20px;
         }
 
-        .share-button {
-            background: transparent;
-            color: #007AFF;
-            border: 1.5px solid #007AFF;
+        .referral-section {
+            background: #2A2B2C;
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            max-width: 280px;
+            margin-bottom: 24px;
+        }
+
+        .invite-button {
+            background: #353637;
+            color: #FFFFFF;
+            border: none;
             border-radius: 12px;
-            padding: 12px 20px;
+            padding: 14px 20px;
             font-size: 16px;
             font-weight: 600;
             width: 100%;
             transition: all 0.2s ease;
+            margin-bottom: 16px;
         }
 
-        .share-button:active {
-            background: rgba(0, 122, 255, 0.1);
+        .invite-button:active {
+            background: #404142;
             transform: scale(0.98);
+        }
+
+        .referral-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .stat-item {
+            background: #353637;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+            font-weight: 500;
         }
 
         .divider {
@@ -326,6 +362,106 @@
             line-height: 1.2;
         }
 
+        /* Donation Popup */
+        .donation-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .donation-content {
+            background: #2A2B2C;
+            border-radius: 20px;
+            padding: 24px;
+            max-width: 300px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .donation-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #FFFFFF;
+        }
+
+        .donation-message {
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .stars-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .stars-option {
+            background: #353637;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 12px 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #FFFFFF;
+            transition: all 0.2s ease;
+        }
+
+        .stars-option.active {
+            border-color: #007AFF;
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .donation-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .donate-button {
+            flex: 1;
+            background: #007AFF;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .donate-button:active {
+            background: #0056CC;
+            transform: scale(0.98);
+        }
+
+        .cancel-button {
+            flex: 1;
+            background: transparent;
+            color: #007AFF;
+            border: 1.5px solid #007AFF;
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .cancel-button:active {
+            background: rgba(0, 122, 255, 0.1);
+            transform: scale(0.98);
+        }
+
         /* Scrollbar Hidden */
         .main-content::-webkit-scrollbar {
             display: none;
@@ -333,6 +469,28 @@
     </style>
 </head>
 <body>
+    <!-- Donation Popup -->
+    <div class="donation-popup hidden" id="donationPopup">
+        <div class="donation-content">
+            <div class="donation-title">Поддержать ЧИБИКОВ</div>
+            <div class="donation-message">Выберите количество Stars для доната разработчику</div>
+            
+            <div class="stars-options" id="starsOptions">
+                <button class="stars-option" onclick="selectStars(5)">5 ⭐</button>
+                <button class="stars-option" onclick="selectStars(10)">10 ⭐</button>
+                <button class="stars-option" onclick="selectStars(25)">25 ⭐</button>
+                <button class="stars-option" onclick="selectStars(50)">50 ⭐</button>
+                <button class="stars-option" onclick="selectStars(100)">100 ⭐</button>
+                <button class="stars-option" onclick="selectStars(200)">200 ⭐</button>
+            </div>
+            
+            <div class="donation-buttons">
+                <button class="cancel-button" onclick="closeDonation()">Отмена</button>
+                <button class="donate-button" onclick="processDonation()">Донатить</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Header -->
     <div class="header">
         <img src="https://i.ibb.co/zTB331HR/image.png" alt="Chibeki" class="logo">
@@ -378,13 +536,26 @@
                 <div class="profile-username" id="profileUsername">@username</div>
                 
                 <div class="profile-actions">
-                    <button class="support-button" onclick="supportChibiki()">
+                    <button class="support-button" onclick="openDonation()">
                         <img src="https://i.ibb.co/WWrbRjX2/IMG-8701.png" alt="Поддержать" class="support-icon">
                         Поддержать ЧИБИКОВ
                     </button>
-                    <button class="share-button" onclick="shareProfile()">
-                        Поделиться
+                </div>
+
+                <div class="referral-section">
+                    <button class="invite-button" onclick="inviteFriend()">
+                        Пригласить друга
                     </button>
+                    <div class="referral-stats">
+                        <div class="stat-item">
+                            <div class="stat-number" id="invitedCount">0</div>
+                            <div class="stat-label">Приглашено друзей</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="joinedCount">0</div>
+                            <div class="stat-label">Присоединились</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -434,11 +605,16 @@
             common: { collected: [], all: [] },
             secret: { collected: [], all: [] },
             prize: { collected: [], all: [] },
-            history: [] // New: history of all chibis obtained (including lost ones)
+            history: [],
+            referralStats: {
+                invited: 0,
+                joined: 0
+            }
         };
         
         let currentScreen = 'profile';
         let currentViewMode = 3;
+        let selectedStars = 0;
 
         // Initialize TMA
         function initTelegramApp() {
@@ -494,6 +670,121 @@
             }
         }
 
+        // Donation functions
+        function openDonation() {
+            tg.HapticFeedback.impactOccurred('medium');
+            document.getElementById('donationPopup').classList.remove('hidden');
+            selectedStars = 0;
+            updateStarsSelection();
+        }
+
+        function closeDonation() {
+            tg.HapticFeedback.impactOccurred('light');
+            document.getElementById('donationPopup').classList.add('hidden');
+        }
+
+        function selectStars(amount) {
+            tg.HapticFeedback.impactOccurred('light');
+            selectedStars = amount;
+            updateStarsSelection();
+        }
+
+        function updateStarsSelection() {
+            const options = document.querySelectorAll('.stars-option');
+            options.forEach(option => {
+                const stars = parseInt(option.textContent);
+                if (stars === selectedStars) {
+                    option.classList.add('active');
+                } else {
+                    option.classList.remove('active');
+                }
+            });
+        }
+
+        function processDonation() {
+            if (selectedStars === 0) {
+                tg.showPopup({
+                    title: 'Выберите сумму',
+                    message: 'Пожалуйста, выберите количество Stars для доната',
+                    buttons: [{ type: 'default', text: 'ОК' }]
+                });
+                return;
+            }
+
+            tg.HapticFeedback.impactOccurred('medium');
+            
+            // Create invoice for Telegram Stars
+            const invoice = {
+                title: `Поддержка ЧИБИКОВ - ${selectedStars} Stars`,
+                description: `Спасибо за поддержку проекта! Ваш донат в ${selectedStars} Stars поможет развитию бота.`,
+                payload: `${selectedStars}_stars_donation`,
+                provider_token: '', // For Stars, this might work differently
+                currency: 'XTR', // Telegram Stars currency
+                prices: [
+                    {
+                        label: `${selectedStars} Stars`,
+                        amount: selectedStars * 100 // Amount in cents
+                    }
+                ]
+            };
+
+            // Try to open invoice
+            tg.openInvoice(invoice, (status) => {
+                if (status === 'paid') {
+                    tg.showPopup({
+                        title: 'Спасибо! 🎉',
+                        message: `Ваш донат в ${selectedStars} Stars успешно processed! Спасибо за поддержку проекта!`,
+                        buttons: [{ type: 'default', text: 'Отлично!' }]
+                    });
+                    closeDonation();
+                } else if (status === 'failed') {
+                    tg.showPopup({
+                        title: 'Ошибка',
+                        message: 'Не удалось обработать донат. Попробуйте еще раз.',
+                        buttons: [{ type: 'default', text: 'ОК' }]
+                    });
+                } else if (status === 'cancelled') {
+                    // User cancelled, do nothing
+                }
+            });
+        }
+
+        // Referral functions
+        function inviteFriend() {
+            tg.HapticFeedback.impactOccurred('medium');
+            
+            const inviteText = `🔥 Хей, а ты уже слышал про ЧИБИКОВ?
+
+Да-да, это новый игровой бот прямо в телеграме, где ты сможешь коллекционировать чибиков по вселенной Джорджа Лукаса — «Звездным Войнам»! Первый сезон только стартовал и у тебя еще есть шанс зайти одним из первых! 
+
+А еще здесь есть задания, обмены, подарки, постоянно проходят розыгрыши, и что самое важное, бот абсолютно АВТОРСКИЙ — весь дизайн и визуал здесь сделан вручную!
+
+Присоединяйся ко мне скорее! 👇👇👇`;
+
+            // Use Telegram's share functionality
+            tg.shareMessage({
+                text: inviteText,
+                button_text: 'Погнали!'
+            }, (shared) => {
+                if (shared) {
+                    // Track successful share
+                    userData.referralStats.invited++;
+                    updateReferralStats();
+                    
+                    tg.showPopup({
+                        title: 'Приглашение отправлено!',
+                        message: 'Ваш друг получил приглашение присоединиться к ЧИБИКАМ!',
+                        buttons: [{ type: 'default', text: 'Отлично!' }]
+                    });
+                }
+            });
+        }
+
+        function updateReferralStats() {
+            document.getElementById('invitedCount').textContent = userData.referralStats.invited;
+            document.getElementById('joinedCount').textContent = userData.referralStats.joined;
+        }
+
         // Tab switching
         function switchTab(tab) {
             tg.HapticFeedback.impactOccurred('light');
@@ -517,6 +808,7 @@
             // Load profile data when switching to profile
             if (tab === 'profile') {
                 renderChibiHistory();
+                updateReferralStats();
             }
         }
 
@@ -567,52 +859,12 @@
             renderCollection(currentScreen);
         }
 
-        // Profile actions
-        function supportChibiki() {
-            tg.HapticFeedback.impactOccurred('medium');
-            tg.showPopup({
-                title: 'Поддержать ЧИБИКОВ',
-                message: 'Спасибо за желание поддержать проект! Функция доната скоро будет доступна.',
-                buttons: [{ type: 'default', text: 'Понятно' }]
-            });
-        }
-
-        function shareProfile() {
-            tg.HapticFeedback.impactOccurred('medium');
-            tg.showPopup({
-                title: 'Поделиться профилем',
-                message: 'Поделись своим профилем с друзьями, чтобы они тоже могли собирать чибиков!',
-                buttons: [
-                    {
-                        type: 'default',
-                        text: 'Поделиться',
-                        id: 'share'
-                    },
-                    {
-                        type: 'cancel',
-                        text: 'Отмена',
-                        id: 'cancel'
-                    }
-                ]
-            }, function(buttonId) {
-                if (buttonId === 'share') {
-                    // Here you would implement actual sharing logic
-                    tg.showPopup({
-                        title: 'Успешно!',
-                        message: 'Ссылка на ваш профиль скопирована в буфер обмена',
-                        buttons: [{ type: 'default', text: 'ОК' }]
-                    });
-                }
-            });
-        }
-
         // Chibi history rendering
         function renderChibiHistory() {
             const grid = document.getElementById('historyGrid');
             grid.innerHTML = '';
             
             if (userData.history.length === 0) {
-                // Show empty state
                 grid.innerHTML = `
                     <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #8E8E93;">
                         <div>История чибиков пуста</div>
@@ -657,7 +909,6 @@
                     await loadUserCollection(user.id);
                 }
                 
-                // Generate sample history data (replace with actual data from your backend)
                 generateSampleHistory();
                 
             } catch (error) {
@@ -667,17 +918,16 @@
         }
 
         function generateSampleHistory() {
-            // Sample history data - in real app this should come from your backend
             userData.history = [
                 { name: 'Chibi 1', type: 'common', lost: false },
                 { name: 'Chibi 2', type: 'common', lost: false },
-                { name: 'Chibi 3', type: 'common', lost: true }, // Gifted away
+                { name: 'Chibi 3', type: 'common', lost: true },
                 { name: 'Chibi 4', type: 'common', lost: false },
                 { name: 'Secret 1', type: 'secret', lost: false },
                 { name: 'Chibi 5', type: 'common', lost: false },
-                { name: 'Chibi 1', type: 'common', lost: false }, // Got again
+                { name: 'Chibi 1', type: 'common', lost: false },
                 { name: 'Prize 1', type: 'prize', lost: false },
-                { name: 'Chibi 6', type: 'common', lost: true }, // Traded
+                { name: 'Chibi 6', type: 'common', lost: true },
             ];
         }
 
