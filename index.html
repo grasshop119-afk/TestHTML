@@ -122,11 +122,14 @@
             width: 24px;
             height: 24px;
             margin-bottom: 2px;
-            filter: invert(1) brightness(2);
+        }
+
+        .footer-tab svg {
+            fill: #8E8E93;
         }
 
         .footer-tab.active svg {
-            filter: invert(0.4) sepia(1) saturate(20) hue-rotate(190deg) brightness(1.2);
+            fill: #007AFF;
         }
 
         .footer-tab.active .avatar-circle {
@@ -146,7 +149,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: none;
         }
 
         .tab-label {
@@ -165,152 +167,209 @@
             overflow-y: auto;
         }
 
-        /* Profile Screen */
-        .profile-screen {
-            padding: 24px 16px;
+        .main-screen {
+            padding: 16px;
             overflow-y: auto;
             height: 100%;
         }
 
-        .profile-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 32px;
+        .section {
+            margin-bottom: 24px;
         }
 
-        .profile-avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: 16px;
+        .section-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding: 0 8px;
+            color: #FFFFFF;
+        }
+
+        .collection-card {
             background: #2A2B2C;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.1s ease;
+        }
+
+        .collection-card:active {
+            background: #353637;
+        }
+
+        .collection-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: #353637;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-right: 12px;
+            overflow: hidden;
         }
 
-        .profile-avatar img {
+        .collection-icon img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .profile-name {
-            font-size: 20px;
-            font-weight: 600;
-            color: #FFFFFF;
-            margin-bottom: 4px;
-            text-align: center;
-        }
-
-        .profile-username {
-            font-size: 15px;
-            color: rgba(255, 255, 255, 0.7);
-            text-align: center;
-        }
-
-        .divider {
-            height: 0.5px;
-            background: #2A2B2C;
-            margin: 24px 0;
-        }
-
-        .settings-section {
-            background: #2A2B2C;
-            border-radius: 16px;
-            overflow: hidden;
-        }
-
-        .setting-item {
-            display: flex;
-            align-items: center;
-            padding: 16px;
-            transition: background-color 0.2s ease;
-        }
-
-        .setting-item:active {
-            background: #353637;
-        }
-
-        .setting-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            opacity: 0.6;
-        }
-
-        .setting-icon img {
-            width: 20px;
-            height: 20px;
-            filter: invert(1) brightness(2);
-            opacity: 1;
-        }
-
-        .setting-info {
+        .collection-info {
             flex: 1;
         }
 
-        .setting-name {
+        .collection-name {
             font-size: 16px;
             font-weight: 500;
-            color: #FFFFFF;
             margin-bottom: 2px;
+            color: #FFFFFF;
         }
 
-        .setting-description {
+        .collection-stats {
+            font-size: 14px;
+            opacity: 0.7;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .collection-badge {
+            background: #007AFF;
+            color: #FFFFFF;
+            padding: 6px 12px;
+            border-radius: 12px;
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
         }
 
-        /* iOS Switch */
-        .ios-switch {
+        /* Collection Screen */
+        .collection-screen {
+            padding: 16px;
+            padding-top: 68px;
+            overflow-y: auto;
+            height: 100vh;
+        }
+
+        /* Development Screen */
+        .development-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .development-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #8E8E93;
+            margin-top: 16px;
+        }
+
+        /* Grid layouts */
+        .chibi-grid {
+            display: grid;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-1 {
+            grid-template-columns: 1fr;
+        }
+
+        .chibi-card {
+            background: #2A2B2C;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
             position: relative;
-            width: 51px;
-            height: 31px;
+            transition: all 0.2s ease;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .ios-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
+        .chibi-card:active {
+            transform: scale(0.98);
+            background: #353637;
         }
 
-        .ios-slider {
+        .chibi-image-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .grid-3 .chibi-image-container {
+            aspect-ratio: 1/1;
+        }
+
+        .grid-2 .chibi-image-container {
+            aspect-ratio: 1/1.1;
+        }
+
+        .grid-1 .chibi-image-container {
+            aspect-ratio: 1/1.2;
+        }
+
+        .chibi-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .chibi-info {
+            padding: 12px 8px 8px;
+            position: relative;
+        }
+
+        .chibi-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #FFFFFF;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.2;
+        }
+
+        .locked-overlay {
             position: absolute;
-            cursor: pointer;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #3A3B3C;
-            transition: .4s;
-            border-radius: 34px;
+            width: 100%;
+            height: 100%;
+            background: rgba(31, 32, 33, 0.92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            backdrop-filter: blur(8px);
         }
 
-        .ios-slider:before {
-            position: absolute;
-            content: "";
-            height: 27px;
-            width: 27px;
-            left: 2px;
-            bottom: 2px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
+        .locked-icon {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 8px;
+            opacity: 0.7;
         }
 
-        input:checked + .ios-slider {
-            background-color: #007AFF;
-        }
-
-        input:checked + .ios-slider:before {
-            transform: translateX(20px);
+        .locked-text {
+            font-size: 12px;
+            color: #8E8E93;
+            font-weight: 500;
         }
 
         /* Scrollbar Hidden */
@@ -324,7 +383,7 @@
     <div class="header">
         <img src="https://i.ibb.co/zTB331HR/image.png" alt="Chibeki" class="logo">
         <div class="header-right">
-            <img src="https://img.icons8.com/?size=100&id=72pUV8rLnReF&format=png&color=000000" 
+            <img src="https://img.icons8.com/?size=100&id=mz2Zw0R3o9Hq&format=png&color=000000" 
                  class="view-toggle hidden" 
                  id="viewToggle"
                  onclick="toggleViewMode()">
@@ -333,20 +392,19 @@
 
     <!-- Footer -->
     <div class="footer" id="footer">
-        <div class="footer-tab" onclick="switchTab('home')">
-            <svg viewBox="0 0 24 24">
-                <path d="M18,21H6c-1.657,0-3-1.343-3-3V8.765c0-1.09,0.591-2.093,1.543-2.622l6-3.333 c0.906-0.503,2.008-0.503,2.914,0l6,3.333C20.409,6.672,21,7.676,21,8.765V18C21,19.657,19.657,21,18,21z" opacity=".35"></path>
-                <path d="M15,21H9v-6c0-1.105,0.895-2,2-2h2c1.105,0,2,0.895,2,2V21z"></path>
+        <div class="footer-tab active" onclick="switchTab('home')">
+            <svg viewBox="0 0 32 32">
+                <path d="M28.447,11.583c-0.18-1.417-1.257-2.871-2.817-3.797c-1.425-0.832-2.82-1.674-4.167-2.487	c-1.407-0.85-2.763-1.667-4.045-2.41c-0.834-0.484-1.791-0.49-2.626-0.02c-1.409,0.794-2.904,1.682-4.46,2.604	C9.057,6.231,7.741,7.013,6.391,7.791c-1.572,0.92-2.66,2.38-2.84,3.812c-0.479,3.857-0.266,7.769,0.638,11.644	c0.502,1.978,2.587,4.092,4.572,4.623c2.402,0.592,4.82,0.888,7.239,0.888s4.837-0.296,7.239-0.888	c0.006-0.001,0.013-0.003,0.019-0.005c1.967-0.526,4.052-2.641,4.558-4.637C28.716,19.366,28.929,15.449,28.447,11.583z M20.115,25.303c-0.107,0.681-0.635,1.233-1.321,1.302c-1.856,0.188-3.714,0.189-5.567,0.004c-0.686-0.069-1.215-0.621-1.322-1.302	c-0.325-2.069-0.24-4.138,0.255-6.208c0.154-0.641,0.647-1.154,1.267-1.38c1.722-0.628,3.443-0.628,5.165,0	c0.62,0.226,1.113,0.739,1.267,1.38C20.355,21.167,20.44,23.235,20.115,25.303z"></path>
             </svg>
             <div class="tab-label">Главная</div>
         </div>
         
         <div class="footer-tab" onclick="switchTab('friends')">
-            <img src="https://img.icons8.com/?size=100&id=nQma6GhPPDLz&format=png&color=000000" alt="Друзья">
+            <img src="https://img.icons8.com/?size=100&id=egqjhmkOFCqZ&format=png&color=000000" alt="Друзья">
             <div class="tab-label">Друзья</div>
         </div>
         
-        <div class="footer-tab active" onclick="switchTab('profile')">
+        <div class="footer-tab" onclick="openProfile()">
             <div class="avatar-circle" id="avatarCircle">
                 <!-- Telegram avatar will be loaded here -->
             </div>
@@ -358,70 +416,83 @@
     <div class="main-content">
         <!-- Home Screen -->
         <div class="screen main-screen" id="homeScreen">
-            <!-- ... existing home screen content ... -->
+            <div class="section">
+                <div class="section-title">Коллекции</div>
+                
+                <div class="collection-card" onclick="openCollection('common')">
+                    <div class="collection-icon" id="commonIcon">
+                        <!-- Random chibi image will be loaded here -->
+                    </div>
+                    <div class="collection-info">
+                        <div class="collection-name">Обычные чибики</div>
+                        <div class="collection-stats" id="commonStats">Твоя шедевральная коллекция</div>
+                    </div>
+                    <div class="collection-badge" id="commonBadge">0%</div>
+                </div>
+                
+                <div class="collection-card hidden" onclick="openCollection('secret')" id="secretCard">
+                    <div class="collection-icon" id="secretIcon">
+                        <!-- Random chibi image will be loaded here -->
+                    </div>
+                    <div class="collection-info">
+                        <div class="collection-name">Секретные чибики</div>
+                        <div class="collection-stats" id="secretStats">Абсолютно секретно</div>
+                    </div>
+                    <div class="collection-badge hidden" id="secretBadge">NEW</div>
+                </div>
+                
+                <div class="collection-card hidden" onclick="openCollection('prize')" id="prizeCard">
+                    <div class="collection-icon" id="prizeIcon">
+                        <!-- Random chibi image will be loaded here -->
+                    </div>
+                    <div class="collection-info">
+                        <div class="collection-name">Призовые чибики</div>
+                        <div class="collection-stats" id="prizeStats">Твои чибики с розыгрышей</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Статьи</div>
+                
+                <div class="collection-card" onclick="openArticle('dice')">
+                    <div class="collection-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="#8E8E93">
+                            <path d="M18,19V6c0-1.657-1.343-3-3-3H5C3.343,3,2,4.343,2,6v12c0,1.657,1.343,3,3,3h15 C18.895,21,18,20.105,18,19z" opacity=".35"></path>
+                            <path d="M14,14H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,13.552,14.552,14,14,14z"></path>
+                            <path d="M14,18H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,17.552,14.552,18,14,18z"></path>
+                            <path d="M20,7h-2v12c0,1.105,0.895,2,2,2h0c1.105,0,2-0.895,2-2V9C22,7.895,21.105,7,20,7z"></path>
+                            <path d="M13.5,7c-0.386,0-6.614,0-7,0C5.672,7,5,7.672,5,8.5S5.672,10,6.5,10c0.386,0,6.614,0,7,0c0.828,0,1.5-0.672,1.5-1.5 S14.328,7,13.5,7z"></path>
+                        </svg>
+                    </div>
+                    <div class="collection-info">
+                        <div class="collection-name">Что такое кости?</div>
+                        <div class="collection-stats">И с чем их едят</div>
+                    </div>
+                </div>
+                
+                <div class="collection-card" onclick="openArticle('help')">
+                    <div class="collection-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="#8E8E93">
+                            <path d="M18,19V6c0-1.657-1.343-3-3-3H5C3.343,3,2,4.343,2,6v12c0,1.657,1.343,3,3,3h15 C18.895,21,18,20.105,18,19z" opacity=".35"></path>
+                            <path d="M14,14H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,13.552,14.552,14,14,14z"></path>
+                            <path d="M14,18H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,17.552,14.552,18,14,18z"></path>
+                            <path d="M20,7h-2v12c0,1.105,0.895,2,2,2h0c1.105,0,2-0.895,2-2V9C22,7.895,21.105,7,20,7z"></path>
+                            <path d="M13.5,7c-0.386,0-6.614,0-7,0C5.672,7,5,7.672,5,8.5S5.672,10,6.5,10c0.386,0,6.614,0,7,0c0.828,0,1.5-0.672,1.5-1.5 S14.328,7,13.5,7z"></path>
+                        </svg>
+                    </div>
+                    <div class="collection-info">
+                        <div class="collection-name">Как получить помощь?</div>
+                        <div class="collection-stats">Помощь от админов</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Friends Screen -->
         <div class="screen hidden" id="friendsScreen">
             <div class="development-screen">
                 <div class="development-text">В разработке…</div>
-            </div>
-        </div>
-
-        <!-- Profile Screen -->
-        <div class="screen profile-screen" id="profileScreen">
-            <div class="profile-header">
-                <div class="profile-avatar" id="profileAvatar">
-                    <!-- Telegram avatar will be loaded here -->
-                </div>
-                <div class="profile-name" id="profileName">Имя пользователя</div>
-                <div class="profile-username" id="profileUsername">@username</div>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="settings-section">
-                <!-- Smooth Animations -->
-                <div class="setting-item">
-                    <div class="setting-icon" style="background-color: rgba(0, 122, 255, 0.6);">
-                        <img src="https://img.icons8.com/?size=100&id=05hRU0LLAYih&format=png&color=000000" alt="Анимации">
-                    </div>
-                    <div class="setting-info">
-                        <div class="setting-name">Плавные анимации</div>
-                    </div>
-                    <label class="ios-switch">
-                        <input type="checkbox" checked>
-                        <span class="ios-slider"></span>
-                    </label>
-                </div>
-
-                <!-- Vibration -->
-                <div class="setting-item">
-                    <div class="setting-icon" style="background-color: rgba(255, 45, 85, 0.6);">
-                        <img src="https://img.icons8.com/?size=100&id=qGypQvALtJ43&format=png&color=000000" alt="Вибрация">
-                    </div>
-                    <div class="setting-info">
-                        <div class="setting-name">Вибрация</div>
-                    </div>
-                    <label class="ios-switch">
-                        <input type="checkbox" checked>
-                        <span class="ios-slider"></span>
-                    </label>
-                </div>
-
-                <!-- Theme Color -->
-                <div class="setting-item">
-                    <div class="setting-icon" style="background-color: rgba(175, 82, 222, 0.6);">
-                        <img src="https://img.icons8.com/?size=100&id=YPatEJHauZKa&format=png&color=000000" alt="Цвет темы">
-                    </div>
-                    <div class="setting-info">
-                        <div class="setting-name">Цвет как в теме</div>
-                    </div>
-                    <label class="ios-switch">
-                        <input type="checkbox" checked>
-                        <span class="ios-slider"></span>
-                    </label>
-                </div>
             </div>
         </div>
 
@@ -450,8 +521,38 @@
             prize: { collected: [], all: [] }
         };
         
-        let currentScreen = 'profile';
+        let currentScreen = 'home';
         let currentViewMode = 3;
+        let settings = {
+            smoothAnimations: true,
+            vibration: true,
+            themeColor: false
+        };
+
+        // Load settings from localStorage
+        function loadSettings() {
+            const saved = localStorage.getItem('chibekiSettings');
+            if (saved) {
+                settings = { ...settings, ...JSON.parse(saved) };
+            }
+            applySettings();
+        }
+
+        // Save settings to localStorage
+        function saveSettings() {
+            localStorage.setItem('chibekiSettings', JSON.stringify(settings));
+            applySettings();
+        }
+
+        // Apply settings
+        function applySettings() {
+            // Apply theme color if enabled
+            if (settings.themeColor && tg.themeParams.accent_text_color) {
+                document.documentElement.style.setProperty('--accent-color', tg.themeParams.accent_text_color);
+            } else {
+                document.documentElement.style.setProperty('--accent-color', '#007AFF');
+            }
+        }
 
         // Initialize TMA
         function initTelegramApp() {
@@ -463,35 +564,10 @@
             // Setup back button handler
             tg.BackButton.onClick(goBack);
             
-            // Load user data and setup profile
+            // Load settings and user data
+            loadSettings();
             loadUserData();
-            setupProfile();
             setupFooter();
-        }
-
-        // Profile setup
-        function setupProfile() {
-            const user = tg.initDataUnsafe?.user;
-            const profileAvatar = document.getElementById('profileAvatar');
-            const profileName = document.getElementById('profileName');
-            const profileUsername = document.getElementById('profileUsername');
-            
-            if (user) {
-                if (user.photo_url) {
-                    profileAvatar.innerHTML = `<img src="${user.photo_url}" alt="Profile Avatar">`;
-                } else {
-                    profileAvatar.innerHTML = `
-                        <svg viewBox="0 0 24 24" width="48" height="48" fill="#8E8E93">
-                            <path d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z" opacity=".35"></path>
-                            <path d="M12,6c-1.657,0-3,1.343-3,3s1.343,3,3,3s3-1.343,3-3S13.657,6,12,6z"></path>
-                            <path d="M12,13c-3.6,0-6,2-6,4c0,1,1,2,6,2s6-1,6-2C18,15,15.6,13,12,13z"></path>
-                        </svg>
-                    `;
-                }
-                
-                profileName.textContent = user.first_name || 'Пользователь';
-                profileUsername.textContent = user.username ? `@${user.username}` : '@username';
-            }
         }
 
         // Footer setup
@@ -514,7 +590,9 @@
 
         // Tab switching
         function switchTab(tab) {
-            tg.HapticFeedback.impactOccurred('light');
+            if (settings.vibration) {
+                tg.HapticFeedback.impactOccurred('light');
+            }
             
             // Update active tab
             document.querySelectorAll('.footer-tab').forEach(t => t.classList.remove('active'));
@@ -533,9 +611,16 @@
             document.getElementById('footer').classList.remove('hidden');
         }
 
+        // Open profile in new page
+        function openProfile() {
+            tg.openLink('profile.html');
+        }
+
         // Navigation
         function openCollection(type) {
-            tg.HapticFeedback.impactOccurred('light');
+            if (settings.vibration) {
+                tg.HapticFeedback.impactOccurred('light');
+            }
             
             // Hide footer in collection screens
             document.getElementById('footer').classList.add('hidden');
@@ -550,7 +635,9 @@
         }
 
         function goBack() {
-            tg.HapticFeedback.impactOccurred('light');
+            if (settings.vibration) {
+                tg.HapticFeedback.impactOccurred('light');
+            }
             
             if (currentScreen === 'common' || currentScreen === 'secret' || currentScreen === 'prize') {
                 // Return from collection to home
@@ -569,7 +656,9 @@
 
         // View mode toggle
         function toggleViewMode() {
-            tg.HapticFeedback.impactOccurred('light');
+            if (settings.vibration) {
+                tg.HapticFeedback.impactOccurred('light');
+            }
             
             currentViewMode = currentViewMode === 3 ? 2 : currentViewMode === 2 ? 1 : 3;
             
@@ -600,6 +689,49 @@
             }, function(buttonId) {
                 if (buttonId === 'launch_bot') {
                     tg.openTelegramLink('https://t.me/chibeki_bot');
+                }
+            });
+        }
+
+        // Articles
+        function openArticle(type) {
+            if (settings.vibration) {
+                tg.HapticFeedback.impactOccurred('medium');
+            }
+            
+            const articles = {
+                dice: {
+                    title: 'Что такое кости?',
+                    message: 'Подробно расскажем, как работают кости в нашем боте и как на них зарабатывать',
+                    url: 'https://telegra.ph/Kak-rabotayut-kosti--CHIBIKI-11-10'
+                },
+                help: {
+                    title: 'Как получить помощь?',
+                    message: 'Подробно расскажем, как обратиться к админам за помощью',
+                    url: 'https://telegra.ph/Kak-svyazatsya-s-adminami-11-11'
+                }
+            };
+            
+            const article = articles[type];
+            
+            tg.showPopup({
+                title: article.title,
+                message: article.message,
+                buttons: [
+                    {
+                        type: 'default',
+                        text: 'Читать',
+                        id: 'read'
+                    },
+                    {
+                        type: 'cancel',
+                        text: 'Отмена',
+                        id: 'cancel'
+                    }
+                ]
+            }, function(buttonId) {
+                if (buttonId === 'read') {
+                    tg.openLink(article.url);
                 }
             });
         }
@@ -755,7 +887,11 @@
                 
                 const card = document.createElement('div');
                 card.className = 'chibi-card';
-                card.onclick = () => tg.HapticFeedback.impactOccurred('light');
+                card.onclick = () => {
+                    if (settings.vibration) {
+                        tg.HapticFeedback.impactOccurred('light');
+                    }
+                };
                 
                 const imageUrl = `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/${type}/${chibiName.replace(/ /g, '_')}.png`;
                 
