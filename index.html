@@ -176,20 +176,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
         .profile-avatar {
-            width: 88px;
-            height: 88px;
-            border-radius: 20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
             overflow: hidden;
             margin-bottom: 16px;
             background: #2A2B2C;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }
 
         .profile-avatar img {
@@ -198,96 +197,82 @@
             object-fit: cover;
         }
 
-        .profile-username {
+        .profile-name {
             font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 20px;
+            font-weight: 600;
+            margin-bottom: 4px;
             color: #FFFFFF;
             text-align: center;
-            letter-spacing: -0.2px;
+        }
+
+        .profile-username {
+            font-size: 14px;
+            opacity: 0.7;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         .profile-buttons {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 14px;
-            margin-bottom: 32px;
+            gap: 12px;
+            margin-bottom: 24px;
             width: 100%;
-            max-width: 280px;
+            max-width: 300px;
         }
 
         .support-button {
             background: #007AFF;
             color: #FFFFFF;
             border: none;
-            border-radius: 16px;
-            padding: 16px 24px;
-            font-size: 17px;
+            border-radius: 12px;
+            padding: 14px 24px;
+            font-size: 16px;
             font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             width: 100%;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+            transition: background-color 0.2s ease;
         }
 
         .support-button:active {
             background: #0056CC;
-            transform: scale(0.98);
         }
 
         .support-icon {
-            width: 22px;
-            height: 22px;
-        }
-
-        .share-button {
-            background: transparent;
-            color: #007AFF;
-            border: 2px solid #007AFF;
-            border-radius: 16px;
-            padding: 14px 24px;
-            font-size: 17px;
-            font-weight: 600;
-            width: 100%;
-            transition: all 0.2s ease;
-        }
-
-        .share-button:active {
-            background: rgba(0, 122, 255, 0.1);
-            transform: scale(0.98);
+            width: 20px;
+            height: 20px;
         }
 
         .divider {
             height: 1px;
             background: #2A2B2C;
-            margin: 32px 0;
+            margin: 24px 0;
             width: 100%;
         }
 
         .chibi-collection {
-            margin-top: 8px;
+            margin-top: 16px;
         }
 
         .collection-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 20px;
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 16px;
             color: #FFFFFF;
             text-align: center;
-            letter-spacing: -0.2px;
         }
 
         .chibi-scroll-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            max-height: 320px;
+            gap: 10px;
+            max-height: 300px;
             overflow-y: auto;
-            padding: 4px;
         }
 
         .chibi-scroll-grid::-webkit-scrollbar {
@@ -296,18 +281,13 @@
 
         .chibi-mini-card {
             background: #2A2B2C;
-            border-radius: 16px;
+            border-radius: 10px;
             aspect-ratio: 1;
             display: flex;
             flex-direction: column;
             position: relative;
             overflow: hidden;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .chibi-mini-card:active {
-            transform: scale(0.95);
+            transition: opacity 0.2s ease;
         }
 
         .chibi-mini-card.gifted {
@@ -318,108 +298,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-
-        /* Donation Modal */
-        .donation-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .donation-overlay.visible {
-            opacity: 1;
-        }
-
-        .donation-modal {
-            background: #2A2B2C;
-            border-radius: 24px 24px 0 0;
-            padding: 32px 24px 24px;
-            width: 100%;
-            max-width: 500px;
-            transform: translateY(100%);
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.4);
-        }
-
-        .donation-overlay.visible .donation-modal {
-            transform: translateY(0);
-        }
-
-        .donation-title {
-            font-size: 20px;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 8px;
-            color: #FFFFFF;
-        }
-
-        .donation-subtitle {
-            font-size: 15px;
-            color: #8E8E93;
-            text-align: center;
-            margin-bottom: 28px;
-            line-height: 1.4;
-        }
-
-        .creator-options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
-        .creator-option {
-            background: #353637;
-            border: none;
-            border-radius: 16px;
-            padding: 18px 20px;
-            text-align: left;
-            color: #FFFFFF;
-            transition: background-color 0.2s ease;
-            cursor: pointer;
-        }
-
-        .creator-option:active {
-            background: #3A3B3C;
-        }
-
-        .creator-name {
-            font-size: 17px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .creator-role {
-            font-size: 14px;
-            color: #8E8E93;
-            line-height: 1.3;
-        }
-
-        .donation-cancel {
-            background: transparent;
-            border: 2px solid #3A3B3C;
-            border-radius: 16px;
-            padding: 16px;
-            font-size: 17px;
-            font-weight: 600;
-            color: #FFFFFF;
-            width: 100%;
-            transition: background-color 0.2s ease;
-        }
-
-        .donation-cancel:active {
-            background: #3A3B3C;
+            border-radius: 10px;
         }
 
         /* Development Screen */
@@ -481,28 +360,6 @@
         </div>
     </div>
 
-    <!-- Donation Modal -->
-    <div class="donation-overlay hidden" id="donationOverlay">
-        <div class="donation-modal">
-            <div class="donation-title">Поддержать разработку</div>
-            <div class="donation-subtitle">Выберите создателя, которого хотите поддержать звёздами Telegram</div>
-            
-            <div class="creator-options">
-                <button class="creator-option" onclick="donateToCreator('ribapibaa')">
-                    <div class="creator-name">@Ribapibaa</div>
-                    <div class="creator-role">Художник, разработчик, ведущий канала</div>
-                </button>
-                
-                <button class="creator-option" onclick="donateToCreator('temkazavr')">
-                    <div class="creator-name">@temkazavr</div>
-                    <div class="creator-role">Автор идеи, художник, разработчик</div>
-                </button>
-            </div>
-            
-            <button class="donation-cancel" onclick="closeDonationModal()">Отмена</button>
-        </div>
-    </div>
-
     <!-- Main Content -->
     <div class="main-content">
         <!-- Profile Screen -->
@@ -511,16 +368,16 @@
                 <div class="profile-avatar" id="profileAvatar">
                     <!-- Large avatar will be loaded here -->
                 </div>
+                <div class="profile-name" id="profileName">
+                    <!-- First name will be loaded here -->
+                </div>
                 <div class="profile-username" id="profileUsername">
                     <!-- Username will be loaded here -->
                 </div>
                 <div class="profile-buttons">
-                    <button class="support-button" onclick="openDonationModal()">
+                    <button class="support-button" onclick="supportChibiki()">
                         <img src="https://i.ibb.co/WWrbRjX2/IMG-8701.png" alt="Поддержать" class="support-icon">
-                        Поддержать ЧИБИКОВ
-                    </button>
-                    <button class="share-button" onclick="shareProfile()">
-                        Поделиться
+                        Поддержать
                     </button>
                 </div>
             </div>
@@ -573,16 +430,17 @@
         function setupProfile() {
             const user = tg.initDataUnsafe?.user;
             const profileAvatar = document.getElementById('profileAvatar');
+            const profileName = document.getElementById('profileName');
             const profileUsername = document.getElementById('profileUsername');
             const avatarCircle = document.getElementById('avatarCircle');
             
             if (user) {
-                // Setup large profile avatar
+                // Setup large profile avatar (80x80)
                 if (user.photo_url) {
                     profileAvatar.innerHTML = `<img src="${user.photo_url}" alt="Profile Avatar">`;
                 } else {
                     profileAvatar.innerHTML = `
-                        <svg viewBox="0 0 24 24" width="44" height="44" fill="#8E8E93">
+                        <svg viewBox="0 0 24 24" width="40" height="40" fill="#8E8E93">
                             <path d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z" opacity=".35"></path>
                             <path d="M12,6c-1.657,0-3,1.343-3,3s1.343,3,3,3s3-1.343,3-3S13.657,6,12,6z"></path>
                             <path d="M12,13c-3.6,0-6,2-6,4c0,1,1,2,6,2s6-1,6-2C18,15,15.6,13,12,13z"></path>
@@ -590,8 +448,9 @@
                     `;
                 }
                 
-                // Setup username
-                profileUsername.textContent = user.username ? `@${user.username}` : (user.first_name || 'Пользователь');
+                // Setup name and username
+                profileName.textContent = user.first_name || 'Пользователь';
+                profileUsername.textContent = user.username ? `@${user.username}` : '';
                 
                 // Setup footer avatar
                 if (user.photo_url) {
@@ -609,61 +468,6 @@
             
             // Render user's chibi collection
             renderProfileChibis();
-        }
-
-        // Donation modal functions
-        function openDonationModal() {
-            tg.HapticFeedback.impactOccurred('medium');
-            const overlay = document.getElementById('donationOverlay');
-            overlay.classList.remove('hidden');
-            setTimeout(() => overlay.classList.add('visible'), 10);
-        }
-
-        function closeDonationModal() {
-            tg.HapticFeedback.impactOccurred('light');
-            const overlay = document.getElementById('donationOverlay');
-            overlay.classList.remove('visible');
-            setTimeout(() => overlay.classList.add('hidden'), 300);
-        }
-
-        function donateToCreator(creator) {
-            tg.HapticFeedback.impactOccurred('medium');
-            
-            const creators = {
-                ribapibaa: {
-                    name: '@Ribapibaa',
-                    username: 'Ribapibaa'
-                },
-                temkazavr: {
-                    name: '@temkazavr', 
-                    username: 'temkazavr'
-                }
-            };
-            
-            const creatorInfo = creators[creator];
-            
-            tg.showPopup({
-                title: `Поддержать ${creatorInfo.name}`,
-                message: `Спасибо за желание поддержать ${creatorInfo.name}! Вы будете перенаправлены в Telegram для отправки звёзд.`,
-                buttons: [
-                    {
-                        type: 'default',
-                        text: 'Продолжить',
-                        id: 'continue'
-                    },
-                    {
-                        type: 'cancel', 
-                        text: 'Отмена',
-                        id: 'cancel'
-                    }
-                ]
-            }, function(buttonId) {
-                if (buttonId === 'continue') {
-                    // Open Telegram stars donation
-                    tg.openTelegramLink(`https://t.me/${creatorInfo.username}?start=donate`);
-                    closeDonationModal();
-                }
-            });
         }
 
         // Render user's chibi collection for profile
@@ -691,7 +495,7 @@
             
             if (allChibis.length === 0) {
                 grid.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #8E8E93; font-size: 15px;">
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #8E8E93; font-size: 14px;">
                         Пока нет чибиков 🎮
                     </div>
                 `;
@@ -713,37 +517,10 @@
             });
         }
 
-        // Share button handler
-        function shareProfile() {
+        // Support button handler - opens stars donation to @temkazavr
+        function supportChibiki() {
             tg.HapticFeedback.impactOccurred('medium');
-            const user = tg.initDataUnsafe?.user;
-            const username = user?.username ? `@${user.username}` : 'пользователь';
-            
-            tg.showPopup({
-                title: 'Поделиться профилем',
-                message: `Поделитесь своим профилем ${username} с друзьями!`,
-                buttons: [
-                    {
-                        type: 'default',
-                        text: 'Поделиться',
-                        id: 'share'
-                    },
-                    {
-                        type: 'cancel',
-                        text: 'Отмена',
-                        id: 'cancel'
-                    }
-                ]
-            }, function(buttonId) {
-                if (buttonId === 'share') {
-                    // Share profile logic would go here
-                    tg.showPopup({
-                        title: 'Успешно!',
-                        message: 'Ссылка на профиль скопирована в буфер обмена',
-                        buttons: [{ type: 'default', text: 'OK' }]
-                    });
-                }
-            });
+            tg.openTelegramLink('https://t.me/temkazavr?start=stars');
         }
 
         // Tab switching and other functions remain the same
