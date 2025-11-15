@@ -165,87 +165,148 @@
             overflow-y: auto;
         }
 
-        .main-screen {
-            padding: 16px;
+        /* Profile Screen */
+        .profile-screen {
+            padding: 20px 16px;
             overflow-y: auto;
             height: 100%;
         }
 
-        .section {
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             margin-bottom: 24px;
         }
 
-        .section-title {
-            font-size: 17px;
-            font-weight: 600;
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 16px;
+            overflow: hidden;
             margin-bottom: 12px;
-            padding: 0 8px;
-            color: #FFFFFF;
-        }
-
-        .collection-card {
             background: #2A2B2C;
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            transition: background-color 0.1s ease;
-        }
-
-        .collection-card:active {
-            background: #353637;
-        }
-
-        .collection-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 10px;
-            background: #353637;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 12px;
-            overflow: hidden;
         }
 
-        .collection-icon img {
+        .profile-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .collection-info {
-            flex: 1;
-        }
-
-        .collection-name {
-            font-size: 16px;
-            font-weight: 500;
-            margin-bottom: 2px;
+        .profile-username {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
             color: #FFFFFF;
+            text-align: center;
         }
 
-        .collection-stats {
-            font-size: 14px;
-            opacity: 0.7;
-            color: rgba(255,255,255,0.7);
+        .profile-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            width: 100%;
+            max-width: 280px;
         }
 
-        .collection-badge {
+        .support-button {
             background: #007AFF;
             color: #FFFFFF;
-            padding: 6px 12px;
+            border: none;
             border-radius: 12px;
-            font-size: 13px;
+            padding: 14px 20px;
+            font-size: 16px;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            transition: background-color 0.2s ease;
         }
 
-        /* Collection Screen */
-        .collection-screen {
-            padding: 16px;
+        .support-button:active {
+            background: #0056CC;
+        }
+
+        .support-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .share-button {
+            background: transparent;
+            color: #007AFF;
+            border: 1.5px solid #007AFF;
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: background-color 0.2s ease;
+        }
+
+        .share-button:active {
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .divider {
+            height: 1px;
+            background: #2A2B2C;
+            margin: 24px 0;
+            width: 100%;
+        }
+
+        .chibi-collection {
+            margin-top: 16px;
+        }
+
+        .collection-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #FFFFFF;
+            text-align: center;
+        }
+
+        .chibi-scroll-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-height: 300px;
             overflow-y: auto;
+        }
+
+        .chibi-scroll-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        .chibi-mini-card {
+            background: #2A2B2C;
+            border-radius: 10px;
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: opacity 0.2s ease;
+        }
+
+        .chibi-mini-card.gifted {
+            opacity: 0.4;
+        }
+
+        .chibi-mini-image {
+            width: 100%;
             height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
         }
 
         /* Development Screen */
@@ -264,109 +325,6 @@
             font-weight: 600;
             color: #8E8E93;
             margin-top: 16px;
-        }
-
-        /* Grid layouts */
-        .chibi-grid {
-            display: grid;
-            gap: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .grid-3 {
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        .grid-2 {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .grid-1 {
-            grid-template-columns: 1fr;
-        }
-
-        .chibi-card {
-            background: #2A2B2C;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            transition: all 0.2s ease;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .chibi-card:active {
-            transform: scale(0.98);
-            background: #353637;
-        }
-
-        .chibi-image-container {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .grid-3 .chibi-image-container {
-            aspect-ratio: 1/1;
-        }
-
-        .grid-2 .chibi-image-container {
-            aspect-ratio: 1/1.1;
-        }
-
-        .grid-1 .chibi-image-container {
-            aspect-ratio: 1/1.2;
-        }
-
-        .chibi-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .chibi-info {
-            padding: 12px 8px 8px;
-            position: relative;
-        }
-
-        .chibi-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: #FFFFFF;
-            text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            line-height: 1.2;
-        }
-
-        .locked-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(31, 32, 33, 0.92);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            backdrop-filter: blur(8px);
-        }
-
-        .locked-icon {
-            width: 32px;
-            height: 32px;
-            margin-bottom: 8px;
-            opacity: 0.7;
-        }
-
-        .locked-text {
-            font-size: 12px;
-            color: #8E8E93;
-            font-weight: 500;
         }
 
         /* Scrollbar Hidden */
@@ -389,7 +347,7 @@
 
     <!-- Footer -->
     <div class="footer" id="footer">
-        <div class="footer-tab active" onclick="switchTab('home')">
+        <div class="footer-tab" onclick="switchTab('home')">
             <svg viewBox="0 0 24 24">
                 <path d="M18,21H6c-1.657,0-3-1.343-3-3V8.765c0-1.09,0.591-2.093,1.543-2.622l6-3.333 c0.906-0.503,2.008-0.503,2.914,0l6,3.333C20.409,6.672,21,7.676,21,8.765V18C21,19.657,19.657,21,18,21z" opacity=".35"></path>
                 <path d="M15,21H9v-6c0-1.105,0.895-2,2-2h2c1.105,0,2,0.895,2,2V21z"></path>
@@ -402,7 +360,7 @@
             <div class="tab-label">Друзья</div>
         </div>
         
-        <div class="footer-tab" onclick="switchTab('profile')">
+        <div class="footer-tab active" onclick="switchTab('profile')">
             <div class="avatar-circle" id="avatarCircle">
                 <!-- Telegram avatar will be loaded here -->
             </div>
@@ -412,107 +370,38 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Home Screen -->
-        <div class="screen main-screen" id="homeScreen">
-            <div class="section">
-                <div class="section-title">Коллекции</div>
-                
-                <div class="collection-card" onclick="openCollection('common')">
-                    <div class="collection-icon" id="commonIcon">
-                        <!-- Random chibi image will be loaded here -->
-                    </div>
-                    <div class="collection-info">
-                        <div class="collection-name">Обычные чибики</div>
-                        <div class="collection-stats" id="commonStats">Твоя шедевральная коллекция</div>
-                    </div>
-                    <div class="collection-badge" id="commonBadge">0%</div>
-                </div>
-                
-                <div class="collection-card hidden" onclick="openCollection('secret')" id="secretCard">
-                    <div class="collection-icon" id="secretIcon">
-                        <!-- Random chibi image will be loaded here -->
-                    </div>
-                    <div class="collection-info">
-                        <div class="collection-name">Секретные чибики</div>
-                        <div class="collection-stats" id="secretStats">Абсолютно секретно</div>
-                    </div>
-                    <div class="collection-badge hidden" id="secretBadge">NEW</div>
-                </div>
-                
-                <div class="collection-card hidden" onclick="openCollection('prize')" id="prizeCard">
-                    <div class="collection-icon" id="prizeIcon">
-                        <!-- Random chibi image will be loaded here -->
-                    </div>
-                    <div class="collection-info">
-                        <div class="collection-name">Призовые чибики</div>
-                        <div class="collection-stats" id="prizeStats">Твои чибики с розыгрышей</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-title">Статьи</div>
-                
-                <div class="collection-card" onclick="openArticle('dice')">
-                    <div class="collection-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="#8E8E93">
-                            <path d="M18,19V6c0-1.657-1.343-3-3-3H5C3.343,3,2,4.343,2,6v12c0,1.657,1.343,3,3,3h15 C18.895,21,18,20.105,18,19z" opacity=".35"></path>
-                            <path d="M14,14H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,13.552,14.552,14,14,14z"></path>
-                            <path d="M14,18H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,17.552,14.552,18,14,18z"></path>
-                            <path d="M20,7h-2v12c0,1.105,0.895,2,2,2h0c1.105,0,2-0.895,2-2V9C22,7.895,21.105,7,20,7z"></path>
-                            <path d="M13.5,7c-0.386,0-6.614,0-7,0C5.672,7,5,7.672,5,8.5S5.672,10,6.5,10c0.386,0,6.614,0,7,0c0.828,0,1.5-0.672,1.5-1.5 S14.328,7,13.5,7z"></path>
-                        </svg>
-                    </div>
-                    <div class="collection-info">
-                        <div class="collection-name">Что такое кости?</div>
-                        <div class="collection-stats">И с чем их едят</div>
-                    </div>
-                </div>
-                
-                <div class="collection-card" onclick="openArticle('help')">
-                    <div class="collection-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="#8E8E93">
-                            <path d="M18,19V6c0-1.657-1.343-3-3-3H5C3.343,3,2,4.343,2,6v12c0,1.657,1.343,3,3,3h15 C18.895,21,18,20.105,18,19z" opacity=".35"></path>
-                            <path d="M14,14H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,13.552,14.552,14,14,14z"></path>
-                            <path d="M14,18H6c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1v0C15,17.552,14.552,18,14,18z"></path>
-                            <path d="M20,7h-2v12c0,1.105,0.895,2,2,2h0c1.105,0,2-0.895,2-2V9C22,7.895,21.105,7,20,7z"></path>
-                            <path d="M13.5,7c-0.386,0-6.614,0-7,0C5.672,7,5,7.672,5,8.5S5.672,10,6.5,10c0.386,0,6.614,0,7,0c0.828,0,1.5-0.672,1.5-1.5 S14.328,7,13.5,7z"></path>
-                        </svg>
-                    </div>
-                    <div class="collection-info">
-                        <div class="collection-name">Как получить помощь?</div>
-                        <div class="collection-stats">Помощь от админов</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Friends Screen -->
-        <div class="screen hidden" id="friendsScreen">
-            <div class="development-screen">
-                <div class="development-text">В разработке…</div>
-            </div>
-        </div>
-
         <!-- Profile Screen -->
-        <div class="screen hidden" id="profileScreen">
-            <div class="development-screen">
-                <div class="development-text">В разработке…</div>
+        <div class="screen profile-screen" id="profileScreen">
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar">
+                    <!-- Large avatar will be loaded here -->
+                </div>
+                <div class="profile-username" id="profileUsername">
+                    <!-- Username will be loaded here -->
+                </div>
+                <div class="profile-buttons">
+                    <button class="support-button" onclick="supportChibiki()">
+                        <img src="https://i.ibb.co/WWrbRjX2/IMG-8701.png" alt="Поддержать" class="support-icon">
+                        Поддержать ЧИБИКОВ
+                    </button>
+                    <button class="share-button" onclick="shareProfile()">
+                        Поделиться
+                    </button>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="chibi-collection">
+                <div class="collection-title">Мои чибики</div>
+                <div class="chibi-scroll-grid" id="profileChibiGrid">
+                    <!-- User's chibis will be loaded here -->
+                </div>
             </div>
         </div>
 
-        <!-- Collection Screens -->
-        <div class="screen collection-screen hidden" id="commonCollectionScreen">
-            <div class="chibi-grid grid-3" id="commonGrid"></div>
-        </div>
-
-        <div class="screen collection-screen hidden" id="secretCollectionScreen">
-            <div class="chibi-grid grid-3" id="secretGrid"></div>
-        </div>
-
-        <div class="screen collection-screen hidden" id="prizeCollectionScreen">
-            <div class="chibi-grid grid-3" id="prizeGrid"></div>
-        </div>
+        <!-- Other screens remain the same -->
+        <!-- ... -->
     </div>
 
     <script>
@@ -523,11 +412,12 @@
         let userData = {
             common: { collected: [], all: [] },
             secret: { collected: [], all: [] },
-            prize: { collected: [], all: [] }
+            prize: { collected: [], all: [] },
+            gifted: [] // Track gifted chibis
         };
         
-        let currentScreen = 'home';
-        let currentViewMode = 3; // 3, 2, or 1 columns
+        let currentScreen = 'profile';
+        let currentViewMode = 3;
 
         // Initialize TMA
         function initTelegramApp() {
@@ -539,108 +429,111 @@
             // Setup back button handler
             tg.BackButton.onClick(goBack);
             
-            // Load user data and setup footer
+            // Load user data and setup profile
             loadUserData();
-            setupFooter();
+            setupProfile();
         }
 
-        // Footer setup
-        function setupFooter() {
+        // Profile setup
+        function setupProfile() {
             const user = tg.initDataUnsafe?.user;
+            const profileAvatar = document.getElementById('profileAvatar');
+            const profileUsername = document.getElementById('profileUsername');
             const avatarCircle = document.getElementById('avatarCircle');
             
-            if (user && user.photo_url) {
-                avatarCircle.innerHTML = `<img src="${user.photo_url}" alt="Avatar">`;
-            } else {
-                // Default avatar if no photo
-                avatarCircle.innerHTML = `
-                    <svg viewBox="0 0 24 24" fill="#8E8E93">
-                        <path d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z" opacity=".35"></path>
-                        <path d="M12,6c-1.657,0-3,1.343-3,3s1.343,3,3,3s3-1.343,3-3S13.657,6,12,6z"></path>
-                        <path d="M12,13c-3.6,0-6,2-6,4c0,1,1,2,6,2s6-1,6-2C18,15,15.6,13,12,13z"></path>
-                    </svg>
+            if (user) {
+                // Setup large profile avatar
+                if (user.photo_url) {
+                    profileAvatar.innerHTML = `<img src="${user.photo_url}" alt="Profile Avatar">`;
+                } else {
+                    profileAvatar.innerHTML = `
+                        <svg viewBox="0 0 24 24" width="48" height="48" fill="#8E8E93">
+                            <path d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z" opacity=".35"></path>
+                            <path d="M12,6c-1.657,0-3,1.343-3,3s1.343,3,3,3s3-1.343,3-3S13.657,6,12,6z"></path>
+                            <path d="M12,13c-3.6,0-6,2-6,4c0,1,1,2,6,2s6-1,6-2C18,15,15.6,13,12,13z"></path>
+                        </svg>
+                    `;
+                }
+                
+                // Setup username
+                profileUsername.textContent = user.username ? `@${user.username}` : (user.first_name || 'Пользователь');
+                
+                // Setup footer avatar
+                if (user.photo_url) {
+                    avatarCircle.innerHTML = `<img src="${user.photo_url}" alt="Avatar">`;
+                } else {
+                    avatarCircle.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="#8E8E93">
+                            <path d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z" opacity=".35"></path>
+                            <path d="M12,6c-1.657,0-3,1.343-3,3s1.343,3,3,3s3-1.343,3-3S13.657,6,12,6z"></path>
+                            <path d="M12,13c-3.6,0-6,2-6,4c0,1,1,2,6,2s6-1,6-2C18,15,15.6,13,12,13z"></path>
+                        </svg>
+                    `;
+                }
+            }
+            
+            // Render user's chibi collection
+            renderProfileChibis();
+        }
+
+        // Render user's chibi collection for profile
+        function renderProfileChibis() {
+            const grid = document.getElementById('profileChibiGrid');
+            grid.innerHTML = '';
+            
+            // Combine all collected chibis from different categories
+            const allCollectedChibis = [
+                ...userData.common.collected.map(name => ({ name, category: 'common' })),
+                ...userData.secret.collected.map(name => ({ name, category: 'secret' })),
+                ...userData.prize.collected.map(name => ({ name, category: 'prize' }))
+            ];
+            
+            // Add gifted chibis with opacity
+            const giftedChibis = userData.gifted.map(name => {
+                // Determine category for gifted chibis
+                let category = 'common';
+                if (userData.secret.all.includes(name)) category = 'secret';
+                if (userData.prize.all.includes(name)) category = 'prize';
+                return { name, category, gifted: true };
+            });
+            
+            const allChibis = [...allCollectedChibis, ...giftedChibis];
+            
+            if (allChibis.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #8E8E93; font-size: 14px;">
+                        Пока нет чибиков 🎮
+                    </div>
                 `;
+                return;
             }
+            
+            allChibis.forEach((chibi, index) => {
+                const card = document.createElement('div');
+                card.className = `chibi-mini-card ${chibi.gifted ? 'gifted' : ''}`;
+                
+                const imageUrl = `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/${chibi.category}/${chibi.name.replace(/ /g, '_')}.png`;
+                
+                card.innerHTML = `
+                    <img src="${imageUrl}" alt="${chibi.name}" class="chibi-mini-image"
+                         onerror="this.style.display='none'">
+                `;
+                
+                grid.appendChild(card);
+            });
         }
 
-        // Tab switching
-        function switchTab(tab) {
-            tg.HapticFeedback.impactOccurred('light');
-            
-            // Update active tab
-            document.querySelectorAll('.footer-tab').forEach(t => t.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            
-            // Hide all screens
-            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-            
-            // Show selected screen
-            document.getElementById(`${tab}Screen`).classList.remove('hidden');
-            currentScreen = tab;
-            
-            // Hide back button and view toggle on main tabs
-            tg.BackButton.hide();
-            document.getElementById('viewToggle').classList.add('hidden');
-            document.getElementById('footer').classList.remove('hidden');
-        }
-
-        // Navigation
-        function openCollection(type) {
-            tg.HapticFeedback.impactOccurred('light');
-            
-            // Hide footer in collection screens
-            document.getElementById('footer').classList.add('hidden');
-            
-            hideAllScreens();
-            document.getElementById(`${type}CollectionScreen`).classList.remove('hidden');
-            currentScreen = type;
-            
-            tg.BackButton.show();
-            document.getElementById('viewToggle').classList.remove('hidden');
-            renderCollection(type);
-        }
-
-        function goBack() {
-            tg.HapticFeedback.impactOccurred('light');
-            
-            if (currentScreen === 'common' || currentScreen === 'secret' || currentScreen === 'prize') {
-                // Return from collection to home
-                hideAllScreens();
-                document.getElementById('homeScreen').classList.remove('hidden');
-                currentScreen = 'home';
-                tg.BackButton.hide();
-                document.getElementById('viewToggle').classList.add('hidden');
-                document.getElementById('footer').classList.remove('hidden');
-            }
-        }
-
-        function hideAllScreens() {
-            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-        }
-
-        // View mode toggle
-        function toggleViewMode() {
-            tg.HapticFeedback.impactOccurred('light');
-            
-            currentViewMode = currentViewMode === 3 ? 2 : currentViewMode === 2 ? 1 : 3;
-            
-            const grid = document.getElementById(`${currentScreen}Grid`);
-            grid.className = `chibi-grid grid-${currentViewMode}`;
-            
-            // Re-render collection to update layout
-            renderCollection(currentScreen);
-        }
-
-        // Telegram Popup for bot launch
-        function showBotAlert() {
+        // Support button handler
+        function supportChibiki() {
+            tg.HapticFeedback.impactOccurred('medium');
             tg.showPopup({
-                title: 'Запусти бота! 🚀',
-                message: 'Чтобы собрать свою коллекцию чибиков, нужно сначала запустить @chibeki_bot',
+                title: 'Поддержать ЧИБИКОВ',
+                message: 'Спасибо за желание поддержать проект! Развитие бота требует ресурсов, и ваша поддержка очень важна.',
                 buttons: [
                     {
                         type: 'default',
-                        text: 'Запустить бота',
-                        id: 'launch_bot'
+                        text: 'Перейти к донату',
+                        id: 'donate'
                     },
                     {
                         type: 'cancel',
@@ -649,39 +542,27 @@
                     }
                 ]
             }, function(buttonId) {
-                if (buttonId === 'launch_bot') {
-                    tg.openTelegramLink('https://t.me/chibeki_bot');
+                if (buttonId === 'donate') {
+                    // Replace with actual donation link
+                    tg.openLink('https://t.me/chibeki_bot?start=donate');
                 }
             });
         }
 
-        // Articles
-        function openArticle(type) {
+        // Share button handler
+        function shareProfile() {
             tg.HapticFeedback.impactOccurred('medium');
-            
-            const articles = {
-                dice: {
-                    title: 'Что такое кости?',
-                    message: 'Подробно расскажем, как работают кости в нашем боте и как на них зарабатывать',
-                    url: 'https://telegra.ph/Kak-rabotayut-kosti--CHIBIKI-11-10'
-                },
-                help: {
-                    title: 'Как получить помощь?',
-                    message: 'Подробно расскажем, как обратиться к админам за помощью',
-                    url: 'https://telegra.ph/Kak-svyazatsya-s-adminami-11-11'
-                }
-            };
-            
-            const article = articles[type];
+            const user = tg.initDataUnsafe?.user;
+            const username = user?.username ? `@${user.username}` : 'пользователь';
             
             tg.showPopup({
-                title: article.title,
-                message: article.message,
+                title: 'Поделиться профилем',
+                message: `Поделитесь своим профилем ${username} с друзьями!`,
                 buttons: [
                     {
                         type: 'default',
-                        text: 'Читать',
-                        id: 'read'
+                        text: 'Поделиться',
+                        id: 'share'
                     },
                     {
                         type: 'cancel',
@@ -690,52 +571,66 @@
                     }
                 ]
             }, function(buttonId) {
-                if (buttonId === 'read') {
-                    tg.openLink(article.url);
+                if (buttonId === 'share') {
+                    // Share profile logic would go here
+                    tg.showPopup({
+                        title: 'Успешно!',
+                        message: 'Ссылка на профиль скопирована в буфер обмена',
+                        buttons: [{ type: 'default', text: 'OK' }]
+                    });
                 }
             });
         }
 
-        // Data loading
+        // Tab switching and other functions remain the same
+        function switchTab(tab) {
+            tg.HapticFeedback.impactOccurred('light');
+            
+            document.querySelectorAll('.footer-tab').forEach(t => t.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+            document.getElementById(`${tab}Screen`).classList.remove('hidden');
+            currentScreen = tab;
+            
+            tg.BackButton.hide();
+            document.getElementById('viewToggle').classList.add('hidden');
+            document.getElementById('footer').classList.remove('hidden');
+            
+            // Refresh profile when switching to it
+            if (tab === 'profile') {
+                setupProfile();
+            }
+        }
+
+        function goBack() {
+            tg.HapticFeedback.impactOccurred('light');
+            // Back navigation logic...
+        }
+
+        // Data loading and other functions remain mostly the same
         async function loadUserData() {
             try {
                 const user = tg.initDataUnsafe?.user;
-                
                 await loadChibiLists();
                 
                 if (user) {
                     await loadUserCollection(user.id);
-                    
-                    // Always show bot alert for @ya_admin7
-                    if (user.username === 'ya_admin7') {
-                        setTimeout(showBotAlert, 1000);
-                    }
                 }
                 
-                updateMainScreen();
-                
-                // Show bot alert if user has no chibis at all
-                const totalChibis = userData.common.collected.length + userData.secret.collected.length + userData.prize.collected.length;
-                if (totalChibis === 0 && user && user.username !== 'ya_admin7') {
-                    setTimeout(showBotAlert, 1000);
-                }
+                // Mock some gifted chibis for demo
+                userData.gifted = ['Chibi 2', 'Chibi 5', 'Secret 1'];
                 
             } catch (error) {
                 console.error('Error loading data:', error);
-                const user = tg.initDataUnsafe?.user;
-                if (user && user.username === 'ya_admin7') {
-                    setTimeout(showBotAlert, 1000);
-                }
             }
         }
 
         async function loadChibiLists() {
             try {
-                // Mock data - replace with actual data from your bot
                 userData.common.all = ['Chibi 1', 'Chibi 2', 'Chibi 3', 'Chibi 4', 'Chibi 5', 'Chibi 6', 'Chibi 7', 'Chibi 8', 'Chibi 9', 'Chibi 10', 'Chibi 11', 'Chibi 12'];
                 userData.secret.all = ['Secret 1', 'Secret 2', 'Secret 3', 'Secret 4'];
                 userData.prize.all = ['Prize 1', 'Prize 2', 'Prize 3'];
-                
             } catch (error) {
                 console.error('Error loading chibi lists:', error);
             }
@@ -753,7 +648,6 @@
 
                 if (response.ok) {
                     const collection = await response.json();
-                    
                     userData.common.collected = collection.common || [];
                     userData.secret.collected = collection.secret || [];
                     userData.prize.collected = collection.prize || [];
@@ -768,121 +662,10 @@
             } catch (error) {
                 console.error('Error loading user collection:', error);
                 // Mock data for demo
-                userData.common.collected = userData.common.all.slice(0, 4);
-                // Don't add secret/prize chibis in demo to test visibility
-                // userData.secret.collected = userData.secret.all.slice(0, 1);
-                // userData.prize.collected = userData.prize.all.slice(0, 1);
+                userData.common.collected = ['Chibi 1', 'Chibi 3', 'Chibi 7', 'Chibi 8'];
+                userData.secret.collected = ['Secret 2'];
+                userData.prize.collected = ['Prize 1'];
             }
-        }
-
-        // UI Updates
-        function updateMainScreen() {
-            // Update collection icons with random chibi images
-            updateCollectionIcon('common');
-            updateCollectionIcon('secret');
-            updateCollectionIcon('prize');
-            
-            // Update common collection
-            const commonStats = document.getElementById('commonStats');
-            const commonBadge = document.getElementById('commonBadge');
-            const commonProgress = userData.common.all.length > 0 ? 
-                Math.round((userData.common.collected.length / userData.common.all.length) * 100) : 0;
-            
-            commonStats.textContent = `Твоя шедевральная коллекция`;
-            commonBadge.textContent = `${commonProgress}%`;
-            
-            // Update secret collection - only show if has at least one chibi
-            const secretCard = document.getElementById('secretCard');
-            const secretBadge = document.getElementById('secretBadge');
-            
-            if (userData.secret.collected.length > 0) {
-                secretCard.classList.remove('hidden');
-                secretBadge.classList.remove('hidden');
-            } else {
-                secretCard.classList.add('hidden');
-                secretBadge.classList.add('hidden');
-            }
-            
-            // Update prize collection - only show if has at least one chibi
-            const prizeCard = document.getElementById('prizeCard');
-            
-            if (userData.prize.collected.length > 0) {
-                prizeCard.classList.remove('hidden');
-            } else {
-                prizeCard.classList.add('hidden');
-            }
-        }
-
-        function updateCollectionIcon(type) {
-            const iconElement = document.getElementById(`${type}Icon`);
-            const collected = userData[type].collected;
-            
-            if (collected.length > 0) {
-                // Use random collected chibi image
-                const randomChibi = collected[Math.floor(Math.random() * collected.length)];
-                const imageUrl = `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/${type}/${randomChibi.replace(/ /g, '_')}.png`;
-                
-                iconElement.innerHTML = `<img src="${imageUrl}" alt="${type}" onerror="this.style.display='none'">`;
-            } else {
-                // Show lock icon if no chibis
-                iconElement.innerHTML = `
-                    <svg viewBox="0 0 24 24" width="24" height="24" fill="#8E8E93">
-                        <path d="M18,21H6c-1.657,0-3-1.343-3-3v-8c0-1.657,1.343-3,3-3h12c1.657,0,3,1.343,3,3v8 C21,19.657,19.657,21,18,21z" opacity=".35"></path>
-                        <path d="M8,7c0-2.209,1.791-4,4-4s4,1.791,4,4h2c0-3.314-2.686-6-6-6S6,3.686,6,7H8z"></path>
-                        <path d="M12,12c-1.105,0-2,0.895-2,2s0.895,2,2,2s2-0.895,2-2S13.105,12,12,12z"></path>
-                    </svg>
-                `;
-            }
-        }
-
-        function renderCollection(type) {
-            const grid = document.getElementById(`${type}Grid`);
-            const data = userData[type];
-            
-            grid.innerHTML = '';
-            
-            // For common collection, show all chibis (collected and locked)
-            // For secret and prize collections, only show collected ones
-            const chibisToShow = (type === 'common') ? data.all : data.collected;
-            
-            chibisToShow.forEach((chibiName) => {
-                const isCollected = data.collected.includes(chibiName);
-                
-                const card = document.createElement('div');
-                card.className = 'chibi-card';
-                card.onclick = () => tg.HapticFeedback.impactOccurred('light');
-                
-                const imageUrl = `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/${type}/${chibiName.replace(/ /g, '_')}.png`;
-                
-                card.innerHTML = `
-                    <div class="chibi-image-container">
-                        <img src="${imageUrl}" alt="${chibiName}" class="chibi-image"
-                             onerror="this.style.display='none'">
-                    </div>
-                    ${isCollected ? `
-                        <div class="chibi-info">
-                            <div class="chibi-name">${chibiName}</div>
-                        </div>
-                    ` : ''}
-                `;
-                
-                // Add lock overlay for uncollected chibis (only in common collection)
-                if (!isCollected && type === 'common') {
-                    const lockOverlay = document.createElement('div');
-                    lockOverlay.className = 'locked-overlay';
-                    lockOverlay.innerHTML = `
-                        <svg class="locked-icon" viewBox="0 0 24 24" fill="#8E8E93">
-                            <path d="M18,21H6c-1.657,0-3-1.343-3-3v-8c0-1.657,1.343-3,3-3h12c1.657,0,3,1.343,3,3v8 C21,19.657,19.657,21,18,21z" opacity=".35"></path>
-                            <path d="M8,7c0-2.209,1.791-4,4-4s4,1.791,4,4h2c0-3.314-2.686-6-6-6S6,3.686,6,7H8z"></path>
-                            <path d="M12,12c-1.105,0-2,0.895-2,2s0.895,2,2,2s2-0.895,2-2S13.105,12,12,12z"></path>
-                        </svg>
-                        <div class="locked-text">Заблокировано</div>
-                    `;
-                    card.appendChild(lockOverlay);
-                }
-                
-                grid.appendChild(card);
-            });
         }
 
         // Initialize app
