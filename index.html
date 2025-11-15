@@ -174,6 +174,7 @@
             max-width: 100%;
             max-height: 100%;
             border-radius: 8px;
+            object-fit: cover;
         }
 
         .chibi-name {
@@ -393,7 +394,7 @@
                     return;
                 }
 
-                // Load all chibi lists from GitHub
+                // Load all chibi lists from bot API
                 await loadChibiLists();
                 
                 // Load user collection from bot API
@@ -409,13 +410,22 @@
 
         async function loadChibiLists() {
             try {
-                // Mock data - replace with actual GitHub API calls
+                // Load from bot API instead of GitHub
+                const response = await fetch('https://chibi-bot-3d4x.onrender.com/get_all_chibis');
+                if (response.ok) {
+                    const data = await response.json();
+                    userData.common.all = data.common || [];
+                    userData.secret.all = data.secret || [];
+                    userData.prize.all = data.prize || [];
+                } else {
+                    throw new Error('Failed to load chibi lists');
+                }
+            } catch (error) {
+                console.error('Error loading chibi lists:', error);
+                // Fallback mock data
                 userData.common.all = ['Chibi 1', 'Chibi 2', 'Chibi 3', 'Chibi 4', 'Chibi 5', 'Chibi 6', 'Chibi 7', 'Chibi 8', 'Chibi 9', 'Chibi 10', 'Chibi 11', 'Chibi 12'];
                 userData.secret.all = ['Secret 1', 'Secret 2', 'Secret 3', 'Secret 4', 'Secret 5', 'Secret 6', 'Secret 7', 'Secret 8'];
                 userData.prize.all = ['Prize 1', 'Prize 2', 'Prize 3', 'Prize 4', 'Prize 5'];
-                
-            } catch (error) {
-                console.error('Error loading chibi lists:', error);
             }
         }
 
@@ -451,6 +461,19 @@
                 userData.secret.collected = userData.secret.all.slice(0, 1);
                 userData.prize.collected = userData.prize.all.slice(0, 2);
             }
+        }
+
+        // Image loading with fallbacks
+        function getChibiImageUrl(chibiName, type) {
+            // Try multiple URL formats
+            const baseUrls = [
+                `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/${type}/${chibiName.replace(/ /g, '_')}.png`,
+                `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/refs/heads/main/chibis/${type}/${chibiName.replace(/ /g, '_')}.png`,
+                // Add fallback to your bot API if you host images there
+                // `https://chibi-bot-3d4x.onrender.com/images/${type}/${chibiName.replace(/ /g, '_')}.png`
+            ];
+            
+            return baseUrls[0]; // Use first URL, but handle errors in onerror
         }
 
         // UI Updates
@@ -508,14 +531,15 @@
                         </div>
                     `;
                 } else {
-                    // Use random collected chibi image for display
-                    const displayChibi = isCollected ? chibiName : getRandomCollectedChibi(type);
-                    const imageUrl = `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/${type}/${displayChibi.replace(/ /g, '_')}.png`;
+                    // Use actual chibi name for image, not random
+                    const displayChibi = chibiName;
+                    const imageUrl = getChibiImageUrl(displayChibi, type);
                     
                     card.innerHTML = `
                         <div class="chibi-image">
                             <img src="${imageUrl}" alt="${chibiName}" 
-                                 onerror="this.style.display='none'">
+                                 onerror="handleImageError(this, '${chibiName}', '${type}')"
+                                 onload="handleImageLoad(this)">
                         </div>
                         <div class="chibi-name">${chibiName}</div>
                         ${!isCollected ? '<div style="font-size:10px;opacity:0.5;margin-top:2px;">🔒</div>' : ''}
@@ -526,10 +550,27 @@
             });
         }
 
-        function getRandomCollectedChibi(type) {
-            const collected = userData[type].collected;
-            if (collected.length === 0) return userData[type].all[0] || 'default';
-            return collected[Math.floor(Math.random() * collected.length)];
+        function handleImageError(img, chibiName, type) {
+            console.log(`Failed to load image: ${chibiName} from ${type}`);
+            // Try alternative naming conventions
+            const alternatives = [
+                chibiName.replace(/ /g, '_'),
+                chibiName.replace(/ /g, '-'),
+                chibiName.toLowerCase().replace(/ /g, '_'),
+                chibiName.toLowerCase().replace(/ /g, '-')
+            ];
+            
+            // You can add fallback logic here
+            img.style.display = 'none';
+            
+            // Show placeholder icon
+            const parent = img.parentElement;
+            parent.innerHTML = `<div style="font-size:24px;opacity:0.5;">🎮</div>`;
+        }
+
+        function handleImageLoad(img) {
+            // Image loaded successfully
+            img.style.opacity = '1';
         }
 
         function openArticle() {
