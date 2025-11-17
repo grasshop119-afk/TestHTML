@@ -76,6 +76,14 @@
             padding: 20px;
         }
 
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
         .subtitle {
             font-size: 18px;
             font-weight: 500;
@@ -284,6 +292,94 @@
             }
         }
 
+        /* Корзина */
+        .cart-item {
+            display: flex;
+            align-items: center;
+            background: #f5f5f5;
+            border-radius: 17px;
+            padding: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .cart-item-category {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 14px;
+            background: rgba(24, 24, 24, 0.1);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .quantity-number {
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .empty-cart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .empty-cart-icon {
+            width: 80px;
+            height: 80px;
+            opacity: 0.25;
+            margin-bottom: 20px;
+        }
+
+        .empty-cart-text {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .empty-cart-subtext {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        /* Уведомление о добавлении в корзину */
         .cart-notification {
             position: fixed;
             bottom: 80px;
@@ -360,6 +456,7 @@
             font-size: 13px;
             opacity: 0.7;
             font-weight: 500;
+            cursor: pointer;
         }
 
         .footer {
@@ -460,42 +557,61 @@
     </header>
 
     <main class="main">
-        <div class="content">
-            <div class="subtitle">Предложения</div>
-            <div class="carousel">
-                <div class="carousel-slides">
-                    <div class="carousel-slide">
-                        <img src="https://i.ibb.co/hFvZnf3R/image.png" alt="Предложение 1">
-                        <a href="#" class="slide-button">Перейти</a>
+        <!-- Главная страница -->
+        <div class="page active" id="home-page">
+            <div class="content">
+                <div class="subtitle">Предложения</div>
+                <div class="carousel">
+                    <div class="carousel-slides">
+                        <div class="carousel-slide">
+                            <img src="https://i.ibb.co/hFvZnf3R/image.png" alt="Предложение 1">
+                            <a href="#" class="slide-button">Перейти</a>
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://i.ibb.co/qY24G7vv/image.png" alt="Предложение 2">
+                            <a href="#" class="slide-button">Перейти</a>
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://i.ibb.co/M5yVkBS4/image.png" alt="Предложение 3">
+                            <a href="#" class="slide-button">Перейти</a>
+                        </div>
                     </div>
-                    <div class="carousel-slide">
-                        <img src="https://i.ibb.co/qY24G7vv/image.png" alt="Предложение 2">
-                        <a href="#" class="slide-button">Перейти</a>
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="https://i.ibb.co/M5yVkBS4/image.png" alt="Предложение 3">
-                        <a href="#" class="slide-button">Перейти</a>
+                    <div class="carousel-indicators">
+                        <div class="indicator active" data-slide="0"></div>
+                        <div class="indicator" data-slide="1"></div>
+                        <div class="indicator" data-slide="2"></div>
                     </div>
                 </div>
-                <div class="carousel-indicators">
-                    <div class="indicator active" data-slide="0"></div>
-                    <div class="indicator" data-slide="1"></div>
-                    <div class="indicator" data-slide="2"></div>
+
+                <div id="products-sections">
+                    <!-- Товары будут загружены здесь -->
                 </div>
             </div>
+        </div>
 
-            <div id="products-sections">
-                <div class="loading">Загрузка товаров...</div>
+        <!-- Страница корзины -->
+        <div class="page" id="cart-page">
+            <div class="content">
+                <div class="subtitle">Корзина</div>
+                <div id="cart-items-container">
+                    <!-- Товары корзины будут здесь -->
+                </div>
+                <div id="empty-cart" class="empty-cart" style="display: none;">
+                    <img src="https://img.icons8.com/?size=100&id=WQLLPD5Ilvdt&format=png&color=000000" class="empty-cart-icon" alt="Корзина пуста">
+                    <div class="empty-cart-text">Корзина пуста</div>
+                    <div class="empty-cart-subtext">Самое время что-нибудь заказать!</div>
+                </div>
             </div>
         </div>
     </main>
 
+    <!-- Уведомление о добавлении в корзину -->
     <div class="cart-notification" id="cartNotification">
         <div class="notification-content">
-            <img src="https://img.icons8.com/?size=100&id=b3RGkeCZ0JC8&format=png&color=000000" class="notification-icon" alt="Корзина">
+            <img src="https://img.icons8.com/?size=100&id=psquRkzaBJuQ&format=png&color=FFFFFE" class="notification-icon" alt="Корзина">
             <span class="notification-text">Товар добавлен в корзину!</span>
         </div>
-        <span class="notification-go">Перейти</span>
+        <span class="notification-go" id="goToCart">Перейти</span>
     </div>
 
     <footer class="footer">
@@ -505,7 +621,7 @@
                 <span class="nav-label">Главная</span>
             </div>
             <div class="nav-item" data-page="cart">
-                <img src="https://img.icons8.com/?size=100&id=t0PO0k5FPlkX&format=png&color=181818" class="nav-icon" alt="Корзина">
+                <img src="https://img.icons8.com/?size=100&id=t0PO0k5FPlkX&format=png&color=181818" class="nav-icon" alt="Корзина" id="cart-icon">
                 <span class="nav-label">Корзина</span>
             </div>
             <div class="nav-item" data-page="profile">
@@ -517,6 +633,113 @@
 
     <script>
         let tg = window.Telegram.WebApp;
+        
+        // Массив товаров
+        const PRODUCTS_DATA = {
+            "Новинки": [
+                { 
+                    id: 1, 
+                    image: "https://i.ibb.co/CpKZD8T8/IMG-7105.jpg", 
+                    name: "Браслет со Звездой", 
+                    price: 1490, 
+                    categories: "Золотистый, Унисекс",
+                    isNew: true
+                },
+                { 
+                    id: 2, 
+                    image: "https://i.ibb.co/vCp8znw6/IMG-7104.jpg", 
+                    name: "Браслет с Черепом", 
+                    price: 1490, 
+                    categories: "Золотистый, Мужской",
+                    isNew: true
+                },
+                { 
+                    id: 3, 
+                    image: "https://i.ibb.co/Hf7k6R8N/IMG-7103.jpg", 
+                    name: "Браслет с Сердцем", 
+                    price: 1490, 
+                    categories: "Золотистый, Женский",
+                    isNew: true
+                },
+                { 
+                    id: 4, 
+                    image: "https://i.ibb.co/LdXmdDM8/IMG-7102.jpg", 
+                    name: "Браслет Классик", 
+                    price: 1290, 
+                    categories: "Золотистый, Унисекс",
+                    isNew: true
+                }
+            ],
+            "Товары": [
+                { 
+                    id: 5, 
+                    image: "https://i.ibb.co/6JP1Qr5r/IMG-7093.jpg", 
+                    name: "Браслет с Сердцем", 
+                    price: 1290, 
+                    categories: "Серебро, Женский",
+                    isNew: false
+                },
+                { 
+                    id: 6, 
+                    image: "https://i.ibb.co/XfkV54tc/IMG-7092.jpg", 
+                    name: "Браслет с Черепом", 
+                    price: 1290, 
+                    categories: "Серебро, Мужской",
+                    isNew: false
+                },
+                { 
+                    id: 7, 
+                    image: "https://i.ibb.co/4n0khxm6/IMG-7091.jpg", 
+                    name: "Браслет Классик", 
+                    price: 1190, 
+                    categories: "Серебро, Унисекс",
+                    isNew: false
+                },
+                { 
+                    id: 8, 
+                    image: "https://i.ibb.co/MDDLPRPH/IMG-7090.jpg", 
+                    name: "Браслет со Звездой", 
+                    price: 1390, 
+                    categories: "Серебро, Унисекс",
+                    isNew: false
+                },
+                { 
+                    id: 9, 
+                    image: "https://i.ibb.co/MDJQw74x/IMG-7089.jpg", 
+                    name: "Браслет с Черепом", 
+                    price: 1190, 
+                    categories: "Металлик, Мужской",
+                    isNew: false
+                },
+                { 
+                    id: 10, 
+                    image: "https://i.ibb.co/998tDZkr/IMG-7088.jpg", 
+                    name: "Браслет с Сердцем", 
+                    price: 1190, 
+                    categories: "Металлик, Женский",
+                    isNew: false
+                },
+                { 
+                    id: 11, 
+                    image: "https://i.ibb.co/Rk1SbsCp/IMG-7087.jpg", 
+                    name: "Браслет Классик", 
+                    price: 1090, 
+                    categories: "Металлик, Унисекс",
+                    isNew: false
+                },
+                { 
+                    id: 12, 
+                    image: "https://i.ibb.co/7dchH1XT/IMG-7086.jpg", 
+                    name: "Браслет со Звездой", 
+                    price: 1290, 
+                    categories: "Металлик, Унисекс",
+                    isNew: false
+                }
+            ]
+        };
+
+        // Корзина
+        let cart = JSON.parse(localStorage.getItem('cart')) || {};
         
         function vibrate(pattern) {
             if (tg && tg.HapticFeedback) {
@@ -531,49 +754,6 @@
             }
         }
 
-        // КОНКРЕТНЫЕ ПАПКИ ДЛЯ СКАНИРОВАНИЯ
-        const TARGET_FOLDERS = [
-            { name: 'Новинки', path: 'Goods/Новинки', isNew: true },
-            { name: 'Товары', path: 'Goods/Товары', isNew: false }
-        ];
-
-        function parseFileName(filename, folderName, isNewFolder) {
-            const nameWithoutExt = filename.replace(/\.(png|jpg|jpeg|webp)$/i, '');
-            const parts = nameWithoutExt.split('_');
-            
-            if (parts.length < 3) {
-                console.warn(`Некорректный формат: ${filename}`);
-                return null;
-            }
-            
-            let priceIndex = -1;
-            let price = 0;
-            
-            for (let i = 0; i < parts.length; i++) {
-                const potentialPrice = parseInt(parts[i]);
-                if (!isNaN(potentialPrice) && potentialPrice > 0) {
-                    priceIndex = i;
-                    price = potentialPrice;
-                    break;
-                }
-            }
-            
-            if (priceIndex === -1) return null;
-            
-            const name = parts.slice(0, priceIndex).join(' ');
-            const categories = parts.slice(priceIndex + 1).join(', ');
-            
-            return {
-                name,
-                price,
-                categories,
-                filename: filename,
-                folderName: folderName,
-                folderPath: `Goods/${folderName}`,
-                isNew: isNewFolder
-            };
-        }
-
         function formatPrice(price) {
             return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽';
         }
@@ -584,7 +764,7 @@
             
             card.innerHTML = `
                 <div class="product-image-container">
-                    <img src="${product.folderPath}/${product.filename}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/140x140?text=Нет+изображения'">
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
                     ${product.isNew ? '<div class="new-badge">Новинка!</div>' : ''}
                 </div>
                 <div class="product-info">
@@ -592,7 +772,7 @@
                     <div class="product-category">${product.categories}</div>
                     <div class="price-container">
                         <div class="product-price">${formatPrice(product.price)}</div>
-                        <div class="add-to-cart">
+                        <div class="add-to-cart" data-product-id="${product.id}">
                             <img src="https://img.icons8.com/?size=100&id=eaZYZ7VUPXxY&format=png&color=FFFFFE" class="add-to-cart-icon" alt="В корзину">
                         </div>
                     </div>
@@ -602,135 +782,153 @@
             return card;
         }
 
-        // Функция для проверки существования файла
-        function checkFileExists(url) {
-            return new Promise((resolve) => {
-                const img = new Image();
-                img.onload = () => resolve(true);
-                img.onerror = () => resolve(false);
-                img.src = url;
-            });
+        function addToCart(productId) {
+            if (!cart[productId]) {
+                cart[productId] = 1;
+            } else if (cart[productId] < 5) {
+                cart[productId]++;
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartIcon();
         }
 
-        // Загрузка товаров из конкретной папки
-        async function loadProductsFromFolder(folder) {
-            try {
-                const products = [];
+        function updateCartQuantity(productId, change) {
+            if (cart[productId]) {
+                cart[productId] += change;
                 
-                // В реальности здесь будет автоматическое сканирование файлов
-                // Сейчас просто проверяем существование файлов по известным путям
-                
-                // Пример: проверяем существование файлов для этой папки
-                const testFiles = [
-                    'Браслет_с_Черепом_900_Мужской_Металлик.png',
-                    'Кольцо_Дракон_1200_Унисекс_Серебро.png'
-                ];
-                
-                for (const filename of testFiles) {
-                    const filePath = `${folder.path}/${filename}`;
-                    const exists = await checkFileExists(filePath);
-                    
-                    if (exists) {
-                        const product = parseFileName(filename, folder.name, folder.isNew);
-                        if (product) {
-                            products.push(product);
-                        }
-                    }
+                if (cart[productId] <= 0) {
+                    delete cart[productId];
+                } else if (cart[productId] > 5) {
+                    cart[productId] = 5;
                 }
                 
-                return products;
-                
-            } catch (error) {
-                console.error(`Ошибка загрузки из ${folder.path}:`, error);
-                return [];
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartIcon();
+                renderCart();
             }
         }
 
-        function createProductsSection(folder, products) {
-            if (products.length === 0) {
-                return null;
+        function updateCartIcon() {
+            const cartIcon = document.getElementById('cart-icon');
+            const hasItems = Object.keys(cart).length > 0;
+            
+            if (hasItems) {
+                cartIcon.src = "https://img.icons8.com/?size=100&id=0DC5ksblNyOb&format=png&color=000000";
+            } else {
+                cartIcon.src = "https://img.icons8.com/?size=100&id=t0PO0k5FPlkX&format=png&color=181818";
+            }
+        }
+
+        function renderCart() {
+            const cartItemsContainer = document.getElementById('cart-items-container');
+            const emptyCart = document.getElementById('empty-cart');
+            const cartItems = Object.keys(cart);
+            
+            if (cartItems.length === 0) {
+                cartItemsContainer.innerHTML = '';
+                emptyCart.style.display = 'flex';
+                return;
             }
             
-            const section = document.createElement('div');
-            section.innerHTML = `
-                <div class="subtitle">${folder.name}</div>
-                <div class="products-container">
-                    <div class="products-grid" id="grid-${folder.name}"></div>
-                </div>
-            `;
+            emptyCart.style.display = 'none';
+            cartItemsContainer.innerHTML = '';
             
-            const grid = section.querySelector(`#grid-${folder.name}`);
-            products.forEach(product => {
-                grid.appendChild(createProductCard(product));
+            cartItems.forEach(productId => {
+                const product = getAllProducts().find(p => p.id == productId);
+                if (product) {
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item';
+                    cartItem.innerHTML = `
+                        <img src="${product.image}" class="cart-item-image" alt="${product.name}">
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${product.name}</div>
+                            <div class="cart-item-category">${product.categories}</div>
+                        </div>
+                        <div class="cart-item-quantity">
+                            <button class="quantity-btn minus" data-product-id="${product.id}">-</button>
+                            <span class="quantity-number">${cart[productId]}</span>
+                            <button class="quantity-btn plus" data-product-id="${product.id}">+</button>
+                        </div>
+                    `;
+                    cartItemsContainer.appendChild(cartItem);
+                }
             });
-            
-            return section;
+        }
+
+        function getAllProducts() {
+            return [...PRODUCTS_DATA.Новинки, ...PRODUCTS_DATA.Товары];
         }
 
         function initCartFunctionality() {
-            const addToCartButtons = document.querySelectorAll('.add-to-cart');
-            const cartNotification = document.getElementById('cartNotification');
-            
-            addToCartButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    vibrate('double');
+            // Добавление в корзину с главной страницы
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.add-to-cart')) {
+                    const productId = e.target.closest('.add-to-cart').dataset.productId;
+                    addToCart(productId);
                     
-                    const icon = this.querySelector('img');
-                    icon.style.display = 'none';
-                    
-                    const checkmarkSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-                    checkmarkSVG.setAttribute('class', 'checkmark-icon');
-                    checkmarkSVG.setAttribute('viewBox', '0 0 30 30');
-                    checkmarkSVG.setAttribute('width', '14');
-                    checkmarkSVG.setAttribute('height', '14');
-                    
-                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                    path.setAttribute('d', 'M 26.980469 5.9902344 A 1.0001 1.0001 0 0 0 26.292969 6.2929688 L 11 21.585938 L 4.7070312 15.292969 A 1.0001 1.0001 0 1 0 3.2929688 16.707031 L 10.292969 23.707031 A 1.0001 1.0001 0 0 0 11.707031 23.707031 L 27.707031 7.7070312 A 1.0001 1.0001 0 0 0 26.980469 5.9902344 z');
-                    checkmarkSVG.appendChild(path);
-                    
-                    this.appendChild(checkmarkSVG);
-                    
+                    // Показываем уведомление
+                    const cartNotification = document.getElementById('cartNotification');
                     cartNotification.classList.remove('show');
                     void cartNotification.offsetWidth;
                     cartNotification.classList.add('show');
                     
-                    setTimeout(() => {
-                        checkmarkSVG.remove();
-                        icon.style.display = 'block';
-                    }, 3500);
+                    vibrate('double');
+                }
+                
+                // Управление количеством в корзине
+                if (e.target.classList.contains('quantity-btn')) {
+                    const productId = e.target.dataset.productId;
+                    const isPlus = e.target.classList.contains('plus');
+                    updateCartQuantity(productId, isPlus ? 1 : -1);
+                    vibrate('single');
+                }
+            });
+            
+            // Кнопка "Перейти" в уведомлении
+            document.getElementById('goToCart').addEventListener('click', function() {
+                switchToPage('cart');
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.dataset.page === 'cart') {
+                        item.classList.add('active');
+                    }
                 });
             });
         }
 
-        async function loadAllProducts() {
+        function switchToPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(`${pageId}-page`).classList.add('active');
+        }
+
+        function loadAllProducts() {
             const productsSections = document.getElementById('products-sections');
-            productsSections.innerHTML = '<div class="loading">Загрузка товаров...</div>';
+            productsSections.innerHTML = '';
             
-            try {
-                let hasProducts = false;
-                const sections = [];
-                
-                for (const folder of TARGET_FOLDERS) {
-                    const products = await loadProductsFromFolder(folder);
-                    if (products.length > 0) {
-                        hasProducts = true;
-                        const section = createProductsSection(folder, products);
-                        if (section) sections.push(section);
-                    }
+            for (const [category, products] of Object.entries(PRODUCTS_DATA)) {
+                if (products.length > 0) {
+                    const section = document.createElement('div');
+                    section.innerHTML = `
+                        <div class="subtitle">${category}</div>
+                        <div class="products-container">
+                            <div class="products-grid" id="grid-${category}"></div>
+                        </div>
+                    `;
+                    
+                    const grid = section.querySelector(`#grid-${category}`);
+                    products.forEach(product => {
+                        grid.appendChild(createProductCard(product));
+                    });
+                    
+                    productsSections.appendChild(section);
                 }
-                
-                if (!hasProducts) {
-                    productsSections.innerHTML = '<div class="empty-state">Товаров пока нет...</div>';
-                } else {
-                    productsSections.innerHTML = '';
-                    sections.forEach(section => productsSections.appendChild(section));
-                    initCartFunctionality();
-                }
-                
-            } catch (error) {
-                console.error('Ошибка загрузки:', error);
-                productsSections.innerHTML = '<div class="empty-state">Товаров пока нет...</div>';
             }
+            
+            initCartFunctionality();
         }
 
         function initTelegramWebApp() {
@@ -761,15 +959,22 @@
         document.addEventListener('DOMContentLoaded', function() {
             initTelegramWebApp();
 
+            // Навигация
             const navItems = document.querySelectorAll('.nav-item');
             navItems.forEach(item => {
                 item.addEventListener('click', function() {
                     vibrate('single');
-                    navItems.forEach(navItem => navItem.classList.remove('active'));
+                    
+                    navItems.forEach(navItem => {
+                        navItem.classList.remove('active');
+                    });
                     this.classList.add('active');
+                    
+                    switchToPage(this.dataset.page);
                 });
             });
 
+            // Карусель
             const carouselSlides = document.querySelector('.carousel-slides');
             const indicators = document.querySelectorAll('.indicator');
             let currentSlide = 0;
@@ -777,6 +982,7 @@
 
             function updateCarousel() {
                 carouselSlides.style.transform = `translateX(-${currentSlide * 33.333}%)`;
+                
                 indicators.forEach((indicator, index) => {
                     indicator.classList.toggle('active', index === currentSlide);
                 });
@@ -796,28 +1002,10 @@
                 });
             });
 
-            const images = document.querySelectorAll('.carousel-slide img');
-            let loadedImages = 0;
-            
-            images.forEach(img => {
-                img.addEventListener('load', () => {
-                    loadedImages++;
-                    if (loadedImages === images.length) {
-                        document.querySelector('.carousel').style.animation = 'none';
-                        document.querySelector('.carousel').style.background = 'transparent';
-                    }
-                });
-                
-                if (img.complete) {
-                    loadedImages++;
-                    if (loadedImages === images.length) {
-                        document.querySelector('.carousel').style.animation = 'none';
-                        document.querySelector('.carousel').style.background = 'transparent';
-                    }
-                }
-            });
-
+            // Загружаем товары и корзину
             loadAllProducts();
+            updateCartIcon();
+            renderCart();
         });
     </script>
 </body>
