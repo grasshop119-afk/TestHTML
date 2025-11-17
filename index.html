@@ -630,6 +630,38 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Стили для контекстного меню */
+        .context-menu {
+            position: fixed;
+            background: #2A2B2C;
+            border-radius: 14px;
+            padding: 8px;
+            z-index: 2000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            min-width: 150px;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .context-menu.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .context-menu-item {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #FFFFFF;
+            transition: background-color 0.15s ease;
+        }
+
+        .context-menu-item:active {
+            background: #353637;
+        }
     </style>
 </head>
 <body>
@@ -656,7 +688,7 @@
         </div>
         
         <div class="footer-tab" onclick="showDevelopmentAlert()">
-            <img src="https://img.icons8.com/?size=100&id=nCwFsl1JlsiZ&format=png&color=000000" alt="???" style="filter: invert(0.6);">
+            <img src="https://img.icons8.com/?size=100&id=undefined&format=png&color=000000" alt="???" style="filter: invert(0.6);">
             <div class="tab-label">???</div>
         </div>
         
@@ -795,6 +827,11 @@
         <img src="" alt="" class="fullscreen-image" id="fullscreenImage">
     </div>
 
+    <!-- Контекстное меню для долгого нажатия -->
+    <div class="context-menu hidden" id="contextMenu">
+        <div class="context-menu-item" onclick="shareChibi()">Поделиться</div>
+    </div>
+
     <script>
         const tg = window.Telegram.WebApp;
         
@@ -811,6 +848,10 @@
             vibration: true,
             themeColor: false
         };
+
+        // Переменные для управления долгим нажатием
+        let longPressTimer = null;
+        let currentChibiData = null;
 
         function loadSettings() {
             const saved = localStorage.getItem('chibekiSettings');
@@ -932,6 +973,14 @@
                     tg.HapticFeedback.impactOccurred('light');
                 }
             });
+
+            // Закрытие контекстного меню при клике вне его
+            document.addEventListener('click', function(e) {
+                const contextMenu = document.getElementById('contextMenu');
+                if (!contextMenu.contains(e.target) && !contextMenu.classList.contains('hidden')) {
+                    hideContextMenu();
+                }
+            });
         }
 
         function switchTab(tab) {
@@ -1038,6 +1087,98 @@
         function closeFullscreen() {
             const viewer = document.getElementById('fullscreenViewer');
             viewer.classList.remove('active');
+        }
+
+        // Функции для долгого нажатия
+        function handleChibiTouchStart(event, chibiName, collectionType) {
+            if (longPressTimer) {
+                clearTimeout(longPressTimer);
+            }
+            
+            const data = userData[collectionType];
+            const isCollected = data.collected.includes(chibiName);
+            
+            if (!isCollected) return;
+            
+            currentChibiData = {
+                name: chibiName,
+                type: collectionType,
+                imageUrl: `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/${collectionType}/${chibiName.replace(/ /g, '_')}.png`
+            };
+            
+            longPressTimer = setTimeout(() => {
+                if (settings.vibration) {
+                    tg.HapticFeedback.impactOccurred('medium');
+                }
+                showContextMenu(event);
+            }, 2000);
+        }
+
+        function handleChibiTouchEnd() {
+            if (longPressTimer) {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
+            }
+        }
+
+        function showContextMenu(event) {
+            const contextMenu = document.getElementById('contextMenu');
+            contextMenu.classList.remove('hidden');
+            
+            // Позиционируем меню рядом с местом касания
+            const rect = contextMenu.getBoundingClientRect();
+            const x = Math.min(event.clientX || event.touches[0].clientX, window.innerWidth - rect.width - 10);
+            const y = Math.min(event.clientY || event.touches[0].clientY, window.innerHeight - rect.height - 10);
+            
+            contextMenu.style.left = x + 'px';
+            contextMenu.style.top = y + 'px';
+            
+            setTimeout(() => {
+                contextMenu.classList.add('active');
+            }, 10);
+        }
+
+        function hideContextMenu() {
+            const contextMenu = document.getElementById('contextMenu');
+            contextMenu.classList.remove('active');
+            setTimeout(() => {
+                contextMenu.classList.add('hidden');
+            }, 200);
+        }
+
+        function shareChibi() {
+            if (!currentChibiData) return;
+            
+            hideContextMenu();
+            
+            // Определяем редкость в зависимости от типа коллекции
+            let rarity = '';
+            let rarityEmoji = '';
+            
+            switch(currentChibiData.type) {
+                case 'common':
+                    rarity = 'Обычная';
+                    rarityEmoji = '⚪';
+                    break;
+                case 'secret':
+                    rarity = 'Секретная';
+                    rarityEmoji = '🟣';
+                    break;
+                case 'prize':
+                    rarity = 'Призовая';
+                    rarityEmoji = '🟡';
+                    break;
+                default:
+                    rarity = 'Особая';
+                    rarityEmoji = '⚪';
+            }
+            
+            const shareText = `🔥 Имя: ${currentChibiData.name}\nРедкость: ${rarity} ${rarityEmoji}`;
+            
+            // Используем Telegram Web App для пересылки сообщения
+            tg.shareMessage({
+                text: shareText
+            });
         }
 
         function showBotAlert() {
@@ -1239,6 +1380,8 @@
                 
                 const card = document.createElement('div');
                 card.className = 'chibi-card';
+                
+                // Обработчики для обычного клика
                 card.onclick = () => {
                     if (isCollected) {
                         const imageUrl = `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/${type}/${chibiName.replace(/ /g, '_')}.png`;
@@ -1248,6 +1391,16 @@
                         tg.HapticFeedback.impactOccurred('light');
                     }
                 };
+                
+                // Обработчики для долгого нажатия
+                card.addEventListener('touchstart', (e) => handleChibiTouchStart(e, chibiName, type));
+                card.addEventListener('touchend', handleChibiTouchEnd);
+                card.addEventListener('touchcancel', handleChibiTouchEnd);
+                
+                // Для десктопов
+                card.addEventListener('mousedown', (e) => handleChibiTouchStart(e, chibiName, type));
+                card.addEventListener('mouseup', handleChibiTouchEnd);
+                card.addEventListener('mouseleave', handleChibiTouchEnd);
                 
                 const imageUrl = `https://raw.githubusercontent.com/therootishere00-ux/Chibi-bot/main/chibis/${type}/${chibiName.replace(/ /g, '_')}.png`;
                 
