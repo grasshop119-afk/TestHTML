@@ -187,6 +187,19 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
+        .product-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3px 6px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 600;
+            color: #181818;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
         .product-info {
             padding: 10px 8px 8px 8px;
             flex: 1;
@@ -422,6 +435,12 @@
         .products-container::-webkit-scrollbar-thumb:hover {
             background: #a8a8a8;
         }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -454,58 +473,9 @@
                 </div>
             </div>
 
-            <div class="subtitle">Новинки</div>
-            <div class="products-container">
-                <div class="products-grid">
-                    <div class="product-card">
-                        <div class="product-image-container">
-                            <img src="https://i.ibb.co/6JP1Qr5r/IMG-7093.jpg" alt="Браслет с Сердцем" class="product-image">
-                            <div class="new-badge">Новинка!</div>
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">Браслет с Сердцем</div>
-                            <div class="product-category">Серебро, Женская коллекция</div>
-                            <div class="price-container">
-                                <div class="product-price">2 490 ₽</div>
-                                <div class="add-to-cart">
-                                    <img src="https://img.icons8.com/?size=100&id=eaZYZ7VUPXxY&format=png&color=FFFFFE" class="add-to-cart-icon" alt="В корзину">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image-container">
-                            <img src="https://i.ibb.co/MDJQw74x/IMG-7089.jpg" alt="Браслет с Черепом" class="product-image">
-                            <div class="new-badge">Новинка!</div>
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">Браслет с Черепом</div>
-                            <div class="product-category">Металлик, Мужская коллекция</div>
-                            <div class="price-container">
-                                <div class="product-price">2 190 ₽</div>
-                                <div class="add-to-cart">
-                                    <img src="https://img.icons8.com/?size=100&id=eaZYZ7VUPXxY&format=png&color=FFFFFE" class="add-to-cart-icon" alt="В корзину">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image-container">
-                            <img src="https://i.ibb.co/6JP1Qr5r/IMG-7093.jpg" alt="Браслет с Сердцем" class="product-image">
-                            <div class="new-badge">Новинка!</div>
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">Браслет с Сердцем</div>
-                            <div class="product-category">Серебро, Женская коллекция</div>
-                            <div class="price-container">
-                                <div class="product-price">2 490 ₽</div>
-                                <div class="add-to-cart">
-                                    <img src="https://img.icons8.com/?size=100&id=eaZYZ7VUPXxY&format=png&color=FFFFFE" class="add-to-cart-icon" alt="В корзину">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- Динамические секции товаров будут загружены здесь -->
+            <div id="products-sections">
+                <div class="loading">Загрузка товаров...</div>
             </div>
         </div>
     </main>
@@ -539,10 +509,197 @@
     </footer>
 
     <script>
+        // Конфигурация папок с товарами
+        const PRODUCT_FOLDERS = [
+            { path: 'Goods/Новинки', title: 'Новинки', badge: 'Новинка!' },
+            { path: 'Goods/Товары', title: 'Товары', badge: 'Товар' }
+            // Добавьте сюда другие папки по мере необходимости
+        ];
+
         // Функция для вибрации (эмуляция для браузера)
         function vibrate(pattern) {
             if (navigator.vibrate) {
                 navigator.vibrate(pattern);
+            }
+        }
+
+        // Функция для парсинга имени файла
+        function parseFileName(filename) {
+            // Убираем расширение файла
+            const nameWithoutExt = filename.replace(/\.(png|jpg|jpeg|webp)$/i, '');
+            
+            // Разбиваем по подчеркиваниям
+            const parts = nameWithoutExt.split('_');
+            
+            if (parts.length < 3) {
+                console.warn(`Некорректный формат имени файла: ${filename}`);
+                return null;
+            }
+            
+            const type = parts[0]; // New или Nom
+            const name = parts[1].replace(/~/g, ' '); // Заменяем ~ на пробелы
+            const price = parseInt(parts[2]);
+            const categories = parts.slice(3).map(cat => cat.replace(/~/g, ' ')); // Остальные части - категории
+            
+            return {
+                type,
+                name,
+                price,
+                categories: categories.join(', '),
+                filename: filename
+            };
+        }
+
+        // Функция для форматирования цены
+        function formatPrice(price) {
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽';
+        }
+
+        // Функция для создания карточки товара
+        function createProductCard(product, folderConfig) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            
+            card.innerHTML = `
+                <div class="product-image-container">
+                    <img src="${folderConfig.path}/${product.filename}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/140x140?text=Нет+изображения'">
+                    <div class="product-badge">${folderConfig.badge}</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-title">${product.name}</div>
+                    <div class="product-category">${product.categories}</div>
+                    <div class="price-container">
+                        <div class="product-price">${formatPrice(product.price)}</div>
+                        <div class="add-to-cart">
+                            <img src="https://img.icons8.com/?size=100&id=eaZYZ7VUPXxY&format=png&color=FFFFFE" class="add-to-cart-icon" alt="В корзину">
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Функция для загрузки товаров из папки
+        async function loadProductsFromFolder(folderConfig) {
+            try {
+                // В реальном приложении здесь будет API запрос к GitHub API
+                // Для демонстрации используем заглушку
+                console.log(`Загрузка товаров из папки: ${folderConfig.path}`);
+                
+                // В реальной реализации нужно заменить на вызов GitHub API
+                // const response = await fetch(`https://api.github.com/repos/ваш-username/ваш-репозиторий/contents/${folderConfig.path}`);
+                // const files = await response.json();
+                
+                // Заглушка с тестовыми данными
+                const mockFiles = [
+                    'New_Браслет~с~Сердцем_2490_Серебро,Женская~коллекция.png',
+                    'New_Браслет~с~Черепом_2190_Металлик,Мужская~коллекция.png',
+                    'Nom_Кольцо~Змея_1890_Серебро,Унисекс.png',
+                    'Nom_Цепочка~Классика_3290_Золото,Женская~коллекция.png'
+                ];
+                
+                const products = mockFiles
+                    .map(filename => parseFileName(filename))
+                    .filter(product => product !== null);
+                
+                return products;
+            } catch (error) {
+                console.error(`Ошибка загрузки из папки ${folderConfig.path}:`, error);
+                return [];
+            }
+        }
+
+        // Функция для создания секции товаров
+        function createProductsSection(folderConfig, products) {
+            if (products.length === 0) return null;
+            
+            const section = document.createElement('div');
+            section.innerHTML = `
+                <div class="subtitle">${folderConfig.title}</div>
+                <div class="products-container">
+                    <div class="products-grid" id="grid-${folderConfig.path.replace(/[\/\s]/g, '-')}"></div>
+                </div>
+            `;
+            
+            const grid = section.querySelector(`#grid-${folderConfig.path.replace(/[\/\s]/g, '-')}`);
+            
+            products.forEach(product => {
+                const card = createProductCard(product, folderConfig);
+                grid.appendChild(card);
+            });
+            
+            return section;
+        }
+
+        // Функция для инициализации корзины
+        function initCartFunctionality() {
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            const cartNotification = document.getElementById('cartNotification');
+            
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Вибрация при добавлении в корзину
+                    vibrate(100);
+                    
+                    // Меняем иконку на анимированную галочку
+                    const icon = this.querySelector('img');
+                    icon.style.display = 'none';
+                    
+                    // Создаем SVG галочку с анимацией
+                    const checkmarkSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    checkmarkSVG.setAttribute('class', 'checkmark-icon');
+                    checkmarkSVG.setAttribute('viewBox', '0 0 30 30');
+                    checkmarkSVG.setAttribute('width', '14');
+                    checkmarkSVG.setAttribute('height', '14');
+                    
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    path.setAttribute('d', 'M 26.980469 5.9902344 A 1.0001 1.0001 0 0 0 26.292969 6.2929688 L 11 21.585938 L 4.7070312 15.292969 A 1.0001 1.0001 0 1 0 3.2929688 16.707031 L 10.292969 23.707031 A 1.0001 1.0001 0 0 0 11.707031 23.707031 L 27.707031 7.7070312 A 1.0001 1.0001 0 0 0 26.980469 5.9902344 z');
+                    checkmarkSVG.appendChild(path);
+                    
+                    this.appendChild(checkmarkSVG);
+                    
+                    // Показываем уведомление с анимацией
+                    cartNotification.classList.remove('show');
+                    void cartNotification.offsetWidth; // Перезапуск анимации
+                    cartNotification.classList.add('show');
+                    
+                    // Через 3.5 секунды возвращаем исходную иконку
+                    setTimeout(() => {
+                        checkmarkSVG.remove();
+                        icon.style.display = 'block';
+                    }, 3500);
+                });
+            });
+        }
+
+        // Основная функция загрузки товаров
+        async function loadAllProducts() {
+            const productsSections = document.getElementById('products-sections');
+            productsSections.innerHTML = '<div class="loading">Загрузка товаров...</div>';
+            
+            try {
+                const sections = [];
+                
+                for (const folderConfig of PRODUCT_FOLDERS) {
+                    const products = await loadProductsFromFolder(folderConfig);
+                    if (products.length > 0) {
+                        const section = createProductsSection(folderConfig, products);
+                        if (section) {
+                            sections.push(section);
+                        }
+                    }
+                }
+                
+                productsSections.innerHTML = '';
+                sections.forEach(section => productsSections.appendChild(section));
+                
+                // Инициализируем функциональность корзины для новых карточек
+                initCartFunctionality();
+                
+            } catch (error) {
+                console.error('Ошибка загрузки товаров:', error);
+                productsSections.innerHTML = '<div class="loading">Ошибка загрузки товаров</div>';
             }
         }
 
@@ -624,44 +781,8 @@
                 }
             });
 
-            // Добавление в корзину
-            const addToCartButtons = document.querySelectorAll('.add-to-cart');
-            const cartNotification = document.getElementById('cartNotification');
-            
-            addToCartButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Вибрация при добавлении в корзину
-                    vibrate(100);
-                    
-                    // Меняем иконку на анимированную галочку
-                    const icon = this.querySelector('img');
-                    icon.style.display = 'none';
-                    
-                    // Создаем SVG галочку с анимацией
-                    const checkmarkSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-                    checkmarkSVG.setAttribute('class', 'checkmark-icon');
-                    checkmarkSVG.setAttribute('viewBox', '0 0 30 30');
-                    checkmarkSVG.setAttribute('width', '14');
-                    checkmarkSVG.setAttribute('height', '14');
-                    
-                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                    path.setAttribute('d', 'M 26.980469 5.9902344 A 1.0001 1.0001 0 0 0 26.292969 6.2929688 L 11 21.585938 L 4.7070312 15.292969 A 1.0001 1.0001 0 1 0 3.2929688 16.707031 L 10.292969 23.707031 A 1.0001 1.0001 0 0 0 11.707031 23.707031 L 27.707031 7.7070312 A 1.0001 1.0001 0 0 0 26.980469 5.9902344 z');
-                    checkmarkSVG.appendChild(path);
-                    
-                    this.appendChild(checkmarkSVG);
-                    
-                    // Показываем уведомление с анимацией
-                    cartNotification.classList.remove('show');
-                    void cartNotification.offsetWidth; // Перезапуск анимации
-                    cartNotification.classList.add('show');
-                    
-                    // Через 3.5 секунды возвращаем исходную иконку
-                    setTimeout(() => {
-                        checkmarkSVG.remove();
-                        icon.style.display = 'block';
-                    }, 3500);
-                });
-            });
+            // Загружаем все товары
+            loadAllProducts();
         });
     </script>
 </body>
