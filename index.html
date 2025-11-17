@@ -101,7 +101,8 @@
             position: absolute;
             bottom: 20px;
             left: 15px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
             border-radius: 17px;
             padding: 8px 15px;
             font-size: 14px;
@@ -109,12 +110,6 @@
             color: #181818;
             text-decoration: none;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .slide-button:hover {
-            background: rgba(255, 255, 255, 1);
-            transform: translateY(-1px);
         }
 
         .carousel-indicators {
@@ -155,7 +150,7 @@
         .product-card {
             position: relative;
             background: #f5f5f5;
-            border-radius: 12px;
+            border-radius: 17px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             border: 1px solid rgba(24, 24, 24, 0.1);
             display: flex;
@@ -236,18 +231,111 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .add-to-cart:hover {
-            background: rgba(24, 24, 24, 1);
-            transform: scale(1.1);
         }
 
         .add-to-cart-icon {
             width: 12px;
             height: 12px;
+        }
+
+        .checkmark-icon {
+            width: 14px;
+            height: 14px;
+            fill: white;
+            animation: checkmarkAppear 0.3s ease-out;
+        }
+
+        @keyframes checkmarkAppear {
+            0% {
+                transform: scale(0) rotate(-45deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2) rotate(0deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* Уведомление о добавлении в корзину */
+        .cart-notification {
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            right: 20px;
+            background: rgba(24, 24, 24, 0.95);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transform: translateX(-150%);
+            opacity: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .cart-notification.show {
+            animation: slideInOut 3.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes slideInOut {
+            0% {
+                transform: translateX(-150%);
+                opacity: 0;
+            }
+            15% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            85% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(150%);
+                opacity: 0;
+            }
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .notification-icon {
+            width: 20px;
+            height: 20px;
             filter: invert(1);
+            animation: cartIconBounce 0.6s ease;
+        }
+
+        @keyframes cartIconBounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-5px);
+            }
+            60% {
+                transform: translateY(-3px);
+            }
+        }
+
+        .notification-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .notification-go {
+            font-size: 13px;
+            opacity: 0.7;
+            font-weight: 500;
         }
 
         .footer {
@@ -279,7 +367,6 @@
             width: 24px;
             height: 24px;
             opacity: 0.6;
-            transition: opacity 0.3s ease;
         }
 
         .nav-item.active .nav-icon {
@@ -303,6 +390,14 @@
             border-radius: 50%;
             border: 1.5px solid #181818;
             opacity: 0.6;
+            overflow: hidden;
+        }
+
+        .profile-avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
 
         .nav-item.active .profile-icon {
@@ -373,7 +468,7 @@
                             <div class="price-container">
                                 <div class="product-price">2 490 ₽</div>
                                 <div class="add-to-cart">
-                                    <img src="https://img.icons8.com/?size=100&id=62888&format=png&color=FFFFFF" class="add-to-cart-icon" alt="В корзину">
+                                    <img src="https://img.icons8.com/?size=100&id=eaZYZ7VUPXxY&format=png&color=FFFFFE" class="add-to-cart-icon" alt="В корзину">
                                 </div>
                             </div>
                         </div>
@@ -389,7 +484,7 @@
                             <div class="price-container">
                                 <div class="product-price">2 190 ₽</div>
                                 <div class="add-to-cart">
-                                    <img src="https://img.icons8.com/?size=100&id=62888&format=png&color=FFFFFF" class="add-to-cart-icon" alt="В корзину">
+                                    <img src="https://img.icons8.com/?size=100&id=eaZYZ7VUPXxY&format=png&color=FFFFFE" class="add-to-cart-icon" alt="В корзину">
                                 </div>
                             </div>
                         </div>
@@ -405,7 +500,7 @@
                             <div class="price-container">
                                 <div class="product-price">2 490 ₽</div>
                                 <div class="add-to-cart">
-                                    <img src="https://img.icons8.com/?size=100&id=62888&format=png&color=FFFFFF" class="add-to-cart-icon" alt="В корзину">
+                                    <img src="https://img.icons8.com/?size=100&id=eaZYZ7VUPXxY&format=png&color=FFFFFE" class="add-to-cart-icon" alt="В корзину">
                                 </div>
                             </div>
                         </div>
@@ -414,6 +509,15 @@
             </div>
         </div>
     </main>
+
+    <!-- Уведомление о добавлении в корзину -->
+    <div class="cart-notification" id="cartNotification">
+        <div class="notification-content">
+            <img src="https://img.icons8.com/?size=100&id=b3RGkeCZ0JC8&format=png&color=000000" class="notification-icon" alt="Корзина">
+            <span class="notification-text">Товар добавлен в корзину!</span>
+        </div>
+        <span class="notification-go">Перейти</span>
+    </div>
 
     <footer class="footer">
         <div class="nav-icons">
@@ -426,18 +530,40 @@
                 <span class="nav-label">Корзина</span>
             </div>
             <div class="nav-item" data-page="profile">
-                <div class="profile-icon"></div>
+                <div class="profile-icon" id="profileIcon">
+                    <!-- Аватарка будет загружена из Telegram -->
+                </div>
                 <span class="nav-label">Профиль</span>
             </div>
         </div>
     </footer>
 
     <script>
+        // Функция для вибрации (эмуляция для браузера)
+        function vibrate(pattern) {
+            if (navigator.vibrate) {
+                navigator.vibrate(pattern);
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
+            // Загрузка аватарки пользователя из Telegram
+            const profileIcon = document.getElementById('profileIcon');
+            // В реальном приложении здесь будет вызов Telegram WebApp API
+            // Для демонстрации используем заглушку
+            const avatarImg = document.createElement('img');
+            avatarImg.src = 'https://img.icons8.com/?size=100&id=23244&format=png&color=000000';
+            avatarImg.alt = 'Профиль';
+            avatarImg.className = 'profile-avatar';
+            profileIcon.appendChild(avatarImg);
+
             // Навигация
             const navItems = document.querySelectorAll('.nav-item');
             navItems.forEach(item => {
                 item.addEventListener('click', function() {
+                    // Вибрация при переключении вкладок
+                    vibrate(50);
+                    
                     navItems.forEach(navItem => {
                         navItem.classList.remove('active');
                     });
@@ -500,13 +626,40 @@
 
             // Добавление в корзину
             const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            const cartNotification = document.getElementById('cartNotification');
+            
             addToCartButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    this.style.transform = 'scale(0.8)';
+                    // Вибрация при добавлении в корзину
+                    vibrate(100);
+                    
+                    // Меняем иконку на анимированную галочку
+                    const icon = this.querySelector('img');
+                    icon.style.display = 'none';
+                    
+                    // Создаем SVG галочку с анимацией
+                    const checkmarkSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    checkmarkSVG.setAttribute('class', 'checkmark-icon');
+                    checkmarkSVG.setAttribute('viewBox', '0 0 30 30');
+                    checkmarkSVG.setAttribute('width', '14');
+                    checkmarkSVG.setAttribute('height', '14');
+                    
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    path.setAttribute('d', 'M 26.980469 5.9902344 A 1.0001 1.0001 0 0 0 26.292969 6.2929688 L 11 21.585938 L 4.7070312 15.292969 A 1.0001 1.0001 0 1 0 3.2929688 16.707031 L 10.292969 23.707031 A 1.0001 1.0001 0 0 0 11.707031 23.707031 L 27.707031 7.7070312 A 1.0001 1.0001 0 0 0 26.980469 5.9902344 z');
+                    checkmarkSVG.appendChild(path);
+                    
+                    this.appendChild(checkmarkSVG);
+                    
+                    // Показываем уведомление с анимацией
+                    cartNotification.classList.remove('show');
+                    void cartNotification.offsetWidth; // Перезапуск анимации
+                    cartNotification.classList.add('show');
+                    
+                    // Через 3.5 секунды возвращаем исходную иконку
                     setTimeout(() => {
-                        this.style.transform = 'scale(1)';
-                    }, 200);
-                    console.log('Товар добавлен в корзину');
+                        checkmarkSVG.remove();
+                        icon.style.display = 'block';
+                    }, 3500);
                 });
             });
         });
