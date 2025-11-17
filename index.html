@@ -284,7 +284,6 @@
             }
         }
 
-        /* Уведомление о добавлении в корзину */
         .cart-notification {
             position: fixed;
             bottom: 80px;
@@ -429,7 +428,6 @@
             border-radius: 50%;
         }
 
-        /* Скрываем скроллбар для красоты */
         .products-container::-webkit-scrollbar {
             height: 4px;
         }
@@ -486,14 +484,12 @@
                 </div>
             </div>
 
-            <!-- Динамические секции товаров будут загружены здесь -->
             <div id="products-sections">
                 <div class="loading">Загрузка товаров...</div>
             </div>
         </div>
     </main>
 
-    <!-- Уведомление о добавлении в корзину -->
     <div class="cart-notification" id="cartNotification">
         <div class="notification-content">
             <img src="https://img.icons8.com/?size=100&id=b3RGkeCZ0JC8&format=png&color=000000" class="notification-icon" alt="Корзина">
@@ -513,55 +509,43 @@
                 <span class="nav-label">Корзина</span>
             </div>
             <div class="nav-item" data-page="profile">
-                <div class="profile-icon" id="profileIcon">
-                    <!-- Аватарка будет загружена из Telegram -->
-                </div>
+                <div class="profile-icon" id="profileIcon"></div>
                 <span class="nav-label">Профиль</span>
             </div>
         </div>
     </footer>
 
     <script>
-        // Telegram WebApp инициализация
         let tg = window.Telegram.WebApp;
         
-        // Функция для вибрации через Telegram
         function vibrate(pattern) {
             if (tg && tg.HapticFeedback) {
                 if (pattern === 'double') {
-                    // Двойная вибрация для добавления в корзину с промежутком 0.8 секунды
                     tg.HapticFeedback.impactOccurred('light');
                     setTimeout(() => {
                         tg.HapticFeedback.impactOccurred('light');
                     }, 80);
                 } else {
-                    // Одиночная вибрация для навигации
                     tg.HapticFeedback.impactOccurred('light');
                 }
             }
         }
 
-        // Конфигурация папок
-        const PRODUCT_FOLDERS = [
-            { path: 'Goods/Новинки', title: 'Новинки', isNew: true },
-            { path: 'Goods/Товары', title: 'Товары', isNew: false }
-            // Добавьте сюда другие папки по мере необходимости
+        // КОНКРЕТНЫЕ ПАПКИ ДЛЯ СКАНИРОВАНИЯ
+        const TARGET_FOLDERS = [
+            { name: 'Новинки', path: 'Goods/Новинки', isNew: true },
+            { name: 'Товары', path: 'Goods/Товары', isNew: false }
         ];
 
-        // Функция для парсинга имени файла по новому формату
-        function parseFileName(filename, folderTitle, isNewFolder) {
-            // Убираем расширение файла
+        function parseFileName(filename, folderName, isNewFolder) {
             const nameWithoutExt = filename.replace(/\.(png|jpg|jpeg|webp)$/i, '');
-            
-            // Разбиваем по подчеркиваниям
             const parts = nameWithoutExt.split('_');
             
             if (parts.length < 3) {
-                console.warn(`Некорректный формат имени файла: ${filename}`);
+                console.warn(`Некорректный формат: ${filename}`);
                 return null;
             }
             
-            // Находим индекс цены (первое число в массиве)
             let priceIndex = -1;
             let price = 0;
             
@@ -574,35 +558,26 @@
                 }
             }
             
-            if (priceIndex === -1) {
-                console.warn(`Не найдена цена в файле: ${filename}`);
-                return null;
-            }
+            if (priceIndex === -1) return null;
             
-            // Все что до цены - название
-            const nameParts = parts.slice(0, priceIndex);
-            const name = nameParts.join(' '); // Заменяем _ на пробелы
-            
-            // Все что после цены - категории
-            const categoryParts = parts.slice(priceIndex + 1);
-            const categories = categoryParts.join(', '); // Объединяем через запятую
+            const name = parts.slice(0, priceIndex).join(' ');
+            const categories = parts.slice(priceIndex + 1).join(', ');
             
             return {
                 name,
                 price,
                 categories,
                 filename: filename,
-                folderTitle: folderTitle,
+                folderName: folderName,
+                folderPath: `Goods/${folderName}`,
                 isNew: isNewFolder
             };
         }
 
-        // Функция для форматирования цены
         function formatPrice(price) {
             return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽';
         }
 
-        // Функция для создания карточки товара
         function createProductCard(product) {
             const card = document.createElement('div');
             card.className = 'product-card';
@@ -627,62 +602,82 @@
             return card;
         }
 
-        // Функция для загрузки товаров из папки
-        async function loadProductsFromFolder(folderConfig) {
+        // Функция для проверки существования файла
+        function checkFileExists(url) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+                img.src = url;
+            });
+        }
+
+        // Загрузка товаров из конкретной папки
+        async function loadProductsFromFolder(folder) {
             try {
-                // В реальном приложении здесь будет API запрос к GitHub API
-                // Для демонстрации используем заглушку - возвращаем пустой массив
-                console.log(`Загрузка товаров из папки: ${folderConfig.path}`);
+                const products = [];
                 
-                // ЗАГЛУШКА - возвращаем пустой массив
-                // В реальности здесь будет fetch к GitHub API
-                return [];
+                // В реальности здесь будет автоматическое сканирование файлов
+                // Сейчас просто проверяем существование файлов по известным путям
+                
+                // Пример: проверяем существование файлов для этой папки
+                const testFiles = [
+                    'Браслет_с_Черепом_900_Мужской_Металлик.png',
+                    'Кольцо_Дракон_1200_Унисекс_Серебро.png'
+                ];
+                
+                for (const filename of testFiles) {
+                    const filePath = `${folder.path}/${filename}`;
+                    const exists = await checkFileExists(filePath);
+                    
+                    if (exists) {
+                        const product = parseFileName(filename, folder.name, folder.isNew);
+                        if (product) {
+                            products.push(product);
+                        }
+                    }
+                }
+                
+                return products;
                 
             } catch (error) {
-                console.error(`Ошибка загрузки из папки ${folderConfig.path}:`, error);
+                console.error(`Ошибка загрузки из ${folder.path}:`, error);
                 return [];
             }
         }
 
-        // Функция для создания секции товаров
-        function createProductsSection(folderConfig, products) {
+        function createProductsSection(folder, products) {
             if (products.length === 0) {
                 return null;
             }
             
             const section = document.createElement('div');
             section.innerHTML = `
-                <div class="subtitle">${folderConfig.title}</div>
+                <div class="subtitle">${folder.name}</div>
                 <div class="products-container">
-                    <div class="products-grid" id="grid-${folderConfig.path.replace(/[\/\s]/g, '-')}"></div>
+                    <div class="products-grid" id="grid-${folder.name}"></div>
                 </div>
             `;
             
-            const grid = section.querySelector(`#grid-${folderConfig.path.replace(/[\/\s]/g, '-')}`);
-            
+            const grid = section.querySelector(`#grid-${folder.name}`);
             products.forEach(product => {
-                const card = createProductCard(product);
-                grid.appendChild(card);
+                grid.appendChild(createProductCard(product));
             });
             
             return section;
         }
 
-        // Функция для инициализации корзины
         function initCartFunctionality() {
             const addToCartButtons = document.querySelectorAll('.add-to-cart');
             const cartNotification = document.getElementById('cartNotification');
             
             addToCartButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    // Двойная вибрация при добавлении в корзину с промежутком 0.8 секунды
                     vibrate('double');
                     
-                    // Меняем иконку на анимированную галочку
                     const icon = this.querySelector('img');
                     icon.style.display = 'none';
                     
-                    // Создаем SVG галочку с анимацией
                     const checkmarkSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                     checkmarkSVG.setAttribute('class', 'checkmark-icon');
                     checkmarkSVG.setAttribute('viewBox', '0 0 30 30');
@@ -695,12 +690,10 @@
                     
                     this.appendChild(checkmarkSVG);
                     
-                    // Показываем уведомление с анимацией
                     cartNotification.classList.remove('show');
-                    void cartNotification.offsetWidth; // Перезапуск анимации
+                    void cartNotification.offsetWidth;
                     cartNotification.classList.add('show');
                     
-                    // Через 3.5 секунды возвращаем исходную иконку
                     setTimeout(() => {
                         checkmarkSVG.remove();
                         icon.style.display = 'block';
@@ -709,7 +702,6 @@
             });
         }
 
-        // Основная функция загрузки товаров
         async function loadAllProducts() {
             const productsSections = document.getElementById('products-sections');
             productsSections.innerHTML = '<div class="loading">Загрузка товаров...</div>';
@@ -718,14 +710,12 @@
                 let hasProducts = false;
                 const sections = [];
                 
-                for (const folderConfig of PRODUCT_FOLDERS) {
-                    const products = await loadProductsFromFolder(folderConfig);
+                for (const folder of TARGET_FOLDERS) {
+                    const products = await loadProductsFromFolder(folder);
                     if (products.length > 0) {
                         hasProducts = true;
-                        const section = createProductsSection(folderConfig, products);
-                        if (section) {
-                            sections.push(section);
-                        }
+                        const section = createProductsSection(folder, products);
+                        if (section) sections.push(section);
                     }
                 }
                 
@@ -734,40 +724,31 @@
                 } else {
                     productsSections.innerHTML = '';
                     sections.forEach(section => productsSections.appendChild(section));
-                    
-                    // Инициализируем функциональность корзины для новых карточек
                     initCartFunctionality();
                 }
                 
             } catch (error) {
-                console.error('Ошибка загрузки товаров:', error);
+                console.error('Ошибка загрузки:', error);
                 productsSections.innerHTML = '<div class="empty-state">Товаров пока нет...</div>';
             }
         }
 
-        // Инициализация Telegram WebApp
         function initTelegramWebApp() {
             if (tg) {
-                // Расширяем на весь экран
                 tg.expand();
-                
-                // Устанавливаем цвет тему
                 tg.setHeaderColor('#ffffff');
                 tg.setBackgroundColor('#ffffff');
                 
-                // Загружаем данные пользователя
                 const user = tg.initDataUnsafe?.user;
                 const profileIcon = document.getElementById('profileIcon');
                 
                 if (user && user.photo_url) {
-                    // Используем аватарку из Telegram
                     const avatarImg = document.createElement('img');
                     avatarImg.src = user.photo_url;
                     avatarImg.alt = 'Профиль';
                     avatarImg.className = 'profile-avatar';
                     profileIcon.appendChild(avatarImg);
                 } else {
-                    // Заглушка если аватарки нет
                     const avatarImg = document.createElement('img');
                     avatarImg.src = 'https://img.icons8.com/?size=100&id=23244&format=png&color=000000';
                     avatarImg.alt = 'Профиль';
@@ -778,24 +759,17 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Инициализируем Telegram WebApp
             initTelegramWebApp();
 
-            // Навигация
             const navItems = document.querySelectorAll('.nav-item');
             navItems.forEach(item => {
                 item.addEventListener('click', function() {
-                    // Вибрация при переключении вкладок
                     vibrate('single');
-                    
-                    navItems.forEach(navItem => {
-                        navItem.classList.remove('active');
-                    });
+                    navItems.forEach(navItem => navItem.classList.remove('active'));
                     this.classList.add('active');
                 });
             });
 
-            // Карусель
             const carouselSlides = document.querySelector('.carousel-slides');
             const indicators = document.querySelectorAll('.indicator');
             let currentSlide = 0;
@@ -803,7 +777,6 @@
 
             function updateCarousel() {
                 carouselSlides.style.transform = `translateX(-${currentSlide * 33.333}%)`;
-                
                 indicators.forEach((indicator, index) => {
                     indicator.classList.toggle('active', index === currentSlide);
                 });
@@ -814,10 +787,8 @@
                 updateCarousel();
             }
 
-            // Автопереключение каждые 15 секунд
             setInterval(nextSlide, 15000);
 
-            // Клик по индикаторам
             indicators.forEach((indicator, index) => {
                 indicator.addEventListener('click', () => {
                     currentSlide = index;
@@ -825,7 +796,6 @@
                 });
             });
 
-            // Убираем анимацию градиента после загрузки изображений
             const images = document.querySelectorAll('.carousel-slide img');
             let loadedImages = 0;
             
@@ -838,7 +808,6 @@
                     }
                 });
                 
-                // Если изображение уже загружено
                 if (img.complete) {
                     loadedImages++;
                     if (loadedImages === images.length) {
@@ -848,7 +817,6 @@
                 }
             });
 
-            // Загружаем все товары
             loadAllProducts();
         });
     </script>
