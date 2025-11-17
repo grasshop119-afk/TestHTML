@@ -11,6 +11,29 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        html, body {
+            touch-action: manipulation;
+            -webkit-text-size-adjust: none;
+            -moz-text-size-adjust: none;
+            -ms-text-size-adjust: none;
+            text-size-adjust: none;
+        }
+
+        img {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+            pointer-events: none;
         }
 
         body {
@@ -21,6 +44,7 @@
             display: flex;
             flex-direction: column;
             padding-bottom: 70px;
+            overflow-x: hidden;
         }
 
         .header {
@@ -389,9 +413,13 @@
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            border: 1.5px solid #181818;
             opacity: 0.6;
             overflow: hidden;
+        }
+
+        .nav-item.active .profile-icon {
+            border: 1.5px solid #181818;
+            opacity: 1;
         }
 
         .profile-avatar {
@@ -399,10 +427,6 @@
             height: 100%;
             object-fit: cover;
             border-radius: 50%;
-        }
-
-        .nav-item.active .profile-icon {
-            opacity: 1;
         }
 
         /* Скрываем скроллбар для красоты */
@@ -504,12 +528,12 @@
         // Функция для вибрации через Telegram
         function vibrate(pattern) {
             if (tg && tg.HapticFeedback) {
-                if (Array.isArray(pattern)) {
-                    // Двойная вибрация для добавления в корзину
+                if (pattern === 'double') {
+                    // Двойная вибрация для добавления в корзину с промежутком 0.8 секунды
                     tg.HapticFeedback.impactOccurred('light');
                     setTimeout(() => {
                         tg.HapticFeedback.impactOccurred('light');
-                    }, 50);
+                    }, 80);
                 } else {
                     // Одиночная вибрация для навигации
                     tg.HapticFeedback.impactOccurred('light');
@@ -517,8 +541,15 @@
             }
         }
 
-        // Функция для парсинга имени файла
-        function parseFileName(filename) {
+        // Конфигурация папок
+        const PRODUCT_FOLDERS = [
+            { path: 'Goods/Новинки', title: 'Новинки', isNew: true },
+            { path: 'Goods/Товары', title: 'Товары', isNew: false }
+            // Добавьте сюда другие папки по мере необходимости
+        ];
+
+        // Функция для парсинга имени файла по новому формату
+        function parseFileName(filename, folderTitle, isNewFolder) {
             // Убираем расширение файла
             const nameWithoutExt = filename.replace(/\.(png|jpg|jpeg|webp)$/i, '');
             
@@ -530,18 +561,39 @@
                 return null;
             }
             
-            const type = parts[0]; // New или Nom
-            const name = parts[1].replace(/~/g, ' '); // Заменяем ~ на пробелы
-            const price = parseInt(parts[2]);
-            const categories = parts.slice(3).map(cat => cat.replace(/~/g, ' ')); // Остальные части - категории
+            // Находим индекс цены (первое число в массиве)
+            let priceIndex = -1;
+            let price = 0;
+            
+            for (let i = 0; i < parts.length; i++) {
+                const potentialPrice = parseInt(parts[i]);
+                if (!isNaN(potentialPrice) && potentialPrice > 0) {
+                    priceIndex = i;
+                    price = potentialPrice;
+                    break;
+                }
+            }
+            
+            if (priceIndex === -1) {
+                console.warn(`Не найдена цена в файле: ${filename}`);
+                return null;
+            }
+            
+            // Все что до цены - название
+            const nameParts = parts.slice(0, priceIndex);
+            const name = nameParts.join(' '); // Заменяем _ на пробелы
+            
+            // Все что после цены - категории
+            const categoryParts = parts.slice(priceIndex + 1);
+            const categories = categoryParts.join(', '); // Объединяем через запятую
             
             return {
-                type,
                 name,
                 price,
-                categories: categories.join(', '),
+                categories,
                 filename: filename,
-                isNew: type === 'New'
+                folderTitle: folderTitle,
+                isNew: isNewFolder
             };
         }
 
@@ -557,7 +609,7 @@
             
             card.innerHTML = `
                 <div class="product-image-container">
-                    <img src="Goods/${product.filename}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/140x140?text=Нет+изображения'">
+                    <img src="${product.folderPath}/${product.filename}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/140x140?text=Нет+изображения'">
                     ${product.isNew ? '<div class="new-badge">Новинка!</div>' : ''}
                 </div>
                 <div class="product-info">
@@ -575,76 +627,45 @@
             return card;
         }
 
-        // Функция для загрузки товаров из папки Goods
-        async function loadProducts() {
+        // Функция для загрузки товаров из папки
+        async function loadProductsFromFolder(folderConfig) {
             try {
                 // В реальном приложении здесь будет API запрос к GitHub API
-                // Для демонстрации используем заглушку
-                console.log('Загрузка товаров из папки Goods...');
+                // Для демонстрации используем заглушку - возвращаем пустой массив
+                console.log(`Загрузка товаров из папки: ${folderConfig.path}`);
                 
-                // Заглушка с тестовыми данными
-                const mockFiles = [
-                    'New_Браслет~с~Сердцем_2490_Серебро,Женская~коллекция.png',
-                    'New_Браслет~с~Черепом_2190_Металлик,Мужская~коллекция.png',
-                    'Nom_Классический~браслет_790_Металлик,Унисекс.png',
-                    'Nom_Цепочка~Классика_3290_Золото,Женская~коллекция.png',
-                    'New_Кольцо~Дракон_1590_Серебро,Унисекс.png'
-                ];
+                // ЗАГЛУШКА - возвращаем пустой массив
+                // В реальности здесь будет fetch к GitHub API
+                return [];
                 
-                const products = mockFiles
-                    .map(filename => parseFileName(filename))
-                    .filter(product => product !== null);
-                
-                return products;
             } catch (error) {
-                console.error('Ошибка загрузки товаров:', error);
+                console.error(`Ошибка загрузки из папки ${folderConfig.path}:`, error);
                 return [];
             }
         }
 
-        // Функция для создания секций товаров
-        function createProductsSections(products) {
+        // Функция для создания секции товаров
+        function createProductsSection(folderConfig, products) {
             if (products.length === 0) {
-                const empty = document.createElement('div');
-                empty.className = 'empty-state';
-                empty.textContent = 'Товаров нет';
-                return empty;
+                return null;
             }
             
-            const container = document.createElement('div');
-            
-            // Новинки
-            const newProducts = products.filter(p => p.isNew);
-            if (newProducts.length > 0) {
-                const newSection = document.createElement('div');
-                newSection.innerHTML = `
-                    <div class="subtitle">Новинки</div>
-                    <div class="products-container">
-                        <div class="products-grid" id="grid-new"></div>
-                    </div>
-                `;
-                const newGrid = newSection.querySelector('#grid-new');
-                newProducts.forEach(product => {
-                    newGrid.appendChild(createProductCard(product));
-                });
-                container.appendChild(newSection);
-            }
-            
-            // Все товары
-            const allSection = document.createElement('div');
-            allSection.innerHTML = `
-                <div class="subtitle">Все товары</div>
+            const section = document.createElement('div');
+            section.innerHTML = `
+                <div class="subtitle">${folderConfig.title}</div>
                 <div class="products-container">
-                    <div class="products-grid" id="grid-all"></div>
+                    <div class="products-grid" id="grid-${folderConfig.path.replace(/[\/\s]/g, '-')}"></div>
                 </div>
             `;
-            const allGrid = allSection.querySelector('#grid-all');
-            products.forEach(product => {
-                allGrid.appendChild(createProductCard(product));
-            });
-            container.appendChild(allSection);
             
-            return container;
+            const grid = section.querySelector(`#grid-${folderConfig.path.replace(/[\/\s]/g, '-')}`);
+            
+            products.forEach(product => {
+                const card = createProductCard(product);
+                grid.appendChild(card);
+            });
+            
+            return section;
         }
 
         // Функция для инициализации корзины
@@ -654,8 +675,8 @@
             
             addToCartButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    // Двойная вибрация при добавлении в корзину
-                    vibrate([50, 100, 50]);
+                    // Двойная вибрация при добавлении в корзину с промежутком 0.8 секунды
+                    vibrate('double');
                     
                     // Меняем иконку на анимированную галочку
                     const icon = this.querySelector('img');
@@ -694,18 +715,33 @@
             productsSections.innerHTML = '<div class="loading">Загрузка товаров...</div>';
             
             try {
-                const products = await loadProducts();
-                const sections = createProductsSections(products);
+                let hasProducts = false;
+                const sections = [];
                 
-                productsSections.innerHTML = '';
-                productsSections.appendChild(sections);
+                for (const folderConfig of PRODUCT_FOLDERS) {
+                    const products = await loadProductsFromFolder(folderConfig);
+                    if (products.length > 0) {
+                        hasProducts = true;
+                        const section = createProductsSection(folderConfig, products);
+                        if (section) {
+                            sections.push(section);
+                        }
+                    }
+                }
                 
-                // Инициализируем функциональность корзины для новых карточек
-                initCartFunctionality();
+                if (!hasProducts) {
+                    productsSections.innerHTML = '<div class="empty-state">Товаров пока нет...</div>';
+                } else {
+                    productsSections.innerHTML = '';
+                    sections.forEach(section => productsSections.appendChild(section));
+                    
+                    // Инициализируем функциональность корзины для новых карточек
+                    initCartFunctionality();
+                }
                 
             } catch (error) {
                 console.error('Ошибка загрузки товаров:', error);
-                productsSections.innerHTML = '<div class="empty-state">Ошибка загрузки товаров</div>';
+                productsSections.innerHTML = '<div class="empty-state">Товаров пока нет...</div>';
             }
         }
 
@@ -750,7 +786,7 @@
             navItems.forEach(item => {
                 item.addEventListener('click', function() {
                     // Вибрация при переключении вкладок
-                    vibrate(50);
+                    vibrate('single');
                     
                     navItems.forEach(navItem => {
                         navItem.classList.remove('active');
