@@ -11,14 +11,17 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Токены из переменных окружения Render
-TOKEN = os.environ.get('TOKEN')  # Токен Telegram бота
-AITOKEN = os.environ.get('AITOKEN')  # Токен Hugging Face
+TOKEN = os.environ.get('TOKEN')
+AITOKEN = os.environ.get('AITOKEN')
 
 bot = telebot.TeleBot(TOKEN)
 
-# URL API Hugging Face для DialoGPT-large
-HF_API_URL = "https://api-inference.huggingface.co/models/microsoft/DialoGPT-large"
+# Пробуем разные модели
+MODELS = [
+    "microsoft/DialoGPT-medium",  # Более легкая версия
+    "microsoft/DialoGPT-small",   # Самая легкая
+    "facebook/blenderbot-400M-distill",  # Альтернатива для чатов
+]
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -73,63 +76,43 @@ def get_ai_response(user_message):
     
     headers = {"Authorization": f"Bearer {AITOKEN}"}
     
-    payload = {
-        "inputs": user_message,
-        "parameters": {
-            "max_new_tokens": 150,
-            "temperature": 0.7,
-            "do_sample": True,
-            "top_p": 0.9
-        }
-    }
+    # Пробуем разные модели по очереди
+    for model in MODELS:
+        try:
+            API_URL = f"https://router.huggingface.co/hf-inference/models/{model}"
+            
+            payload = {
+                "inputs": user_message,
+                "parameters": {
+                    "max_new_tokens": 100,
+                    "temperature": 0.7,
+                }
+            }
+            
+            response = requests.post(API_URL, headers=headers, json=payload, timeout=30)
+            result = response.json()
+            
+            if isinstance(result, list) and len(result) > 0:
+                if 'generated_text' in result[0]:
+                    return result[0]['generated_text']
+            
+        except Exception as e:
+            logger.warning(f"Model {model} failed: {e}")
+            continue
     
-    try:
-        response = requests.post(HF_API_URL, headers=headers, json=payload, timeout=60)
-        result = response.json()
-        
-        logger.info(f"HF API Response: {result}")
-        
-        # Обработка разных форматов ответа HF
-        if isinstance(result, list) and len(result) > 0:
-            if 'generated_text' in result[0]:
-                return result[0]['generated_text']
-            else:
-                return str(result[0])  # На случай другого формата
-        
-        elif isinstance(result, dict):
-            if 'error' in result:
-                if 'loading' in result['error']:
-                    estimated_time = result.get('estimated_time', 30)
-                    return f"🔄 Модель загружается... Попробуйте через {int(estimated_time)} секунд"
-                else:
-                    return f"❌ Ошибка AI: {result['error']}"
-            elif 'generated_text' in result:
-                return result['generated_text']
-        
-        return "🤔 Не удалось обработать ответ AI"
-        
-    except requests.exceptions.Timeout:
-        return "⏰ Время ожидания истекло. Модель всё ещё загружается. Попробуйте через 30 секунд."
-    except Exception as e:
-        logger.error(f"AI request error: {e}")
-        return f"❌ Ошибка соединения с AI: {str(e)}"
+    return "🤔 Временно недоступно. Попробуйте позже."
 
 @bot.message_handler(func=lambda message: True)
 def handle_all_messages(message):
     """Обработчик всех текстовых сообщений"""
     try:
-        # Показываем, что бот печатает
         bot.send_chat_action(message.chat.id, 'typing')
-        
-        # Получаем ответ от AI
         ai_response = get_ai_response(message.text)
-        
-        # Отправляем ответ пользователю
         bot.reply_to(message, ai_response)
         
     except Exception as e:
-        logger.error(f"Error handling message: {e}")
-        bot.reply_to(message, "❌ Произошла ошибка при обработке сообщения")
+        logger.error(f"Error: {e}")
+        bot.reply_to(message, "❌ Ошибка. Попробуйте еще раз.")
 
 if __name__ == '__main__':
     logger.info("🤖 Бот запущен!")
