@@ -1,8 +1,8 @@
 import os
 import logging
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackQueryHandler, ContextTypes
 import requests
+import telebot
+from telebot import types
 
 # Настройка логирования
 logging.basicConfig(
@@ -15,42 +15,56 @@ logger = logging.getLogger(__name__)
 TOKEN = os.environ.get('TOKEN')  # Токен Telegram бота
 AITOKEN = os.environ.get('AITOKEN')  # Токен Hugging Face
 
+bot = telebot.TeleBot(TOKEN)
+
 # URL API Hugging Face для DialoGPT-large
 HF_API_URL = "https://api-inference.huggingface.co/models/microsoft/DialoGPT-large"
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
     """Обработчик команды /start"""
-    user = update.message.from_user
-    keyboard = [
-        [
-            InlineKeyboardButton("Kraken WEB", callback_data="web"),
-            InlineKeyboardButton("Промпты", callback_data="prompts")
-        ],
-        [
-            InlineKeyboardButton("Тариф", callback_data="tariff")
-        ]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
+    user = message.from_user
+    keyboard = types.InlineKeyboardMarkup(row_width=2)
     
-    await update.message.reply_text(
+    btn_web = types.InlineKeyboardButton("Kraken WEB", callback_data="web")
+    btn_prompts = types.InlineKeyboardButton("Промпты", callback_data="prompts")
+    btn_tariff = types.InlineKeyboardButton("Тариф", callback_data="tariff")
+    
+    keyboard.add(btn_web, btn_prompts)
+    keyboard.add(btn_tariff)
+    
+    bot.send_message(
+        message.chat.id,
         f"Привет, *{user.first_name}*! 🐙\n\n"
         "_Добро пожаловать в Kraken, мы рады тебя здесь видеть! Это текстовый ИИ-бот в Telegram, с кучей удобных возможностей. Попробуй спросить что-нибудь, и я отвечу в течение минуты!_",
-        reply_markup=reply_markup,
+        reply_markup=keyboard,
         parse_mode='Markdown'
     )
 
-async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+@bot.callback_query_handler(func=lambda call: True)
+def handle_callback(call):
     """Обработчик нажатий на инлайн-кнопки"""
-    query = update.callback_query
-    await query.answer()
-    
-    # Пока просто отвечаем сообщением
-    if query.data == "web":
-        await query.edit_message_text("🌐 *Kraken WEB*\n\nСкоро здесь будет ссылка на наш сайт!", parse_mode='Markdown')
-    elif query.data == "prompts":
-        await query.edit_message_text("📝 *Промпты*\n\nРаздел с промптами в разработке!", parse_mode='Markdown')
-    elif query.data == "tariff":
-        await query.edit_message_text("💰 *Тариф*\n\nИнформация о тарифах появится позже!", parse_mode='Markdown')
+    if call.data == "web":
+        bot.edit_message_text(
+            "🌐 *Kraken WEB*\n\nСкоро здесь будет ссылка на наш сайт!",
+            call.message.chat.id,
+            call.message.message_id,
+            parse_mode='Markdown'
+        )
+    elif call.data == "prompts":
+        bot.edit_message_text(
+            "📝 *Промпты*\n\nРаздел с промптами в разработке!",
+            call.message.chat.id,
+            call.message.message_id,
+            parse_mode='Markdown'
+        )
+    elif call.data == "tariff":
+        bot.edit_message_text(
+            "💰 *Тариф*\n\nИнформация о тарифах появится позже!",
+            call.message.chat.id,
+            call.message.message_id,
+            parse_mode='Markdown'
+        )
 
 def get_ai_response(user_message):
     """Получение ответа от Hugging Face AI"""
@@ -100,43 +114,23 @@ def get_ai_response(user_message):
         logger.error(f"AI request error: {e}")
         return f"❌ Ошибка соединения с AI: {str(e)}"
 
-async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Обработчик текстовых сообщений"""
-    user_message = update.message.text
-    
-    # Показываем, что бот печатает
-    await update.message.chat.send_action(action="typing")
-    
-    # Получаем ответ от AI
-    ai_response = get_ai_response(user_message)
-    
-    # Отправляем ответ пользователю
-    await update.message.reply_text(ai_response)
-
-async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Обработчик ошибок"""
-    logger.error(f"Update {update} caused error {context.error}")
-
-def main():
-    """Основная функция запуска бота"""
-    if not TOKEN:
-        logger.error("❌ TOKEN environment variable is not set!")
-        return
-    if not AITOKEN:
-        logger.warning("⚠️ AITOKEN environment variable is not set! AI features will not work.")
-    
-    # Создаем приложение
-    application = Application.builder().token(TOKEN).build()
-    
-    # Добавляем обработчики
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(CallbackQueryHandler(button_handler))
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
-    application.add_error_handler(error_handler)
-    
-    # Запускаем бота
-    logger.info("🤖 Бот запущен!")
-    application.run_polling()
+@bot.message_handler(func=lambda message: True)
+def handle_all_messages(message):
+    """Обработчик всех текстовых сообщений"""
+    try:
+        # Показываем, что бот печатает
+        bot.send_chat_action(message.chat.id, 'typing')
+        
+        # Получаем ответ от AI
+        ai_response = get_ai_response(message.text)
+        
+        # Отправляем ответ пользователю
+        bot.reply_to(message, ai_response)
+        
+    except Exception as e:
+        logger.error(f"Error handling message: {e}")
+        bot.reply_to(message, "❌ Произошла ошибка при обработке сообщения")
 
 if __name__ == '__main__':
-    main()
+    logger.info("🤖 Бот запущен!")
+    bot.infinity_polling()
